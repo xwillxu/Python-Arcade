@@ -31,6 +31,7 @@ class Game(arcade.Window):
         self.flappy_bird.change_y = 0
 
         self.pipes(0)
+
         arcade.schedule(self.pipes, 2.0)
 
         arcade.schedule(self.score_change, 2.0)
