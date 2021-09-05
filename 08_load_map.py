@@ -58,7 +58,8 @@ class MyGame(arcade.Window):
         self.score = 0
 
         # Load sounds
-        self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
+        self.collect_coin_sound = arcade.load_sound(
+            ":resources:sounds/coin1.wav")
         self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
 
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
@@ -104,7 +105,8 @@ class MyGame(arcade.Window):
                                                       use_spatial_hash=True)
 
         # -- Coins
-        self.coin_list = arcade.tilemap.process_layer(my_map, coins_layer_name, TILE_SCALING)
+        self.coin_list = arcade.tilemap.process_layer(
+            my_map, coins_layer_name, TILE_SCALING)
 
         # --- Other stuff
         # Set the background color

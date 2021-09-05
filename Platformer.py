@@ -71,6 +71,37 @@ class Game(arcade.Window):
 
         self.physics_engine.update()
 
+        changed = False
+
+        left_boundary = self.view_left + 250
+        if self.player.left < left_boundary:
+            self.view_left -= left_boundary - self.player.left
+            changed = True
+
+        right_boundary = self.view_left + SCREEN_WIDTH - 250
+        if self.player.right > right_boundary:
+            self.view_left += self.player.right - right_boundary
+            changed = True
+
+        top_boundary = self.view_bottom + SCREEN_HEIGHT - 100
+        if self.player.top > top_boundary:
+            self.view_bottom += self.player.top - top_boundary
+            changed = True
+
+        bottom_boundary = self.view_bottom + 100
+        if self.player.bottom < bottom_boundary:
+            self.view_bottom -= bottom_boundary - self.player.bottom
+            changed = True
+
+        if changed:
+            self.view_bottom = int(self.view_bottom)
+            self.view_left = int(self.view_left)
+
+            arcade.set_viewport(self.view_left,
+                                SCREEN_WIDTH + self.view_left,
+                                self.view_bottom,
+                                SCREEN_HEIGHT + self.view_bottom)
+
     def on_draw(self):
         '''Draw'''
 
