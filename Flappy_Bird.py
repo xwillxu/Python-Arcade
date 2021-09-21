@@ -112,7 +112,7 @@ class Game(arcade.Window):
         self.pipe2_lists.draw()
 
         time_text = f"Score: {self.score:.0f}"
-        arcade.draw_text(time_text, 1300, 960, arcade.color.BLACK, 20)
+        arcade.draw_text(time_text, 1200, 960, arcade.color.BLACK, 20)
 
 
 if __name__ == "__main__":

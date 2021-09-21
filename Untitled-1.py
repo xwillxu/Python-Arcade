@@ -78,7 +78,9 @@ BULLET_GRAVITY = 300
 class PlayerSprite(arcade.Sprite):
     """ Player Sprite """
 
-    def __init__(self):
+    def __init__(self,
+                 ladder_list: arcade.SpriteList,
+                 hit_box_algorithm):
         """ Init """
         # Let parent initialize
         super().__init__()
@@ -95,8 +97,8 @@ class PlayerSprite(arcade.Sprite):
         # main_path = ":resources:images/animated_characters/robot/robot"
 
         # Load textures for idle standing
-        self.idle_texture_pair = arcade.load_texture_pair(
-            f"{main_path}_idle.png")
+        self.idle_texture_pair = arcade.load_texture_pair(f"{main_path}_idle.png",
+                                                          hit_box_algorithm=hit_box_algorithm)
         self.jump_texture_pair = arcade.load_texture_pair(
             f"{main_path}_jump.png")
         self.fall_texture_pair = arcade.load_texture_pair(
@@ -107,6 +109,13 @@ class PlayerSprite(arcade.Sprite):
         for i in range(8):
             texture = arcade.load_texture_pair(f"{main_path}_walk{i}.png")
             self.walk_textures.append(texture)
+
+        # Load textures for climbing
+        self.climbing_textures = []
+        texture = arcade.load_texture(f"{main_path}_climb0.png")
+        self.climbing_textures.append(texture)
+        texture = arcade.load_texture(f"{main_path}_climb1.png")
+        self.climbing_textures.append(texture)
 
         # Set the initial texture
         self.texture = self.idle_texture_pair[0]
@@ -122,6 +131,10 @@ class PlayerSprite(arcade.Sprite):
 
         # How far have we traveled horizontally since changing the texture
         self.x_odometer = 0
+        self.y_odometer = 0
+
+        self.ladder_list = ladder_list
+        self.is_on_ladder = False
 
     def pymunk_moved(self, physics_engine, dx, dy, d_angle):
         """ Handle being moved by the pymunk engine """
@@ -134,8 +147,38 @@ class PlayerSprite(arcade.Sprite):
         # Are we on the ground?
         is_on_ground = physics_engine.is_on_ground(self)
 
+        # Are we on a ladder?
+        if len(arcade.check_for_collision_with_list(self, self.ladder_list)) > 0:
+            if not self.is_on_ladder:
+                self.is_on_ladder = True
+                self.pymunk.gravity = (0, 0)
+                self.pymunk.damping = 0.0001
+                self.pymunk.max_vertical_velocity = PLAYER_MAX_HORIZONTAL_SPEED
+        else:
+            if self.is_on_ladder:
+                self.pymunk.damping = 1.0
+                self.pymunk.max_vertical_velocity = PLAYER_MAX_VERTICAL_SPEED
+                self.is_on_ladder = False
+                self.pymunk.gravity = None
+
         # Add to the odometer how far we've moved
         self.x_odometer += dx
+        self.y_odometer += dy
+
+        if self.is_on_ladder and not is_on_ground:
+            # Have we moved far enough to change the texture?
+            if abs(self.y_odometer) > DISTANCE_TO_CHANGE_TEXTURE:
+
+                # Reset the odometer
+                self.y_odometer = 0
+
+                # Advance the walking animation
+                self.cur_texture += 1
+
+            if self.cur_texture > 1:
+                self.cur_texture = 0
+            self.texture = self.climbing_textures[self.cur_texture]
+            return
 
         # Jumping animation
         if not is_on_ground:
@@ -191,13 +234,17 @@ class GameWindow(arcade.Window):
         self.wall_list: Optional[arcade.SpriteList] = None
         self.bullet_list: Optional[arcade.SpriteList] = None
         self.item_list: Optional[arcade.SpriteList] = None
+        self.moving_sprites_list: Optional[arcade.SpriteList] = None
+        self.ladder_list: Optional[arcade.SpriteList] = None
 
         # Track the current state of what key is pressed
         self.left_pressed: bool = False
         self.right_pressed: bool = False
+        self.up_pressed: bool = False
+        self.down_pressed: bool = False
 
         # Physics engine
-        self.physics_engine = Optional[arcade.PymunkPhysicsEngine]
+        self.physics_engine: Optional[arcade.PymunkPhysicsEngine] = None
 
         # Set background color
         arcade.set_background_color(arcade.color.AMAZON)
@@ -210,7 +257,7 @@ class GameWindow(arcade.Window):
         self.bullet_list = arcade.SpriteList()
 
         # Map name
-        map_name = "pymunk_test_map.json"
+        map_name = "arcade/doc/tutorials/pymunk_platformer/pymunk_test_map.json"
 
         # Load in TileMap
         tile_map = arcade.load_tilemap(map_name, SPRITE_SCALING_TILES)
@@ -218,9 +265,12 @@ class GameWindow(arcade.Window):
         # Pull the sprite layers out of the tile map
         self.wall_list = tile_map.sprite_lists["Platforms"]
         self.item_list = tile_map.sprite_lists["Dynamic Items"]
+        self.ladder_list = tile_map.sprite_lists["Ladders"]
+        self.moving_sprites_list = tile_map.sprite_lists['Moving Platforms']
 
         # Create player sprite
-        self.player_sprite = PlayerSprite()
+        self.player_sprite = PlayerSprite(
+            self.ladder_list, hit_box_algorithm="Detailed")
 
         # Set player location
         grid_x = 1
@@ -297,6 +347,10 @@ class GameWindow(arcade.Window):
                                             friction=DYNAMIC_ITEM_FRICTION,
                                             collision_type="item")
 
+        # Add kinematic sprites
+        self.physics_engine.add_sprite_list(self.moving_sprites_list,
+                                            body_type=arcade.PymunkPhysicsEngine.KINEMATIC)
+
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
 
@@ -305,11 +359,15 @@ class GameWindow(arcade.Window):
         elif key == arcade.key.RIGHT:
             self.right_pressed = True
         elif key == arcade.key.UP:
-            # find out if player is standing on ground
-            if self.physics_engine.is_on_ground(self.player_sprite):
+            self.up_pressed = True
+            # find out if player is standing on ground, and not on a ladder
+            if self.physics_engine.is_on_ground(self.player_sprite) \
+                    and not self.player_sprite.is_on_ladder:
                 # She is! Go ahead and jump
                 impulse = (0, PLAYER_JUMP_IMPULSE)
                 self.physics_engine.apply_impulse(self.player_sprite, impulse)
+        elif key == arcade.key.DOWN:
+            self.down_pressed = True
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key. """
@@ -318,6 +376,10 @@ class GameWindow(arcade.Window):
             self.left_pressed = False
         elif key == arcade.key.RIGHT:
             self.right_pressed = False
+        elif key == arcade.key.UP:
+            self.up_pressed = False
+        elif key == arcade.key.DOWN:
+            self.down_pressed = False
 
     def on_mouse_press(self, x, y, button, modifiers):
         """ Called whenever the mouse button is clicked. """
@@ -380,7 +442,7 @@ class GameWindow(arcade.Window):
         # Update player forces based on keys pressed
         if self.left_pressed and not self.right_pressed:
             # Create a force to the left. Apply it.
-            if is_on_ground:
+            if is_on_ground or self.player_sprite.is_on_ladder:
                 force = (-PLAYER_MOVE_FORCE_ON_GROUND, 0)
             else:
                 force = (-PLAYER_MOVE_FORCE_IN_AIR, 0)
@@ -389,13 +451,28 @@ class GameWindow(arcade.Window):
             self.physics_engine.set_friction(self.player_sprite, 0)
         elif self.right_pressed and not self.left_pressed:
             # Create a force to the right. Apply it.
-            if is_on_ground:
+            if is_on_ground or self.player_sprite.is_on_ladder:
                 force = (PLAYER_MOVE_FORCE_ON_GROUND, 0)
             else:
                 force = (PLAYER_MOVE_FORCE_IN_AIR, 0)
             self.physics_engine.apply_force(self.player_sprite, force)
             # Set friction to zero for the player while moving
             self.physics_engine.set_friction(self.player_sprite, 0)
+        elif self.up_pressed and not self.down_pressed:
+            # Create a force to the right. Apply it.
+            if self.player_sprite.is_on_ladder:
+                force = (0, PLAYER_MOVE_FORCE_ON_GROUND)
+                self.physics_engine.apply_force(self.player_sprite, force)
+                # Set friction to zero for the player while moving
+                self.physics_engine.set_friction(self.player_sprite, 0)
+        elif self.down_pressed and not self.up_pressed:
+            # Create a force to the right. Apply it.
+            if self.player_sprite.is_on_ladder:
+                force = (0, -PLAYER_MOVE_FORCE_ON_GROUND)
+                self.physics_engine.apply_force(self.player_sprite, force)
+                # Set friction to zero for the player while moving
+                self.physics_engine.set_friction(self.player_sprite, 0)
+
         else:
             # Player's feet are not moving. Therefore up the friction so we stop.
             self.physics_engine.set_friction(self.player_sprite, 1.0)
@@ -403,13 +480,47 @@ class GameWindow(arcade.Window):
         # Move items in the physics engine
         self.physics_engine.step()
 
+        # For each moving sprite, see if we've reached a boundary and need to
+        # reverse course.
+        for moving_sprite in self.moving_sprites_list:
+            if moving_sprite.boundary_right and \
+                    moving_sprite.change_x > 0 and \
+                    moving_sprite.right > moving_sprite.boundary_right:
+                moving_sprite.change_x *= -1
+            elif moving_sprite.boundary_left and \
+                    moving_sprite.change_x < 0 and \
+                    moving_sprite.left > moving_sprite.boundary_left:
+                moving_sprite.change_x *= -1
+            if moving_sprite.boundary_top and \
+                    moving_sprite.change_y > 0 and \
+                    moving_sprite.top > moving_sprite.boundary_top:
+                moving_sprite.change_y *= -1
+            elif moving_sprite.boundary_bottom and \
+                    moving_sprite.change_y < 0 and \
+                    moving_sprite.bottom < moving_sprite.boundary_bottom:
+                moving_sprite.change_y *= -1
+
+            # Figure out and set our moving platform velocity.
+            # Pymunk uses velocity is in pixels per second. If we instead have
+            # pixels per frame, we need to convert.
+            velocity = (moving_sprite.change_x * 1 / delta_time,
+                        moving_sprite.change_y * 1 / delta_time)
+            self.physics_engine.set_velocity(moving_sprite, velocity)
+
     def on_draw(self):
         """ Draw everything """
         arcade.start_render()
         self.wall_list.draw()
+        self.ladder_list.draw()
+        self.moving_sprites_list.draw()
         self.bullet_list.draw()
         self.item_list.draw()
         self.player_list.draw()
+
+        # for item in self.player_list:
+        #     item.draw_hit_box(arcade.color.RED)
+        # for item in self.item_list:
+        #     item.draw_hit_box(arcade.color.RED)
 
 
 def main():
