@@ -13,7 +13,7 @@ CHARACTER_SCALING = 1
 TILE_SCALING = 0.5
 COIN_SCALING = 0.5
 SPRITE_PIXEL_SIZE = 128
-GRID_PIXEL_SIZE = (SPRITE_PIXEL_SIZE * TILE_SCALING)
+GRID_PIXEL_SIZE = SPRITE_PIXEL_SIZE * TILE_SCALING
 
 # Movement speed of player, in pixels per frame
 PLAYER_MOVEMENT_SPEED = 10
@@ -52,10 +52,6 @@ class MyGame(arcade.Window):
         # Keep track of the score
         self.score = 0
 
-        self.level = 2
-
-        self.end_of_map = 0
-
         # Load sounds
         self.collect_coin_sound = arcade.load_sound(
             ":resources:sounds/coin1.wav")
@@ -65,7 +61,7 @@ class MyGame(arcade.Window):
 
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
-    def setup(self, level):
+    def setup(self):
         """Set up the game here. Call this function to restart the game."""
 
         # Setup the Cameras
@@ -73,7 +69,7 @@ class MyGame(arcade.Window):
         self.gui_camera = arcade.Camera(self.width, self.height)
 
         # Name of map file to load
-        map_name = f"maps/Xwill's_json_map{level}.json"
+        map_name = "maps/Xwill's_json_map.json"
 
         # Layer specific options are defined based on Layer names in a dictionary
         # Doing this will make the SpriteList for the platforms layer
@@ -87,8 +83,6 @@ class MyGame(arcade.Window):
         # Read in the tiled map
         self.tile_map = arcade.load_tilemap(
             map_name, TILE_SCALING, layer_options)
-
-        self.end_of_map = self.tile_map.width * GRID_PIXEL_SIZE
 
         # Initialize Scene with our TileMap, this will automatically add all layers
         # from the map as SpriteLists in the scene in the proper order.
@@ -106,8 +100,8 @@ class MyGame(arcade.Window):
         # Set up the player, specifically placing it at these coordinates.
         image_source = ":resources:images/animated_characters/female_adventurer/femaleAdventurer_idle.png"
         self.player_sprite = arcade.Sprite(image_source, CHARACTER_SCALING)
-        self.player_sprite.center_x = 72
-        self.player_sprite.center_y = 500
+        self.player_sprite.center_x = 128
+        self.player_sprite.center_y = 128
         self.scene.add_sprite("Player", self.player_sprite)
 
         # --- Other stuff
@@ -119,7 +113,7 @@ class MyGame(arcade.Window):
         # Create the 'physics engine'
         self.physics_engine = arcade.PhysicsEnginePlatformer(
             self.player_sprite, self.scene.get_sprite_list(
-                "Platforms", ), GRAVITY
+                "Platforms"), GRAVITY
         )
 
     def on_draw(self):
@@ -214,12 +208,6 @@ class MyGame(arcade.Window):
             arcade.play_sound(self.game_over)
             self.hit = True
 
-        # print(self.end_of_map)
-        # print(self.player_sprite.center_x)
-        if self.player_sprite.center_x >= self.end_of_map:
-            self.level += 1
-            self.setup(self.level)
-
         # Position the camera
         self.center_camera_to_player()
 
@@ -227,7 +215,7 @@ class MyGame(arcade.Window):
 def main():
     """Main method"""
     window = MyGame()
-    window.setup(window.level)
+    window.setup()
     arcade.run()
 
 

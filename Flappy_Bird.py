@@ -60,16 +60,16 @@ class Game(arcade.Window):
 
         self.pipe2_lists.append(pipe_2)
 
-    def on_key_press(self, symbol, modifiers):
-        if symbol == arcade.key.UP:
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.UP:
             self.flappy_bird.change_y = 9
-        if symbol == arcade.key.SPACE:
+        if key == arcade.key.SPACE:
             self.flappy_bird.change_y = 9
 
-    def on_key_release(self, symbol: int, modifiers: int):
-        if symbol == arcade.key.UP:
+    def on_key_release(self, key: int, modifiers: int):
+        if key == arcade.key.UP:
             self.flappy_bird.change_y = -8
-        if symbol == arcade.key.SPACE:
+        if key == arcade.key.SPACE:
             self.flappy_bird.change_y = -8
 
     def on_update(self, delta_time: float):
