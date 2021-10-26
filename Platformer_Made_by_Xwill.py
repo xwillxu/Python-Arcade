@@ -52,7 +52,7 @@ class MyGame(arcade.Window):
         # Keep track of the score
         self.score = 0
 
-        self.level = 2
+        self.level = 1
 
         self.end_of_map = 0
 
@@ -93,9 +93,6 @@ class MyGame(arcade.Window):
         # Initialize Scene with our TileMap, this will automatically add all layers
         # from the map as SpriteLists in the scene in the proper order.
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
-
-        # Keep track of the score
-        self.score = 0
 
         self.hit_timer = 0.0
         self.hit = False
