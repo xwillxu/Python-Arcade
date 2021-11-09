@@ -288,8 +288,6 @@ class Game(arcade.Window):
         if symbol == arcade.key.DOWN:
             # Quit immediately
             self.player.change_y = -5
-        if symbol == arcade.key.SPACE:
-            self.spawn_bullet()
 
     def on_key_release(self, symbol, modifiers):
         if symbol == arcade.key.RIGHT:
@@ -304,6 +302,17 @@ class Game(arcade.Window):
         if symbol == arcade.key.DOWN:
             # Quit immediately
             self.player.change_y = 0
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        if button == arcade.MOUSE_BUTTON_RIGHT:
+            # Quit immediately
+            self.spawn_bullet()
+        if button == arcade.MOUSE_BUTTON_MIDDLE:
+            # Quit immediately
+            self.spawn_bullet()
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            # Quit immediately
+            self.spawn_bullet()
 
     def on_update(self, delta_time: float):
 

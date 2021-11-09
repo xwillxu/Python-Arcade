@@ -211,8 +211,8 @@ class MyGame(arcade.Window):
             arcade.play_sound(self.game_over)
             self.hit = True
 
-        # print(self.end_of_map)
-        # print(self.player_sprite.center_x)
+        print(self.end_of_map)
+        print(self.player_sprite.center_x)
         if self.player_sprite.center_x >= self.end_of_map:
             self.level += 1
             self.setup(self.level)
