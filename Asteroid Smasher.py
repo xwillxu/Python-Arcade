@@ -5,8 +5,10 @@ import math
 import os
 import random
 
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 700
+from typing import cast
+
+SCREEN_WIDTH = 1200
+SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Asteroid Smasher"
 OFFSCREEN_SPACE = 300
 LEFT_LIMIT = -OFFSCREEN_SPACE
@@ -35,8 +37,8 @@ class PlayerShip(arcade.Sprite):
         self.max_speed = 4
         self.drag = 0.05
 
-        self.center_x = 500
-        self.center_y = 350
+        self.center_x = 600
+        self.center_y = 400
 
     def update(self):
         """ Update for Player"""
@@ -100,6 +102,7 @@ class Game(arcade.Window):
         self.bullet_list = arcade.SpriteList()
         self.asteroid_list = arcade.SpriteList()
         self.player_ship_list = arcade.SpriteList()
+        self.ship_life_list = arcade.SpriteList()
 
     def setup(self):
         """Setup"""
@@ -111,6 +114,16 @@ class Game(arcade.Window):
 
         self.objects.append(self.player_ship)
         arcade.set_background_color(arcade.color.BLACK)
+        self.lives = 1
+
+        cur_pos = 10
+        for i in range(self.lives):
+            life = arcade.Sprite(
+                ":resources:images/space_shooter/playerLife1_orange.png", 0.5)
+            life.center_x = cur_pos + life.width
+            life.center_y = life.height
+            cur_pos += life.width
+            self.ship_life_list.append(life)
 
         image_list = (":resources:images/space_shooter/meteorGrey_big1.png",
                       ":resources:images/space_shooter/meteorGrey_big2.png",
@@ -185,11 +198,19 @@ class Game(arcade.Window):
                 bullet.remove_from_sprite_lists()
 
             for enemy_sprite in hit_list:
+                self.split_asteroid(cast(AsteroidSprite, enemy_sprite))
 
-                self.split_asteroid()
+                enemy_sprite.remove_from_sprite_lists()
 
-                if enemy_sprite.size <= 0:
-                    self.score += 16
+                self.score += 5
+        for enemy_sprite in self.asteroid_list:
+            if self.player_ship.collides_with_sprite(enemy_sprite):
+
+                if self.lives > 0:
+                    self.lives -= 1
+
+                else:
+                    window.close()
 
         for sprite in self.objects:
             sprite.center_x = int(
@@ -304,6 +325,11 @@ class Game(arcade.Window):
         arcade.start_render()
 
         self.objects.draw()
+        self.asteroid_list.draw()
+        self.ship_life_list.draw()
+
+        output = f"Score: {self.score}"
+        arcade.draw_text(output, 10, 70, arcade.color.WHITE, 13)
 
 
 if __name__ == "__main__":
