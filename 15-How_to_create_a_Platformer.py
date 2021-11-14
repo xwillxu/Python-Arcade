@@ -10,6 +10,8 @@ SCREEN_TITLE = 'Platformer Tutorial'
 
 SCALE = 0.8
 
+AB = 0
+
 # Create Class
 
 
@@ -32,7 +34,7 @@ class Game(arcade.Window):
 
         self.player.change_x = 0
         self.player.change_y = 0
-
+        # Music
         self.background_music = arcade.load_sound(
             "RealPython/materials/arcade-a-primer/sounds/Apoxode_-_Electric_1.wav")
 
