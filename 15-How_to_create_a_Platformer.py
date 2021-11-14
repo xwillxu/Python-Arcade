@@ -9,6 +9,8 @@ SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = 'Platformer Tutorial'
 
+SCALE = 1
+
 # Create Class
 
 
@@ -23,11 +25,17 @@ class Game(arcade.Window):
         """Setup"""
 
         # setup player
-        self.player = arcade.Sprite()
+        self.player = arcade.Sprite(
+            "arcade/arcade/resources/images/animated_characters/female_adventurer/femaleAdventurer_idle.png", SCALE)
+
+        self.player.center_x = 600
+        self.player.center_y = 400
 
     def on_draw(self):
         """On Draw"""
         arcade.start_render()
+
+        self.player.draw()
 
 
 if __name__ == "__main__":
