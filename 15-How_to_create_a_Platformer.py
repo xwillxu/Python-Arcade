@@ -10,8 +10,6 @@ SCREEN_TITLE = 'Platformer Tutorial'
 
 SCALE = 0.8
 
-AB = 0
-
 # Create Class
 
 
@@ -21,6 +19,9 @@ class Game(arcade.Window):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
         arcade.set_background_color(arcade.color.EMERALD)
+
+    def enemy(self, delta_time: float):
+        """Enemy Sprite"""
 
     def setup(self):
         """Setup"""
