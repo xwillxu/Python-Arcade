@@ -2,14 +2,13 @@
 
 # Import arcade
 import arcade
-from arcade.application import Window
 
 # Create Screen
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = 'Platformer Tutorial'
 
-SCALE = 1
+SCALE = 0.8
 
 # Create Class
 
@@ -19,7 +18,7 @@ class Game(arcade.Window):
         """Init"""
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
-        arcade.set_background_color(arcade.color.SKY_BLUE)
+        arcade.set_background_color(arcade.color.EMERALD)
 
     def setup(self):
         """Setup"""
@@ -31,10 +30,41 @@ class Game(arcade.Window):
         self.player.center_x = 600
         self.player.center_y = 400
 
+        self.player.change_x = 0
+        self.player.change_y = 0
+
+    def on_key_press(self, key, modifiers):
+        """On Key Press"""
+
+        if key == arcade.key.UP:
+            self.player.change_y = 7
+        if key == arcade.key.DOWN:
+            self.player.change_y = -7
+        if key == arcade.key.RIGHT:
+            self.player.change_x = 7
+        if key == arcade.key.LEFT:
+            self.player.change_x = -7
+
+    def on_key_release(self, key, modifiers):
+        """On Key Release"""
+        if key == arcade.key.UP:
+            self.player.change_y = 0
+        if key == arcade.key.DOWN:
+            self.player.change_y = 0
+        if key == arcade.key.RIGHT:
+            self.player.change_x = 0
+        if key == arcade.key.LEFT:
+            self.player.change_x = 0
+
+    def on_update(self, delta_time: float):
+        """On Update"""
+
+        self.player.update()
+
     def on_draw(self):
         """On Draw"""
         arcade.start_render()
-
+        # Draw Sprites
         self.player.draw()
 
 
