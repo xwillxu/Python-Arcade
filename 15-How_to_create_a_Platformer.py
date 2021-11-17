@@ -10,7 +10,7 @@ SCREEN_TITLE = 'Platformer Tutorial'
 
 SCALE = 0.8
 
-# Create Class
+# Create Clas
 
 
 class Game(arcade.Window):
@@ -20,8 +20,17 @@ class Game(arcade.Window):
 
         arcade.set_background_color(arcade.color.EMERALD)
 
+        self.enemy_list = arcade.SpriteList()
+
     def enemy(self, delta_time: float):
         """Enemy Sprite"""
+
+        enemy = arcade.Sprite("arcade/arcade/resources/images/enemies/saw.png")
+
+        enemy.center_x = 600
+        enemy.center_y = 400
+
+        self.enemy_list.append(enemy)
 
     def setup(self):
         """Setup"""
@@ -39,7 +48,7 @@ class Game(arcade.Window):
         self.background_music = arcade.load_sound(
             "RealPython/materials/arcade-a-primer/sounds/Apoxode_-_Electric_1.wav")
 
-        self.play_music(0)
+        self.play_music(16)
 
     def play_music(self, delta_time: float):
         arcade.play_sound(self.background_music)
@@ -86,6 +95,7 @@ class Game(arcade.Window):
         arcade.start_render()
         # Draw Sprites
         self.player.draw()
+        self.enemy_list.draw()
 
 
 if __name__ == "__main__":
