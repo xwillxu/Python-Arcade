@@ -48,7 +48,7 @@ class Game(arcade.Window):
         self.background_music = arcade.load_sound(
             "RealPython/materials/arcade-a-primer/sounds/Apoxode_-_Electric_1.wav")
 
-        self.play_music(16)
+        self.play_music(0)
 
     def play_music(self, delta_time: float):
         arcade.play_sound(self.background_music)
@@ -80,6 +80,10 @@ class Game(arcade.Window):
         """On Update"""
 
         self.player.update()
+
+        for sprite in self.enemy_list:
+            sprite.center_x = sprite.center_x + sprite.change_x * delta_time
+            sprite.center_y = sprite.center_y + sprite.change_y * delta_time
 
         if self.player.top > self.height:
             self.player.top = self.height
