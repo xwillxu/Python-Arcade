@@ -22,13 +22,17 @@ class Game(arcade.Window):
 
         self.enemy_list = arcade.SpriteList()
 
-    def enemy(self, delta_time: float):
+    def enemy(self):
         """Enemy Sprite"""
 
-        enemy = arcade.Sprite("arcade/arcade/resources/images/enemies/saw.png")
+        enemy = arcade.Sprite(
+            "arcade/arcade/resources/images/enemies/saw.png", SCALE)
 
         enemy.center_x = 600
         enemy.center_y = 400
+
+        enemy.change_x = 0
+        enemy.change_y = 0
 
         self.enemy_list.append(enemy)
 
@@ -49,6 +53,8 @@ class Game(arcade.Window):
             "RealPython/materials/arcade-a-primer/sounds/Apoxode_-_Electric_1.wav")
 
         self.play_music(0)
+
+        self.enemy()
 
     def play_music(self, delta_time: float):
         arcade.play_sound(self.background_music)
