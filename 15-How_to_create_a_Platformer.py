@@ -27,6 +27,8 @@ class Game(arcade.Window):
         file_path = os.path.dirname(os.path.abspath(__file__))
         os.chdir(file_path)
 
+        self.frame_count = 0
+
     def enemy(self, delta_time: float):
         """Enemy Sprite"""
 
@@ -93,6 +95,7 @@ class Game(arcade.Window):
         """On Update"""
 
         self.player.update()
+        self.frame_count += 1
 
         for enemy in self.enemy_list:
             start_x = enemy.center_x
