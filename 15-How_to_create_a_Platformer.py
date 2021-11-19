@@ -2,6 +2,8 @@
 
 # Import arcade
 import arcade
+import math
+import os
 
 # Create Screen
 SCREEN_WIDTH = 1200
@@ -10,7 +12,7 @@ SCREEN_TITLE = 'Platformer Tutorial'
 
 SCALE = 0.8
 
-# Create Clas
+# Create Class
 
 
 class Game(arcade.Window):
@@ -22,7 +24,10 @@ class Game(arcade.Window):
 
         self.enemy_list = arcade.SpriteList()
 
-    def enemy(self):
+        file_path = os.path.dirname(os.path.abspath(__file__))
+        os.chdir(file_path)
+
+    def enemy(self, delta_time: float):
         """Enemy Sprite"""
 
         enemy = arcade.Sprite(
@@ -31,8 +36,18 @@ class Game(arcade.Window):
         enemy.center_x = 600
         enemy.center_y = 400
 
-        enemy.change_x = 0
-        enemy.change_y = 0
+        total_speed = 200
+
+        x_diff = self.player.center_x - enemy.center_x
+        y_diff = self.player.center_y - enemy.center_y
+        angle = math.atan2(y_diff, x_diff)
+
+        enemy.angle = math.degrees(angle) + 180
+
+        x_speed = math.cos(angle) * total_speed
+        y_speed = math.sin(angle) * total_speed
+
+        enemy.velocity = (x_speed, y_speed)
 
         self.enemy_list.append(enemy)
 
@@ -53,8 +68,11 @@ class Game(arcade.Window):
             "RealPython/materials/arcade-a-primer/sounds/Apoxode_-_Electric_1.wav")
 
         self.play_music(0)
+        arcade.schedule(self.play_music, 10)
 
-        self.enemy()
+        self.enemy(0)
+
+        arcade.schedule(self.enemy, 2)
 
     def play_music(self, delta_time: float):
         arcade.play_sound(self.background_music)
