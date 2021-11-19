@@ -105,6 +105,8 @@ class Game(arcade.Window):
             y_diff = dest_y - start_y
             angle = math.atan2(y_diff, x_diff)
 
+            enemy.angle = math.degrees(angle)-90
+
         if self.player.top > self.height:
             self.player.top = self.height
         if self.player.right > self.width:
