@@ -101,6 +101,10 @@ class Game(arcade.Window):
             dest_x = self.player.center_x
             dest_y = self.player.center_y
 
+            x_diff = dest_x - start_x
+            y_diff = dest_y - start_y
+            angle = math.atan2(y_diff, x_diff)
+
         if self.player.top > self.height:
             self.player.top = self.height
         if self.player.right > self.width:
