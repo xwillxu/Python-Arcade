@@ -36,18 +36,7 @@ class Game(arcade.Window):
         enemy.center_x = 600
         enemy.center_y = 400
 
-        total_speed = 200
-
-        x_diff = self.player.center_x - enemy.center_x
-        y_diff = self.player.center_y - enemy.center_y
-        angle = math.atan2(y_diff, x_diff)
-
-        enemy.angle = math.degrees(angle) + 180
-
-        x_speed = math.cos(angle) * total_speed
-        y_speed = math.sin(angle) * total_speed
-
-        enemy.velocity = (x_speed, y_speed)
+        enemy.angle = 180
 
         self.enemy_list.append(enemy)
 
@@ -105,9 +94,12 @@ class Game(arcade.Window):
 
         self.player.update()
 
-        for sprite in self.enemy_list:
-            sprite.center_x = sprite.center_x + sprite.change_x * delta_time
-            sprite.center_y = sprite.center_y + sprite.change_y * delta_time
+        for enemy in self.enemy_list:
+            start_x = enemy.center_x
+            start_y = enemy.center_y
+
+            dest_x = self.player.center_x
+            dest_y = self.player.center_y
 
         if self.player.top > self.height:
             self.player.top = self.height
