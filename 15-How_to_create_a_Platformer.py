@@ -9,8 +9,8 @@ import os
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = 'Platformer Tutorial'
-BULLET_SPEED = 4
-ENEMY_SPEED = 2
+BULLET_SPEED = 7
+ENEMY_SPEED = 3
 SCALE = 0.8
 
 # Create Class
@@ -116,6 +116,9 @@ class Game(arcade.Window):
             angle = math.atan2(y_diff, x_diff)
 
             enemy.angle = math.degrees(angle)-90
+
+            enemy.change_x = math.cos(angle) * ENEMY_SPEED
+            enemy.change_y = math.sin(angle) * ENEMY_SPEED
 
             if self.frame_count % 60 == 0:
                 bullet = arcade.Sprite(
