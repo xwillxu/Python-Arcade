@@ -22,6 +22,8 @@ class EnemySprite(arcade.Sprite):
         """Init for enemy"""
         super().__init__(filename, scale)
 
+        self.thrust = 0
+
 
 class Game(arcade.Window):
     """Game Window"""
