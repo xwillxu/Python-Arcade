@@ -12,10 +12,16 @@ SCREEN_TITLE = 'Platformer Tutorial'
 BULLET_SPEED = 4
 SCALE = 0.8
 
-# Create Class
+# Create Classes
+
+
+class EnemySprite(arcade.Sprite):
+    """Enemy Sprite Class"""
 
 
 class Game(arcade.Window):
+    """Game Window"""
+
     def __init__(self):
         """Init"""
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
@@ -109,9 +115,6 @@ class Game(arcade.Window):
             x_diff = dest_x - start_x
             y_diff = dest_y - start_y
             angle = math.atan2(y_diff, x_diff)
-
-            enemy.change_x = self.player.center_x
-            enemy.change_y = self.player.center_y
 
             enemy.angle = math.degrees(angle)-90
 
