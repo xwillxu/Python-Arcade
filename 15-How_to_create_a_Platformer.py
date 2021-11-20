@@ -10,6 +10,7 @@ SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = 'Platformer Tutorial'
 BULLET_SPEED = 4
+ENEMY_SPEED = 2
 SCALE = 0.8
 
 # Create Class
@@ -40,6 +41,8 @@ class Game(arcade.Window):
 
         enemy.center_x = 600
         enemy.center_y = 400
+        enemy.change_x = 0
+        enemy.change_y = 0
 
         enemy.angle = 180
 
