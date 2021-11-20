@@ -12,18 +12,7 @@ SCREEN_TITLE = 'Platformer Tutorial'
 BULLET_SPEED = 4
 SCALE = 0.8
 
-# Create Classes
-
-
-class EnemySprite(arcade.Sprite):
-    """Enemy Sprite Class"""
-
-    def __init__(self, filename, scale):
-        """Init for enemy"""
-        super().__init__(filename, scale)
-
-        self.thrust = 0
-        self.max_speed = 5
+# Create Class
 
 
 class Game(arcade.Window):
