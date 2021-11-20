@@ -100,9 +100,9 @@ class Game(arcade.Window):
 
         self.player.update()
         self.frame_count += 1
-        #print(f'frame count', self.frame_count)
-        print(f'enemy count', self.enemy_list.__len__())
-        print(f'bullet count', self.bullet_list.__len__())
+        # print(f'frame count', self.frame_count)
+        # print(f'enemy count', self.enemy_list.__len__())
+        # print(f'bullet count', self.bullet_list.__len__())
 
         for enemy in self.enemy_list:
             start_x = enemy.center_x
