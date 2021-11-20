@@ -9,11 +9,45 @@ import os
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = 'Platformer Tutorial'
+
+# Other Varibles
 BULLET_SPEED = 7
 ENEMY_SPEED = 3
+SPRITE_SCALING_LASER = 0.8
 SCALE = 0.8
 
-# Create Class
+# Health bar stuff
+HEALTHBAR_WIDTH = 50
+HEALTHBAR_HEIGHT = 6
+HEALTHBAR_OFFSET_Y = -10
+
+# Create Classes
+
+
+class Health_Sprite(arcade.Sprite):
+    '''Health Sprite'''
+
+    def __init__(self, image, scale, max_health):
+        super().__init__(image, scale)
+
+        self.max_health = max_health
+        self.cur_health = max_health
+
+    def draw_health_bar(self):
+        if self.cur_health < self.max_health:
+            arcade.draw_rectangle_filled(center_x=self.center_x,
+                                         center_y=self.center_y + HEALTHBAR_OFFSET_Y,
+                                         width=HEALTHBAR_WIDTH,
+                                         height=5,
+                                         color=arcade.color.RED)
+
+        health_width = HEALTHBAR_WIDTH * (self.cur_health / self.max_health)
+
+        arcade.draw_rectangle_filled(center_x=self.center_x - 0.5 * (HEALTHBAR_WIDTH - health_width),
+                                     center_y=self.center_y - 10,
+                                     width=health_width,
+                                     height=HEALTHBAR_HEIGHT,
+                                     color=arcade.color.GREEN)
 
 
 class Game(arcade.Window):
@@ -27,6 +61,7 @@ class Game(arcade.Window):
 
         self.enemy_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
+        self.player_bullet_list = arcade.SpriteList()
 
         file_path = os.path.dirname(os.path.abspath(__file__))
         os.chdir(file_path)
@@ -36,8 +71,8 @@ class Game(arcade.Window):
     def enemy(self, delta_time: float):
         """Enemy Sprite"""
 
-        enemy = arcade.Sprite(
-            "arcade/arcade/resources/images/enemies/saw.png", SCALE)
+        enemy = Health_Sprite(
+            "arcade/arcade/resources/images/enemies/saw.png", SCALE, max_health=50)
 
         enemy.center_x = 400
         enemy.center_y = 400
@@ -47,6 +82,21 @@ class Game(arcade.Window):
         enemy.angle = 180
 
         self.enemy_list.append(enemy)
+
+    def player_bullet(self):
+        """Player Bullet"""
+        player_bullet = arcade.Sprite(
+            ":resources:images/space_shooter/laserBlue01.png", SPRITE_SCALING_LASER)
+
+        player_bullet.center_x = self.player.center_x
+        player_bullet.center_y = self.player.center_y
+        x_diff = self.enemy_list[0].center_x - player_bullet.center_x
+        y_diff = self.enemy_list[0].center_y - player_bullet.center_y
+        angle = math.atan2(y_diff, x_diff)
+
+        player_bullet.angle = math.degrees(angle)
+
+        self.player_bullet_list.append(player_bullet)
 
     def setup(self):
         """Setup"""
@@ -83,6 +133,8 @@ class Game(arcade.Window):
             self.player.change_x = 7
         if key == arcade.key.LEFT:
             self.player.change_x = -7
+        if key == arcade.key.SPACE:
+            self.player_bullet()
 
     def on_key_release(self, key, modifiers):
         """On Key Release"""
@@ -98,7 +150,6 @@ class Game(arcade.Window):
     def on_update(self, delta_time):
         """On Update"""
 
-        self.player.update()
         self.frame_count += 1
         # print(f'frame count', self.frame_count)
         # print(f'enemy count', self.enemy_list.__len__())
@@ -139,6 +190,8 @@ class Game(arcade.Window):
 
         self.enemy_list.update()
         self.bullet_list.update()
+        self.player_bullet_list.update()
+        self.player.update()
 
         for bullet in self.bullet_list:
             if self.player.collides_with_sprite(bullet):
@@ -161,6 +214,7 @@ class Game(arcade.Window):
         self.player.draw()
         self.enemy_list.draw()
         self.bullet_list.draw()
+        self.player_bullet_list.draw()
 
 
 if __name__ == "__main__":
