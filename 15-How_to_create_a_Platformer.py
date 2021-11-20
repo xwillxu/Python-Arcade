@@ -39,7 +39,7 @@ class Game(arcade.Window):
         enemy = arcade.Sprite(
             "arcade/arcade/resources/images/enemies/saw.png", SCALE)
 
-        enemy.center_x = 600
+        enemy.center_x = 400
         enemy.center_y = 400
         enemy.change_x = 0
         enemy.change_y = 0
@@ -55,7 +55,7 @@ class Game(arcade.Window):
         self.player = arcade.Sprite(
             "arcade/arcade/resources/images/animated_characters/female_adventurer/femaleAdventurer_idle.png", SCALE)
 
-        self.player.center_x = 600
+        self.player.center_x = 800
         self.player.center_y = 400
 
         self.player.change_x = 0
@@ -139,6 +139,11 @@ class Game(arcade.Window):
 
         self.enemy_list.update()
         self.bullet_list.update()
+
+        for bullet in self.bullet_list:
+            if self.player.collides_with_sprite(bullet):
+                bullet.remove_from_sprite_lists()
+                arcade.close_window()
 
         if self.player.top > self.height:
             self.player.top = self.height
