@@ -18,8 +18,9 @@ SCALE = 0.8
 class EnemySprite(arcade.Sprite):
     """Enemy Sprite Class"""
 
-    def __init__(self):
+    def __init__(self, filename, scale):
         """Init for enemy"""
+        super().__init__(filename, scale)
 
 
 class Game(arcade.Window):
