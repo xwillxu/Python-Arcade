@@ -110,11 +110,14 @@ class Game(arcade.Window):
             y_diff = dest_y - start_y
             angle = math.atan2(y_diff, x_diff)
 
+            enemy.change_x = self.player.center_x
+            enemy.change_y = self.player.center_y
+
             enemy.angle = math.degrees(angle)-90
 
             if self.frame_count % 60 == 0:
                 bullet = arcade.Sprite(
-                    ":resources:images/space_shooter/laserBlue01.png")
+                    "arcade/arcade/resources/images/enemies/saw.png", SCALE/2)
                 bullet.center_x = start_x
                 bullet.center_y = start_y
 
