@@ -23,6 +23,7 @@ class EnemySprite(arcade.Sprite):
         super().__init__(filename, scale)
 
         self.thrust = 0
+        self.max_speed = 5
 
 
 class Game(arcade.Window):
