@@ -109,8 +109,8 @@ class Game(arcade.Window):
         """Setup"""
 
         # setup player
-        self.player = arcade.Sprite(
-            "arcade/arcade/resources/images/animated_characters/female_adventurer/femaleAdventurer_idle.png", SCALE)
+        self.player = Health_Sprite(
+            "arcade/arcade/resources/images/animated_characters/female_adventurer/femaleAdventurer_idle.png", SCALE, max_health=100)
 
         self.player.center_x = 800
         self.player.center_y = 400
@@ -226,7 +226,7 @@ class Game(arcade.Window):
         for bullet in self.bullet_list:
             if self.player.collides_with_sprite(bullet):
                 bullet.remove_from_sprite_lists()
-                arcade.close_window()
+                self.player.cur_health -= 2
 
         if self.player.top > self.height:
             self.player.top = self.height
@@ -248,6 +248,7 @@ class Game(arcade.Window):
 
         for enemy in self.enemy_list:
             enemy.draw_health_bar()
+        self.player.draw_health_bar()
 
         text = f"Score: {self.score:.0f}"
         arcade.draw_text(text, 10, 0, arcade.color.WHITE, 20)
