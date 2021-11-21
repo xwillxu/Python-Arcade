@@ -12,6 +12,7 @@ SCREEN_TITLE = 'Platformer Tutorial'
 
 # Other Varibles
 BULLET_SPEED = 7
+PLAYER_BULLET_SPEED = 7
 ENEMY_SPEED = 3
 SPRITE_SCALING_LASER = 0.8
 SCALE = 0.8
@@ -93,8 +94,11 @@ class Game(arcade.Window):
         x_diff = self.enemy_list[0].center_x - player_bullet.center_x
         y_diff = self.enemy_list[0].center_y - player_bullet.center_y
         angle = math.atan2(y_diff, x_diff)
-
+        x_speed = math.cos(angle) * PLAYER_BULLET_SPEED
+        y_speed = math.sin(angle) * PLAYER_BULLET_SPEED
         player_bullet.angle = math.degrees(angle)
+
+        player_bullet.velocity = (x_speed, y_speed)
 
         self.player_bullet_list.append(player_bullet)
 
