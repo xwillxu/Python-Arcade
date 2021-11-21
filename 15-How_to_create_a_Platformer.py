@@ -72,17 +72,18 @@ class Game(arcade.Window):
     def enemy(self, delta_time: float):
         """Enemy Sprite"""
 
-        enemy = Health_Sprite(
-            "arcade/arcade/resources/images/enemies/saw.png", SCALE, max_health=50)
+        if self.enemy_count < 1:
+            enemy = Health_Sprite(
+                "arcade/arcade/resources/images/enemies/saw.png", SCALE, max_health=50)
 
-        enemy.center_x = 400
-        enemy.center_y = 400
-        enemy.change_x = 0
-        enemy.change_y = 0
+            enemy.center_x = 400
+            enemy.center_y = 400
+            enemy.change_x = 0
+            enemy.change_y = 0
 
-        enemy.angle = 180
+            enemy.angle = 180
 
-        self.enemy_list.append(enemy)
+            self.enemy_list.append(enemy)
 
     def player_bullet(self):
         """Player Bullet"""
@@ -114,6 +115,9 @@ class Game(arcade.Window):
 
         self.player.change_x = 0
         self.player.change_y = 0
+
+        self.enemy_count = 0
+        self.score = 0
         # Music
         self.background_music = arcade.load_sound(
             "RealPython/materials/arcade-a-primer/sounds/Apoxode_-_Electric_1.wav")
@@ -158,6 +162,24 @@ class Game(arcade.Window):
         # print(f'frame count', self.frame_count)
         # print(f'enemy count', self.enemy_list.__len__())
         # print(f'bullet count', self.bullet_list.__len__())
+        for player_bullet in self.player_bullet_list:
+            hit_list = arcade.check_for_collision_with_list(
+                player_bullet, self.enemy_list)
+
+            if len(hit_list) > 0:
+                player_bullet.remove_from_sprite_lists()
+
+            for enemy in hit_list:
+                if not isinstance(enemy, Health_Sprite):
+                    raise TypeError("List contents must all be ints")
+
+                enemy.cur_health -= 2
+
+                if enemy.cur_health <= 0:
+                    enemy.remove_from_sprite_lists()
+
+                    self.score += 100
+                    self.enemy_count -= 1
 
         for enemy in self.enemy_list:
             start_x = enemy.center_x
