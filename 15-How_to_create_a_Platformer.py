@@ -39,7 +39,7 @@ class Health_Sprite(arcade.Sprite):
             arcade.draw_rectangle_filled(center_x=self.center_x,
                                          center_y=self.center_y + HEALTHBAR_OFFSET_Y,
                                          width=HEALTHBAR_WIDTH,
-                                         height=5,
+                                         height=HEALTHBAR_HEIGHT,
                                          color=arcade.color.RED)
 
         health_width = HEALTHBAR_WIDTH * (self.cur_health / self.max_health)
@@ -74,7 +74,7 @@ class Game(arcade.Window):
 
         if self.enemy_count < 2:
             enemy = Health_Sprite(
-                "arcade/arcade/resources/images/enemies/saw.png", 0.6, max_health=30)
+                "arcade/arcade/resources/images/enemies/saw.png", SCALE, max_health=30)
 
             enemy.center_x = 400
             enemy.center_y = 400
@@ -110,7 +110,7 @@ class Game(arcade.Window):
 
         # setup player
         self.player = Health_Sprite(
-            "arcade/arcade/resources/images/animated_characters/female_adventurer/femaleAdventurer_idle.png", SCALE, max_health=100)
+            "arcade/arcade/resources/images/animated_characters/female_adventurer/femaleAdventurer_idle.png", SCALE, max_health=50)
 
         self.player.center_x = 800
         self.player.center_y = 400
@@ -128,7 +128,7 @@ class Game(arcade.Window):
         arcade.schedule(self.play_music, 15.5)
 
         self.enemy(0)
-        arcade.schedule(self.enemy, 4)
+        arcade.schedule(self.enemy, 0.1)
 
     def play_music(self, delta_time: float):
         arcade.play_sound(self.background_music)
@@ -203,7 +203,7 @@ class Game(arcade.Window):
 
             if self.frame_count % 60 == 0:
                 bullet = arcade.Sprite(
-                    "arcade/arcade/resources/images/enemies/saw.png", SCALE / 5)
+                    "arcade/arcade/resources/images/enemies/saw.png", 0.1)
                 bullet.center_x = start_x
                 bullet.center_y = start_y
 
@@ -227,6 +227,8 @@ class Game(arcade.Window):
             if self.player.collides_with_sprite(bullet):
                 bullet.remove_from_sprite_lists()
                 self.player.cur_health -= 2
+                if self.player.cur_health <= 0:
+                    arcade.close_window()
 
         if self.player.top > self.height:
             self.player.top = self.height
