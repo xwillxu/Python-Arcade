@@ -20,7 +20,7 @@ SCALE = 0.8
 # Health bar stuff
 HEALTHBAR_WIDTH = 50
 HEALTHBAR_HEIGHT = 6
-HEALTHBAR_OFFSET_Y = -10
+HEALTHBAR_OFFSET_Y = -50
 
 # Create Classes
 
@@ -45,7 +45,7 @@ class Health_Sprite(arcade.Sprite):
         health_width = HEALTHBAR_WIDTH * (self.cur_health / self.max_health)
 
         arcade.draw_rectangle_filled(center_x=self.center_x - 0.5 * (HEALTHBAR_WIDTH - health_width),
-                                     center_y=self.center_y - 10,
+                                     center_y=self.center_y + HEALTHBAR_OFFSET_Y,
                                      width=health_width,
                                      height=HEALTHBAR_HEIGHT,
                                      color=arcade.color.GREEN)
@@ -72,9 +72,9 @@ class Game(arcade.Window):
     def enemy(self, delta_time: float):
         """Enemy Sprite"""
 
-        if self.enemy_count < 3:
+        if self.enemy_count < 2:
             enemy = Health_Sprite(
-                "arcade/arcade/resources/images/enemies/saw.png", 0.6, max_health=50)
+                "arcade/arcade/resources/images/enemies/saw.png", 0.6, max_health=30)
 
             enemy.center_x = 400
             enemy.center_y = 400
@@ -166,8 +166,6 @@ class Game(arcade.Window):
         # print(f'enemy count', self.enemy_list.__len__())
         # print(f'bullet count', self.bullet_list.__len__())
 
-        for enemy in self.enemy_list:
-            enemy.draw_health_bar()
         for player_bullet in self.player_bullet_list:
             hit_list = arcade.check_for_collision_with_list(
                 player_bullet, self.enemy_list)
@@ -247,6 +245,9 @@ class Game(arcade.Window):
         self.enemy_list.draw()
         self.bullet_list.draw()
         self.player_bullet_list.draw()
+
+        for enemy in self.enemy_list:
+            enemy.draw_health_bar()
 
         text = f"Score: {self.score:.0f}"
         arcade.draw_text(text, 10, 0, arcade.color.WHITE, 20)
