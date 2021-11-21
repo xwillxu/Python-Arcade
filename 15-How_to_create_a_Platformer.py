@@ -58,7 +58,7 @@ class Game(arcade.Window):
         """Init"""
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
-        arcade.set_background_color(arcade.color.EMERALD)
+        arcade.set_background_color(arcade.color.IMPERIAL_BLUE)
 
         self.enemy_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
@@ -72,9 +72,9 @@ class Game(arcade.Window):
     def enemy(self, delta_time: float):
         """Enemy Sprite"""
 
-        if self.enemy_count < 1:
+        if self.enemy_count < 3:
             enemy = Health_Sprite(
-                "arcade/arcade/resources/images/enemies/saw.png", SCALE, max_health=50)
+                "arcade/arcade/resources/images/enemies/saw.png", 0.6, max_health=50)
 
             enemy.center_x = 400
             enemy.center_y = 400
@@ -82,6 +82,8 @@ class Game(arcade.Window):
             enemy.change_y = 0
 
             enemy.angle = 180
+
+            self.enemy_count += 1
 
             self.enemy_list.append(enemy)
 
@@ -123,9 +125,10 @@ class Game(arcade.Window):
             "RealPython/materials/arcade-a-primer/sounds/Apoxode_-_Electric_1.wav")
 
         self.play_music(0)
-        arcade.schedule(self.play_music, 10)
+        arcade.schedule(self.play_music, 15.5)
 
         self.enemy(0)
+        arcade.schedule(self.enemy, 4)
 
     def play_music(self, delta_time: float):
         arcade.play_sound(self.background_music)
@@ -162,6 +165,9 @@ class Game(arcade.Window):
         # print(f'frame count', self.frame_count)
         # print(f'enemy count', self.enemy_list.__len__())
         # print(f'bullet count', self.bullet_list.__len__())
+
+        for enemy in self.enemy_list:
+            enemy.draw_health_bar()
         for player_bullet in self.player_bullet_list:
             hit_list = arcade.check_for_collision_with_list(
                 player_bullet, self.enemy_list)
@@ -199,7 +205,7 @@ class Game(arcade.Window):
 
             if self.frame_count % 60 == 0:
                 bullet = arcade.Sprite(
-                    "arcade/arcade/resources/images/enemies/saw.png", SCALE/2)
+                    "arcade/arcade/resources/images/enemies/saw.png", SCALE / 5)
                 bullet.center_x = start_x
                 bullet.center_y = start_y
 
@@ -241,6 +247,9 @@ class Game(arcade.Window):
         self.enemy_list.draw()
         self.bullet_list.draw()
         self.player_bullet_list.draw()
+
+        text = f"Score: {self.score:.0f}"
+        arcade.draw_text(text, 10, 0, arcade.color.WHITE, 20)
 
 
 if __name__ == "__main__":
