@@ -78,7 +78,7 @@ class Game(arcade.Window):
     def enemy(self, delta_time: float):
         """Enemy Sprite"""
 
-        if self.enemy_count < 1:
+        if self.enemy_count <= 0:
             enemy = Health_Sprite(
                 "arcade/arcade/resources/images/enemies/saw.png", 0.5, max_health=30)
 
@@ -117,6 +117,8 @@ class Game(arcade.Window):
 
             enemy_3.angle = 180
 
+            self.enemy_count += 1
+
             self.enemy3_list.append(enemy_3)
 
             enemy_4 = Health_Sprite(
@@ -128,6 +130,8 @@ class Game(arcade.Window):
             enemy_4.change_y = 0
 
             enemy_4.angle = 180
+
+            self.enemy_count += 1
 
             self.enemy4_list.append(enemy_4)
 
@@ -163,7 +167,39 @@ class Game(arcade.Window):
 
         player_bullet2.velocity = (x_speed, y_speed)
 
-        self.player_bullet2_list.append(player_bullet)
+        self.player_bullet2_list.append(player_bullet2)
+
+        player_bullet3 = arcade.Sprite(
+            ":resources:images/space_shooter/laserBlue01.png", SPRITE_SCALING_LASER)
+
+        player_bullet3.center_x = self.player.center_x
+        player_bullet3.center_y = self.player.center_y
+        x_diff = self.enemy3_list[0].center_x - player_bullet3.center_x
+        y_diff = self.enemy3_list[0].center_y - player_bullet3.center_y
+        angle = math.atan2(y_diff, x_diff)
+        x_speed = math.cos(angle) * PLAYER_BULLET_SPEED
+        y_speed = math.sin(angle) * PLAYER_BULLET_SPEED
+        player_bullet3.angle = math.degrees(angle)
+
+        player_bullet3.velocity = (x_speed, y_speed)
+
+        self.player_bullet3_list.append(player_bullet3)
+
+        player_bullet4 = arcade.Sprite(
+            ":resources:images/space_shooter/laserBlue01.png", SPRITE_SCALING_LASER)
+
+        player_bullet4.center_x = self.player.center_x
+        player_bullet4.center_y = self.player.center_y
+        x_diff = self.enemy4_list[0].center_x - player_bullet4.center_x
+        y_diff = self.enemy4_list[0].center_y - player_bullet4.center_y
+        angle = math.atan2(y_diff, x_diff)
+        x_speed = math.cos(angle) * PLAYER_BULLET_SPEED
+        y_speed = math.sin(angle) * PLAYER_BULLET_SPEED
+        player_bullet4.angle = math.degrees(angle)
+
+        player_bullet4.velocity = (x_speed, y_speed)
+
+        self.player_bullet4_list.append(player_bullet4)
 
     def setup(self):
         """Setup"""
@@ -241,6 +277,63 @@ class Game(arcade.Window):
 
                 if enemy.cur_health <= 0:
                     enemy.remove_from_sprite_lists()
+
+                    self.score += 100
+                    self.enemy_count -= 1
+
+        for player_bullet2 in self.player_bullet2_list:
+            hit_list = arcade.check_for_collision_with_list(
+                player_bullet2, self.enemy2_list)
+
+            if len(hit_list) > 0:
+                player_bullet2.remove_from_sprite_lists()
+
+            for enemy_2 in hit_list:
+                if not isinstance(enemy_2, Health_Sprite):
+                    raise TypeError("List contents must all be ints")
+
+                enemy_2.cur_health -= 2
+
+                if enemy_2.cur_health <= 0:
+                    enemy_2.remove_from_sprite_lists()
+
+                    self.score += 100
+                    self.enemy_count -= 1
+
+        for player_bullet3 in self.player_bullet3_list:
+            hit_list = arcade.check_for_collision_with_list(
+                player_bullet3, self.enemy3_list)
+
+            if len(hit_list) > 0:
+                player_bullet3.remove_from_sprite_lists()
+
+            for enemy_3 in hit_list:
+                if not isinstance(enemy_3, Health_Sprite):
+                    raise TypeError("List contents must all be ints")
+
+                enemy_3.cur_health -= 2
+
+                if enemy_3.cur_health <= 0:
+                    enemy_3.remove_from_sprite_lists()
+
+                    self.score += 100
+                    self.enemy_count -= 1
+
+        for player_bullet4 in self.player_bullet4_list:
+            hit_list = arcade.check_for_collision_with_list(
+                player_bullet4, self.enemy4_list)
+
+            if len(hit_list) > 0:
+                player_bullet4.remove_from_sprite_lists()
+
+            for enemy_4 in hit_list:
+                if not isinstance(enemy_4, Health_Sprite):
+                    raise TypeError("List contents must all be ints")
+
+                enemy_4.cur_health -= 2
+
+                if enemy_4.cur_health <= 0:
+                    enemy_4.remove_from_sprite_lists()
 
                     self.score += 100
                     self.enemy_count -= 1
@@ -369,8 +462,12 @@ class Game(arcade.Window):
         self.enemy2_list.update()
         self.enemy3_list.update()
         self.enemy4_list.update()
+
         self.bullet_list.update()
         self.player_bullet_list.update()
+        self.player_bullet2_list.update()
+        self.player_bullet3_list.update()
+        self.player_bullet4_list.update()
         self.player.update()
 
         for bullet in self.bullet_list:
@@ -398,8 +495,11 @@ class Game(arcade.Window):
         self.enemy2_list.draw()
         self.enemy3_list.draw()
         self.enemy4_list.draw()
-        self.bullet_list.draw()
         self.player_bullet_list.draw()
+        self.player_bullet2_list.draw()
+        self.player_bullet3_list.draw()
+        self.player_bullet4_list.draw()
+        self.bullet_list.draw()
 
         for enemy in self.enemy_list:
             enemy.draw_health_bar()
