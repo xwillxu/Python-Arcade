@@ -61,8 +61,14 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.IMPERIAL_BLUE)
 
         self.enemy_list = arcade.SpriteList()
+        self.enemy2_list = arcade.SpriteList()
+        self.enemy3_list = arcade.SpriteList()
+        self.enemy4_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
         self.player_bullet_list = arcade.SpriteList()
+        self.player_bullet2_list = arcade.SpriteList()
+        self.player_bullet3_list = arcade.SpriteList()
+        self.player_bullet4_list = arcade.SpriteList()
 
         file_path = os.path.dirname(os.path.abspath(__file__))
         os.chdir(file_path)
@@ -72,12 +78,12 @@ class Game(arcade.Window):
     def enemy(self, delta_time: float):
         """Enemy Sprite"""
 
-        if self.enemy_count < 2:
+        if self.enemy_count < 1:
             enemy = Health_Sprite(
-                "arcade/arcade/resources/images/enemies/saw.png", SCALE, max_health=30)
+                "arcade/arcade/resources/images/enemies/saw.png", 0.5, max_health=30)
 
-            enemy.center_x = 400
-            enemy.center_y = 400
+            enemy.center_x = 200
+            enemy.center_y = 100
             enemy.change_x = 0
             enemy.change_y = 0
 
@@ -86,6 +92,44 @@ class Game(arcade.Window):
             self.enemy_count += 1
 
             self.enemy_list.append(enemy)
+
+            enemy_2 = Health_Sprite(
+                "arcade/arcade/resources/images/enemies/saw.png", 0.5, max_health=30)
+
+            enemy_2.center_x = 1000
+            enemy_2.center_y = 700
+            enemy_2.change_x = 0
+            enemy_2.change_y = 0
+
+            enemy_2.angle = 180
+
+            self.enemy_count += 1
+
+            self.enemy2_list.append(enemy_2)
+
+            enemy_3 = Health_Sprite(
+                "arcade/arcade/resources/images/enemies/saw.png", 0.5, max_health=30)
+
+            enemy_3.center_x = 200
+            enemy_3.center_y = 700
+            enemy_3.change_x = 0
+            enemy_3.change_y = 0
+
+            enemy_3.angle = 180
+
+            self.enemy3_list.append(enemy_3)
+
+            enemy_4 = Health_Sprite(
+                "arcade/arcade/resources/images/enemies/saw.png", 0.5, max_health=30)
+
+            enemy_4.center_x = 1000
+            enemy_4.center_y = 100
+            enemy_4.change_x = 0
+            enemy_4.change_y = 0
+
+            enemy_4.angle = 180
+
+            self.enemy4_list.append(enemy_4)
 
     def player_bullet(self):
         """Player Bullet"""
@@ -104,6 +148,22 @@ class Game(arcade.Window):
         player_bullet.velocity = (x_speed, y_speed)
 
         self.player_bullet_list.append(player_bullet)
+
+        player_bullet2 = arcade.Sprite(
+            ":resources:images/space_shooter/laserBlue01.png", SPRITE_SCALING_LASER)
+
+        player_bullet2.center_x = self.player.center_x
+        player_bullet2.center_y = self.player.center_y
+        x_diff = self.enemy2_list[0].center_x - player_bullet2.center_x
+        y_diff = self.enemy2_list[0].center_y - player_bullet2.center_y
+        angle = math.atan2(y_diff, x_diff)
+        x_speed = math.cos(angle) * PLAYER_BULLET_SPEED
+        y_speed = math.sin(angle) * PLAYER_BULLET_SPEED
+        player_bullet2.angle = math.degrees(angle)
+
+        player_bullet2.velocity = (x_speed, y_speed)
+
+        self.player_bullet2_list.append(player_bullet)
 
     def setup(self):
         """Setup"""
@@ -214,11 +274,101 @@ class Game(arcade.Window):
 
                 self.bullet_list.append(bullet)
 
+        for enemy_2 in self.enemy2_list:
+            start_x = enemy_2.center_x
+            start_y = enemy_2.center_y
+
+            dest_x = self.player.center_x
+            dest_y = self.player.center_y
+
+            x_diff = dest_x - start_x
+            y_diff = dest_y - start_y
+            angle = math.atan2(y_diff, x_diff)
+
+            enemy_2.angle = math.degrees(angle)-90
+
+            enemy_2.change_x = math.cos(angle) * ENEMY_SPEED
+            enemy_2.change_y = math.sin(angle) * ENEMY_SPEED
+
+            if self.frame_count % 60 == 0:
+                bullet = arcade.Sprite(
+                    "arcade/arcade/resources/images/enemies/saw.png", 0.1)
+                bullet.center_x = start_x
+                bullet.center_y = start_y
+
+                bullet.angle = math.degrees(angle)
+
+                bullet.change_x = math.cos(angle) * BULLET_SPEED
+                bullet.change_y = math.sin(angle) * BULLET_SPEED
+
+                self.bullet_list.append(bullet)
+
+        for enemy_3 in self.enemy3_list:
+            start_x = enemy_3.center_x
+            start_y = enemy_3.center_y
+
+            dest_x = self.player.center_x
+            dest_y = self.player.center_y
+
+            x_diff = dest_x - start_x
+            y_diff = dest_y - start_y
+            angle = math.atan2(y_diff, x_diff)
+
+            enemy_3.angle = math.degrees(angle)-90
+
+            enemy_3.change_x = math.cos(angle) * ENEMY_SPEED
+            enemy_3.change_y = math.sin(angle) * ENEMY_SPEED
+
+            if self.frame_count % 60 == 0:
+                bullet = arcade.Sprite(
+                    "arcade/arcade/resources/images/enemies/saw.png", 0.1)
+                bullet.center_x = start_x
+                bullet.center_y = start_y
+
+                bullet.angle = math.degrees(angle)
+
+                bullet.change_x = math.cos(angle) * BULLET_SPEED
+                bullet.change_y = math.sin(angle) * BULLET_SPEED
+
+                self.bullet_list.append(bullet)
+
+        for enemy_4 in self.enemy4_list:
+            start_x = enemy_4.center_x
+            start_y = enemy_4.center_y
+
+            dest_x = self.player.center_x
+            dest_y = self.player.center_y
+
+            x_diff = dest_x - start_x
+            y_diff = dest_y - start_y
+            angle = math.atan2(y_diff, x_diff)
+
+            enemy_4.angle = math.degrees(angle)-90
+
+            enemy_4.change_x = math.cos(angle) * ENEMY_SPEED
+            enemy_4.change_y = math.sin(angle) * ENEMY_SPEED
+
+            if self.frame_count % 60 == 0:
+                bullet = arcade.Sprite(
+                    "arcade/arcade/resources/images/enemies/saw.png", 0.1)
+                bullet.center_x = start_x
+                bullet.center_y = start_y
+
+                bullet.angle = math.degrees(angle)
+
+                bullet.change_x = math.cos(angle) * BULLET_SPEED
+                bullet.change_y = math.sin(angle) * BULLET_SPEED
+
+                self.bullet_list.append(bullet)
+
         for bullet in self.bullet_list:
             if bullet.top < 0 or bullet.top > SCREEN_HEIGHT or bullet.right > SCREEN_WIDTH or bullet.right < 0:
                 bullet.remove_from_sprite_lists()
 
         self.enemy_list.update()
+        self.enemy2_list.update()
+        self.enemy3_list.update()
+        self.enemy4_list.update()
         self.bullet_list.update()
         self.player_bullet_list.update()
         self.player.update()
@@ -245,11 +395,20 @@ class Game(arcade.Window):
         # Draw Sprites
         self.player.draw()
         self.enemy_list.draw()
+        self.enemy2_list.draw()
+        self.enemy3_list.draw()
+        self.enemy4_list.draw()
         self.bullet_list.draw()
         self.player_bullet_list.draw()
 
         for enemy in self.enemy_list:
             enemy.draw_health_bar()
+        for enemy_2 in self.enemy2_list:
+            enemy_2.draw_health_bar()
+        for enemy_3 in self.enemy3_list:
+            enemy_3.draw_health_bar()
+        for enemy_4 in self.enemy4_list:
+            enemy_4.draw_health_bar()
         self.player.draw_health_bar()
 
         text = f"Score: {self.score:.0f}"
