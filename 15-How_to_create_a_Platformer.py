@@ -136,8 +136,9 @@ class Game(arcade.Window):
             self.enemy4_list.append(enemy_4)
 
     def player_bullet(self):
+        """Player Bullet"""
+
         if self.enemy_list.__len__() > 0:
-            """Player Bullet"""
             player_bullet = arcade.Sprite(
                 ":resources:images/space_shooter/laserBlue01.png", SPRITE_SCALING_LASER)
             player_bullet.center_x = self.player.center_x
