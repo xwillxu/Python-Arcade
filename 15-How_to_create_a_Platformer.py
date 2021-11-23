@@ -136,70 +136,73 @@ class Game(arcade.Window):
             self.enemy4_list.append(enemy_4)
 
     def player_bullet(self):
-        """Player Bullet"""
-        player_bullet = arcade.Sprite(
-            ":resources:images/space_shooter/laserBlue01.png", SPRITE_SCALING_LASER)
+        if self.enemy_list.__len__() > 0:
+            """Player Bullet"""
+            player_bullet = arcade.Sprite(
+                ":resources:images/space_shooter/laserBlue01.png", SPRITE_SCALING_LASER)
+            player_bullet.center_x = self.player.center_x
+            player_bullet.center_y = self.player.center_y
+            x_diff = self.enemy_list[0].center_x - player_bullet.center_x
+            y_diff = self.enemy_list[0].center_y - player_bullet.center_y
+            angle = math.atan2(y_diff, x_diff)
+            x_speed = math.cos(angle) * PLAYER_BULLET_SPEED
+            y_speed = math.sin(angle) * PLAYER_BULLET_SPEED
+            player_bullet.angle = math.degrees(angle)
 
-        player_bullet.center_x = self.player.center_x
-        player_bullet.center_y = self.player.center_y
-        x_diff = self.enemy_list[0].center_x - player_bullet.center_x
-        y_diff = self.enemy_list[0].center_y - player_bullet.center_y
-        angle = math.atan2(y_diff, x_diff)
-        x_speed = math.cos(angle) * PLAYER_BULLET_SPEED
-        y_speed = math.sin(angle) * PLAYER_BULLET_SPEED
-        player_bullet.angle = math.degrees(angle)
+            player_bullet.velocity = (x_speed, y_speed)
 
-        player_bullet.velocity = (x_speed, y_speed)
+            self.player_bullet_list.append(player_bullet)
 
-        self.player_bullet_list.append(player_bullet)
+        if self.enemy2_list.__len__() > 0:
+            player_bullet2 = arcade.Sprite(
+                ":resources:images/space_shooter/laserBlue01.png", SPRITE_SCALING_LASER)
 
-        player_bullet2 = arcade.Sprite(
-            ":resources:images/space_shooter/laserBlue01.png", SPRITE_SCALING_LASER)
+            player_bullet2.center_x = self.player.center_x
+            player_bullet2.center_y = self.player.center_y
+            x_diff = self.enemy2_list[0].center_x - player_bullet2.center_x
+            y_diff = self.enemy2_list[0].center_y - player_bullet2.center_y
+            angle = math.atan2(y_diff, x_diff)
+            x_speed = math.cos(angle) * PLAYER_BULLET_SPEED
+            y_speed = math.sin(angle) * PLAYER_BULLET_SPEED
+            player_bullet2.angle = math.degrees(angle)
 
-        player_bullet2.center_x = self.player.center_x
-        player_bullet2.center_y = self.player.center_y
-        x_diff = self.enemy2_list[0].center_x - player_bullet2.center_x
-        y_diff = self.enemy2_list[0].center_y - player_bullet2.center_y
-        angle = math.atan2(y_diff, x_diff)
-        x_speed = math.cos(angle) * PLAYER_BULLET_SPEED
-        y_speed = math.sin(angle) * PLAYER_BULLET_SPEED
-        player_bullet2.angle = math.degrees(angle)
+            player_bullet2.velocity = (x_speed, y_speed)
 
-        player_bullet2.velocity = (x_speed, y_speed)
+            self.player_bullet2_list.append(player_bullet2)
 
-        self.player_bullet2_list.append(player_bullet2)
+        if self.enemy3_list.__len__() > 0:
+            player_bullet3 = arcade.Sprite(
+                ":resources:images/space_shooter/laserBlue01.png", SPRITE_SCALING_LASER)
 
-        player_bullet3 = arcade.Sprite(
-            ":resources:images/space_shooter/laserBlue01.png", SPRITE_SCALING_LASER)
+            player_bullet3.center_x = self.player.center_x
+            player_bullet3.center_y = self.player.center_y
+            x_diff = self.enemy3_list[0].center_x - player_bullet3.center_x
+            y_diff = self.enemy3_list[0].center_y - player_bullet3.center_y
+            angle = math.atan2(y_diff, x_diff)
+            x_speed = math.cos(angle) * PLAYER_BULLET_SPEED
+            y_speed = math.sin(angle) * PLAYER_BULLET_SPEED
+            player_bullet3.angle = math.degrees(angle)
 
-        player_bullet3.center_x = self.player.center_x
-        player_bullet3.center_y = self.player.center_y
-        x_diff = self.enemy3_list[0].center_x - player_bullet3.center_x
-        y_diff = self.enemy3_list[0].center_y - player_bullet3.center_y
-        angle = math.atan2(y_diff, x_diff)
-        x_speed = math.cos(angle) * PLAYER_BULLET_SPEED
-        y_speed = math.sin(angle) * PLAYER_BULLET_SPEED
-        player_bullet3.angle = math.degrees(angle)
+            player_bullet3.velocity = (x_speed, y_speed)
 
-        player_bullet3.velocity = (x_speed, y_speed)
+            self.player_bullet3_list.append(player_bullet3)
 
-        self.player_bullet3_list.append(player_bullet3)
+        if self.enemy4_list.__len__() > 0:
+            player_bullet4 = arcade.Sprite(
+                ":resources:images/space_shooter/laserBlue01.png", SPRITE_SCALING_LASER)
 
-        player_bullet4 = arcade.Sprite(
-            ":resources:images/space_shooter/laserBlue01.png", SPRITE_SCALING_LASER)
+            player_bullet4.center_x = self.player.center_x
+            player_bullet4.center_y = self.player.center_y
+            x_diff = self.enemy4_list[0].center_x - player_bullet4.center_x
+            y_diff = self.enemy4_list[0].center_y - player_bullet4.center_y
+            angle = math.atan2(y_diff, x_diff)
+            x_speed = math.cos(angle) * PLAYER_BULLET_SPEED
+            y_speed = math.sin(angle) * PLAYER_BULLET_SPEED
+            player_bullet4.angle = math.degrees(angle)
 
-        player_bullet4.center_x = self.player.center_x
-        player_bullet4.center_y = self.player.center_y
-        x_diff = self.enemy4_list[0].center_x - player_bullet4.center_x
-        y_diff = self.enemy4_list[0].center_y - player_bullet4.center_y
-        angle = math.atan2(y_diff, x_diff)
-        x_speed = math.cos(angle) * PLAYER_BULLET_SPEED
-        y_speed = math.sin(angle) * PLAYER_BULLET_SPEED
-        player_bullet4.angle = math.degrees(angle)
+            player_bullet4.velocity = (x_speed, y_speed)
 
-        player_bullet4.velocity = (x_speed, y_speed)
-
-        self.player_bullet4_list.append(player_bullet4)
+            self.player_bullet4_list.append(player_bullet4)
 
     def setup(self):
         """Setup"""
