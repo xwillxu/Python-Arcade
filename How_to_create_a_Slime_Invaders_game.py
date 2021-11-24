@@ -24,6 +24,10 @@ class Game(arcade.Window):
         """Setup"""
 
         self.player = arcade.Sprite("images/player_2/player_stand.png")
+        self.player.center_x = 600
+        self.player.center_y = 400
+        self.player.change_x = 0
+        self.player.change_y = 0
 
     def on_update(self, delta_time: float):
         """Update"""
@@ -34,6 +38,8 @@ class Game(arcade.Window):
         """Draw window"""
 
         arcade.start_render()
+
+        self.player.draw()
 
 
 if __name__ == "__main__":
