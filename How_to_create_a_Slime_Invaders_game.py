@@ -23,9 +23,9 @@ class Game(arcade.Window):
     def setup(self):
         """Setup"""
 
-        self.player = arcade.Sprite("images/player_2/player_stand.png")
+        self.player = arcade.Sprite("images/player_2/player_stand.png", 0.5)
         self.player.center_x = 600
-        self.player.center_y = 200
+        self.player.center_y = 100
         self.player.change_x = 0
         self.player.change_y = 0
 
@@ -33,16 +33,16 @@ class Game(arcade.Window):
         """Key Press"""
 
         if key == arcade.key.LEFT:
-            self.player.change_x += -5
+            self.player.change_x = -7
         if key == arcade.key.RIGHT:
-            self.player.change_x += 5
+            self.player.change_x = 7
 
     def on_key_release(self, key, modifiers):
         """Key Release"""
         if key == arcade.key.LEFT:
-            self.player.change_x == 0
+            self.player.change_x = 0
         if key == arcade.key.RIGHT:
-            self.player.change_x == 0
+            self.player.change_x = 0
 
     def on_update(self, delta_time: float):
         """Update"""
