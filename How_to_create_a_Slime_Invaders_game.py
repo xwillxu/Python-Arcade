@@ -29,10 +29,18 @@ class Game(arcade.Window):
         self.player.change_x = 0
         self.player.change_y = 0
 
+    def on_key_press(self, key, modifiers):
+        """Key Press"""
+
+        if key == arcade.key.LEFT:
+            self.player.change_x += 5
+        if key == arcade.key.RIGHT:
+            self.player.change_x += -5
+
     def on_update(self, delta_time: float):
         """Update"""
 
-        pass
+        self.player.update()
 
     def on_draw(self):
         """Draw window"""
