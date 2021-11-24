@@ -49,6 +49,11 @@ class Game(arcade.Window):
 
         self.player.update()
 
+        if self.player.right > self.width:
+            self.player.right = self.width
+        if self.player.left < 0:
+            self.player.left = 0
+
     def on_draw(self):
         """Draw window"""
 
