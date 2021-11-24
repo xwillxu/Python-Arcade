@@ -25,7 +25,7 @@ class Game(arcade.Window):
 
         self.player = arcade.Sprite("images/player_2/player_stand.png")
         self.player.center_x = 600
-        self.player.center_y = 400
+        self.player.center_y = 200
         self.player.change_x = 0
         self.player.change_y = 0
 
