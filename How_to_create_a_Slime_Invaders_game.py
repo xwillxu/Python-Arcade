@@ -23,7 +23,7 @@ class Game(arcade.Window):
     def setup(self):
         """Setup"""
 
-        pass
+        self.player = arcade.Sprite("images/player_2/player_stand.png")
 
     def on_update(self, delta_time: float):
         """Update"""
