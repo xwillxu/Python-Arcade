@@ -33,9 +33,16 @@ class Game(arcade.Window):
         """Key Press"""
 
         if key == arcade.key.LEFT:
-            self.player.change_x += 5
-        if key == arcade.key.RIGHT:
             self.player.change_x += -5
+        if key == arcade.key.RIGHT:
+            self.player.change_x += 5
+
+    def on_key_release(self, key, modifiers):
+        """Key Release"""
+        if key == arcade.key.LEFT:
+            self.player.change_x == 0
+        if key == arcade.key.RIGHT:
+            self.player.change_x == 0
 
     def on_update(self, delta_time: float):
         """Update"""
