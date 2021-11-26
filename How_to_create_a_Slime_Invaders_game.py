@@ -44,6 +44,8 @@ class Game(arcade.Window):
     def music(self):
         """Music"""
 
+        arcade.play_sound()
+
     def shield(self):
         """Shield"""
 
