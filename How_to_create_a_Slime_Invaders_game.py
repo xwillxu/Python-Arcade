@@ -46,6 +46,20 @@ class Game(arcade.Window):
 
         self.shield_list.append(shield)
 
+        shield = arcade.Sprite("images/wood1.png", SCALE)
+
+        shield.center_x = 200
+        shield.center_y = 200
+
+        self.shield_list.append(shield)
+
+        shield = arcade.Sprite("images/wood1.png", SCALE)
+
+        shield.center_x = 1000
+        shield.center_y = 200
+
+        self.shield_list.append(shield)
+
     def on_key_press(self, key, modifiers):
         """Key Press"""
 
