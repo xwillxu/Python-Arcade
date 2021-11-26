@@ -3,10 +3,13 @@
 # Imports
 import arcade
 
-# Screen varibles
+# Screen Varibles
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Slime Invaders"
+
+# Global Varibles
+SCALE = 0.5
 
 # Classes
 
@@ -25,7 +28,7 @@ class Game(arcade.Window):
     def setup(self):
         """Setup"""
 
-        self.player = arcade.Sprite("images/player_2/player_stand.png", 0.5)
+        self.player = arcade.Sprite("images/player_2/player_stand.png", SCALE)
         self.player.center_x = 600
         self.player.center_y = 100
         self.player.change_x = 0
@@ -36,7 +39,7 @@ class Game(arcade.Window):
     def shield(self):
         """Shield"""
 
-        shield = arcade.Sprite("images/wood1.png", 0.5)
+        shield = arcade.Sprite("images/wood1.png", SCALE)
 
         shield.center_x = 600
         shield.center_y = 200
