@@ -31,13 +31,15 @@ class Game(arcade.Window):
         self.player.change_x = 0
         self.player.change_y = 0
 
+        self.shield()
+
     def shield(self):
         """Shield"""
 
-        shield = arcade.Sprite("images/wood1.png")
+        shield = arcade.Sprite("images/wood1.png", 0.5)
 
         shield.center_x = 600
-        shield.center_y = 400
+        shield.center_y = 200
 
         self.shield_list.append(shield)
 
