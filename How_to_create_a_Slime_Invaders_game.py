@@ -29,6 +29,14 @@ class Game(arcade.Window):
         self.player.change_x = 0
         self.player.change_y = 0
 
+    def shield(self):
+        """Shield"""
+
+        shield = arcade.Sprite("images/wood1.png")
+
+        shield.center_x = 600
+        shield.center_y = 400
+
     def on_key_press(self, key, modifiers):
         """Key Press"""
 
