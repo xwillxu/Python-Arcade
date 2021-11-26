@@ -34,6 +34,8 @@ class Game(arcade.Window):
         self.player.change_x = 0
         self.player.change_y = 0
 
+        arcade.load_sound()
+
         self.shield()
 
         self.music()
