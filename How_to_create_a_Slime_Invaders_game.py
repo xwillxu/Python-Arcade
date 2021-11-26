@@ -34,7 +34,8 @@ class Game(arcade.Window):
         self.player.change_x = 0
         self.player.change_y = 0
 
-        arcade.load_sound()
+        arcade.load_sound(
+            "RealPython/materials/arcade-a-primer/sounds/Apoxode_-_Electric_1.wav")
 
         self.shield()
 
