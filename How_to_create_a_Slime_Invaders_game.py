@@ -20,6 +20,8 @@ class Game(arcade.Window):
 
         arcade.set_background_color(arcade.color.AMAZON)
 
+        self.shield_list = arcade.SpriteList()
+
     def setup(self):
         """Setup"""
 
@@ -36,6 +38,8 @@ class Game(arcade.Window):
 
         shield.center_x = 600
         shield.center_y = 400
+
+        self.shield_list.append(shield)
 
     def on_key_press(self, key, modifiers):
         """Key Press"""
@@ -68,6 +72,7 @@ class Game(arcade.Window):
         arcade.start_render()
 
         self.player.draw()
+        self.shield_list.draw()
 
 
 if __name__ == "__main__":
