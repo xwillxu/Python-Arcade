@@ -39,9 +39,9 @@ class Game(arcade.Window):
 
         self.shield()
 
-        self.music()
+        self.music(0)
 
-    def music(self):
+    def music(self, delta_time: float):
         """Music"""
 
         arcade.play_sound(self.background_music)
