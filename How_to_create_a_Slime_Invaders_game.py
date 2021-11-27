@@ -51,6 +51,9 @@ class Game(arcade.Window):
     def bullet(self):
         """Bullet"""
 
+        player_bullet = arcade.Sprite(
+            ":resources:images/space_shooter/laserBlue01.png", SCALE)
+
     def shield(self):
         """Shield"""
 
