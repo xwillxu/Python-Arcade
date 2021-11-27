@@ -54,6 +54,9 @@ class Game(arcade.Window):
         player_bullet = arcade.Sprite(
             ":resources:images/space_shooter/laserBlue01.png", SCALE)
 
+        player_bullet.center_x = self.player.center_x
+        player_bullet.center_y = self.player.center_y
+
     def shield(self):
         """Shield"""
 
