@@ -41,6 +41,8 @@ class Game(arcade.Window):
 
         self.music(0)
 
+        arcade.schedule(self.music, 15.5)
+
     def music(self, delta_time: float):
         """Music"""
 
