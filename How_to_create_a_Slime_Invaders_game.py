@@ -57,6 +57,8 @@ class Game(arcade.Window):
         player_bullet.center_x = self.player.center_x
         player_bullet.center_y = self.player.center_y
 
+        player_bullet.velocity = 5
+
     def shield(self):
         """Shield"""
 
