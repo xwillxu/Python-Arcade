@@ -48,6 +48,9 @@ class Game(arcade.Window):
 
         arcade.play_sound(self.background_music)
 
+    def bullet(self):
+        """Bullet"""
+
     def shield(self):
         """Shield"""
 
