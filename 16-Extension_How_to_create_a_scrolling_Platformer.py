@@ -6,7 +6,7 @@ import arcade
 # Constants
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 650
-SCREEN_TITLE = "Platformer"
+SCREEN_TITLE = "Platformer Extention"
 
 # Constants used to scale our sprites from their original size
 CHARACTER_SCALING = 1
@@ -211,8 +211,8 @@ class MyGame(arcade.Window):
             arcade.play_sound(self.game_over)
             self.hit = True
 
-        print(self.end_of_map)
-        print(self.player_sprite.center_x)
+        # print(self.end_of_map)
+        # print(self.player_sprite.center_x)
         if self.player_sprite.center_x >= self.end_of_map:
             self.level += 1
             self.setup(self.level)
