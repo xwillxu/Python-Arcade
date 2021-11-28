@@ -10,6 +10,11 @@ SCREEN_TITLE = "Slime Invaders"
 
 # Global Varibles
 SCALE = 0.5
+ENEMY_VERTICAL_MARGIN = 15
+RIGHT_ENEMY_BORDER = SCREEN_WIDTH - ENEMY_VERTICAL_MARGIN
+LEFT_ENEMY_BORDER = ENEMY_VERTICAL_MARGIN
+ENEMY_SPEED = 2
+ENEMY_MOVE_DOWN_AMOUNT = 30
 
 # Classes
 
@@ -36,6 +41,9 @@ class Game(arcade.Window):
 
         self.background_music = arcade.load_sound(
             "RealPython/materials/arcade-a-primer/sounds/Apoxode_-_Electric_1.wav")
+
+        self.enemy_textures = None
+        self.enemy_change_x = -ENEMY_SPEED
 
         self.shield()
 
@@ -78,7 +86,32 @@ class Game(arcade.Window):
     def slime(self):
         """Slime"""
 
-        slime =
+        # Move the enemy vertically
+        for enemy in self.enemy_list:
+            enemy.center_x += self.enemy_change_x
+
+        # Check every enemy to see if any hit the edge. If so, reverse the
+        # direction and flag to move down.
+        move_down = False
+        for enemy in self.enemy_list:
+            if enemy.right > RIGHT_ENEMY_BORDER and self.enemy_change_x > 0:
+                self.enemy_change_x *= -1
+                move_down = True
+            if enemy.left < LEFT_ENEMY_BORDER and self.enemy_change_x < 0:
+                self.enemy_change_x *= -1
+                move_down = True
+
+        # Did we hit the edge above, and need to move t he enemy down?
+        if move_down:
+            # Yes
+            for enemy in self.enemy_list:
+                # Move enemy down
+                enemy.center_y -= ENEMY_MOVE_DOWN_AMOUNT
+                # Flip texture on enemy so it faces the other way
+                if self.enemy_change_x > 0:
+                    enemy.texture = self.enemy_textures[0]
+                else:
+                    enemy.texture = self.enemy_textures[1]
 
     def on_key_press(self, key, modifiers):
         """Key Press"""
