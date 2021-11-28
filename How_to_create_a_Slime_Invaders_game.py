@@ -23,7 +23,7 @@ class Game(arcade.Window):
 
         arcade.set_background_color(arcade.color.AMAZON)
 
-        self.shield_list = arcade.SpriteList()
+        self.shield_list = arcade.SpriteList(is_static=True)
 
     def setup(self):
         """Setup"""
@@ -59,29 +59,26 @@ class Game(arcade.Window):
 
         player_bullet.velocity = 5
 
-    def shield(self):
+    def shield(self, x_start):
         """Shield"""
 
-        shield = arcade.Sprite("images/wood1.png", SCALE)
+        shield_block_width = 5
+        shield_block_height = 10
+        shield_width_count = 20
+        shield_height_count = 5
+        y_start = 150
+        for x in range(x_start, x_start + shield_width_count * shield_block_width, shield_block_width):
+            for y in range(y_start, y_start + shield_height_count * shield_block_height, shield_block_height):
+                shield_sprite = arcade.SpriteSolidColor(
+                    shield_block_width, shield_block_height, arcade.color.WHITE)
+                shield_sprite.center_x = x
+                shield_sprite.center_y = y
+                self.shield_list.append(shield_sprite)
 
-        shield.center_x = 600
-        shield.center_y = 200
+    def slime(self):
+        """Slime"""
 
-        self.shield_list.append(shield)
-
-        shield = arcade.Sprite("images/wood1.png", SCALE)
-
-        shield.center_x = 200
-        shield.center_y = 200
-
-        self.shield_list.append(shield)
-
-        shield = arcade.Sprite("images/wood1.png", SCALE)
-
-        shield.center_x = 1000
-        shield.center_y = 200
-
-        self.shield_list.append(shield)
+        slime =
 
     def on_key_press(self, key, modifiers):
         """Key Press"""
