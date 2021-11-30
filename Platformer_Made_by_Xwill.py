@@ -198,7 +198,7 @@ class MyGame(arcade.Window):
         danger_hit_list = arcade.check_for_collision_with_list(
             self.player_sprite, self.scene.get_sprite_list("Dangers"))
 
-        danger_hit_list = arcade.check_for_collision_with_list(
+        danger2_hit_list = arcade.check_for_collision_with_list(
             self.player_sprite, self.scene.get_sprite_list("Moving Sprites"))
 
         # Loop through each coin we hit (if any) and remove it
