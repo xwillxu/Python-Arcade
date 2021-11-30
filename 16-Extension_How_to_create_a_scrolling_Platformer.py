@@ -52,7 +52,7 @@ class MyGame(arcade.Window):
         # Keep track of the score
         self.score = 0
 
-        self.level = 1
+        self.level = 3
 
         self.end_of_map = 0
 
