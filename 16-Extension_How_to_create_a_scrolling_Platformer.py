@@ -198,6 +198,13 @@ class MyGame(arcade.Window):
         danger_hit_list = arcade.check_for_collision_with_list(
             self.player_sprite, self.scene.get_sprite_list("Dangers"))
 
+        moving_sprite_hit_list = arcade.check_for_collision_with_list(
+            self.player_sprite, self.scene.get_sprite_list("Moving_Sprites"))
+
+        for sprite in moving_sprite_hit_list:
+            sprite.change_x == 10
+            sprite.change_x == -10
+
         # Loop through each coin we hit (if any) and remove it
         for coin in coin_hit_list:
             # Remove the coin
