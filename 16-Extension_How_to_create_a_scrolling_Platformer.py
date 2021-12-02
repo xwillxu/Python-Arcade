@@ -119,6 +119,11 @@ class MyGame(arcade.Window):
                 "Platforms", ), GRAVITY
         )
 
+        self.enemy_list = self.tile_map.sprite_lists["Enemies"]
+        print(self.enemy_list.__len__())
+        for sprite in self.enemy_list:
+            sprite.change_x = -1
+
     def on_draw(self):
         """Render the screen."""
 
@@ -130,6 +135,8 @@ class MyGame(arcade.Window):
 
         # Draw our Scene
         self.scene.draw()
+
+        self.enemy_list.draw()
 
         # Activate the GUI camera before drawing GUI elements
         self.gui_camera.use()
@@ -183,6 +190,7 @@ class MyGame(arcade.Window):
 
         # Move the player with the physics engine
         self.physics_engine.update()
+        self.enemy_list.update()
 
         if self.hit:
             self.hit_timer += delta_time
@@ -197,13 +205,6 @@ class MyGame(arcade.Window):
 
         danger_hit_list = arcade.check_for_collision_with_list(
             self.player_sprite, self.scene.get_sprite_list("Dangers"))
-
-        moving_sprite_hit_list = arcade.check_for_collision_with_list(
-            self.player_sprite, self.scene.get_sprite_list("Moving_Sprites"))
-
-        for sprite in moving_sprite_hit_list:
-            sprite.change_x == 10
-            sprite.change_x == -10
 
         # Loop through each coin we hit (if any) and remove it
         for coin in coin_hit_list:
