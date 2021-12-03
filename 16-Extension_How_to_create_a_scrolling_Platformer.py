@@ -122,7 +122,7 @@ class MyGame(arcade.Window):
         self.enemy_list = self.tile_map.sprite_lists["Enemies"]
         print(self.enemy_list.__len__())
         for sprite in self.enemy_list:
-            sprite.change_x = -1
+            sprite.change_x = -10
 
     def on_draw(self):
         """Render the screen."""
