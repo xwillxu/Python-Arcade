@@ -57,7 +57,7 @@ class MyGame(arcade.Window):
 
         self.end_of_map = 0
 
-        self.enemy_list = arcade.SpriteList
+        self.enemy_list = arcade.SpriteList()
 
         # Load sounds
         self.collect_coin_sound = arcade.load_sound(
