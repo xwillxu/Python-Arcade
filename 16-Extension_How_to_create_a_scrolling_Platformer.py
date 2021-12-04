@@ -57,6 +57,8 @@ class MyGame(arcade.Window):
 
         self.end_of_map = 0
 
+        self.enemy_list = arcade.SpriteList
+
         # Load sounds
         self.collect_coin_sound = arcade.load_sound(
             ":resources:sounds/coin1.wav")
@@ -70,7 +72,7 @@ class MyGame(arcade.Window):
         """Set up the game here. Call this function to restart the game."""
 
         enemy = arcade.Sprite(
-            ":resources:images/enemies/wormGreen.png", SPRITE_SCALING)
+            ":resources:images/enemies/wormGreen.png", 0.5)
 
         enemy.bottom = SPRITE_SIZE * 4
         enemy.left = SPRITE_SIZE * 4
