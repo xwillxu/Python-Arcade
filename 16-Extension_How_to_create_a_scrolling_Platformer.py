@@ -77,6 +77,9 @@ class MyGame(arcade.Window):
         enemy.bottom = SPRITE_SIZE * 4
         enemy.left = SPRITE_SIZE * 4
 
+        enemy.center_x = 600
+        enemy.center_y = 400
+
         # Set boundaries on the left/right the enemy can't cross
         enemy.boundary_right = SPRITE_SIZE * 8
         enemy.boundary_left = SPRITE_SIZE * 3
