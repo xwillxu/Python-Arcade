@@ -68,6 +68,18 @@ class MyGame(arcade.Window):
     def setup(self, level):
         """Set up the game here. Call this function to restart the game."""
 
+        enemy = arcade.Sprite(
+            ":resources:images/enemies/wormGreen.png", SPRITE_SCALING)
+
+        enemy.bottom = SPRITE_SIZE * 4
+        enemy.left = SPRITE_SIZE * 4
+
+        # Set boundaries on the left/right the enemy can't cross
+        enemy.boundary_right = SPRITE_SIZE * 8
+        enemy.boundary_left = SPRITE_SIZE * 3
+        enemy.change_x = 2
+        self.enemy_list.append(enemy)
+
         # Setup the Cameras
         self.camera = arcade.Camera(self.width, self.height)
         self.gui_camera = arcade.Camera(self.width, self.height)
