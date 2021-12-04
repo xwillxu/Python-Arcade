@@ -155,6 +155,25 @@ class MyGame(arcade.Window):
             )
             self.engine_list.append(engine)
 
+        for i in range(self.enemy_count):
+            bee = arcade.Sprite(
+                "image/enemies/bee.png", 0.5)
+
+            bee.bottom = SPRITE_SIZE * 4
+            bee.left = SPRITE_SIZE * 4
+
+            initial_x = self.enemy_offset + i * 1000
+            fly_range = 400
+            bee.center_x = initial_x
+            bee.center_y = 400
+
+            # Set boundaries on the left/right the enemy can't cross
+            bee.boundary_right = initial_x + fly_range
+            bee.boundary_left = initial_x - fly_range
+            bee.change_x = 2
+
+            self.enemy_list.append(bee)
+
     def on_draw(self):
         """Render the screen."""
 
