@@ -58,6 +58,7 @@ class MyGame(arcade.Window):
         self.end_of_map = 0
 
         self.enemy_list = arcade.SpriteList()
+        self.engine_list = []
 
         # Load sounds
         self.collect_coin_sound = arcade.load_sound(
@@ -70,21 +71,6 @@ class MyGame(arcade.Window):
 
     def setup(self, level):
         """Set up the game here. Call this function to restart the game."""
-
-        enemy = arcade.Sprite(
-            ":resources:images/enemies/wormGreen.png", 0.5)
-
-        enemy.bottom = SPRITE_SIZE * 4
-        enemy.left = SPRITE_SIZE * 4
-
-        enemy.center_x = 600
-        enemy.center_y = 400
-
-        # Set boundaries on the left/right the enemy can't cross
-        enemy.boundary_right = SPRITE_SIZE * 8
-        enemy.boundary_left = SPRITE_SIZE * 3
-        enemy.change_x = 2
-        self.enemy_list.append(enemy)
 
         # Setup the Cameras
         self.camera = arcade.Camera(self.width, self.height)
@@ -137,10 +123,37 @@ class MyGame(arcade.Window):
                 "Platforms", ), GRAVITY
         )
 
-        self.enemy_list = self.tile_map.sprite_lists["Enemies"]
-        print(self.enemy_list.__len__())
-        for sprite in self.enemy_list:
-            sprite.change_x = -10
+        # self.enemy_list = self.tile_map.sprite_lists["Enemies"]
+        # print(self.enemy_list.__len__())
+        # for sprite in self.enemy_list:
+        #     sprite.change_x = -10
+
+        self.enemy_count = 10
+        self.enemy_offset = 600
+        for i in range(self.enemy_count):
+            enemy = arcade.Sprite(
+                ":resources:images/enemies/wormGreen.png", 0.5)
+
+            enemy.bottom = SPRITE_SIZE * 4
+            enemy.left = SPRITE_SIZE * 4
+
+            initial_x = self.enemy_offset + i * 1000
+            crawl_range = 400
+            enemy.center_x = initial_x
+            enemy.center_y = 400
+
+            # Set boundaries on the left/right the enemy can't cross
+            enemy.boundary_right = initial_x + crawl_range
+            enemy.boundary_left = initial_x - crawl_range
+            enemy.change_x = 2
+            self.enemy_list.append(enemy)
+
+            # Create the 'physics engine for enemy'
+            engine = arcade.PhysicsEnginePlatformer(
+                enemy, self.scene.get_sprite_list(
+                    "Platforms", ), GRAVITY
+            )
+            self.engine_list.append(engine)
 
     def on_draw(self):
         """Render the screen."""
@@ -208,6 +221,10 @@ class MyGame(arcade.Window):
 
         # Move the player with the physics engine
         self.physics_engine.update()
+
+        for engine in self.engine_list:
+            engine.update()
+
         self.enemy_list.update()
 
         if self.hit:
