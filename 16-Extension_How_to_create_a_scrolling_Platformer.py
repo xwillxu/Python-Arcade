@@ -131,26 +131,26 @@ class MyGame(arcade.Window):
         self.enemy_count = 10
         self.enemy_offset = 600
         for i in range(self.enemy_count):
-            enemy = arcade.Sprite(
+            worm = arcade.Sprite(
                 ":resources:images/enemies/wormGreen.png", 0.5)
 
-            enemy.bottom = SPRITE_SIZE * 4
-            enemy.left = SPRITE_SIZE * 4
+            worm.bottom = SPRITE_SIZE * 4
+            worm.left = SPRITE_SIZE * 4
 
             initial_x = self.enemy_offset + i * 1000
             crawl_range = 400
-            enemy.center_x = initial_x
-            enemy.center_y = 400
+            worm.center_x = initial_x
+            worm.center_y = 400
 
             # Set boundaries on the left/right the enemy can't cross
-            enemy.boundary_right = initial_x + crawl_range
-            enemy.boundary_left = initial_x - crawl_range
-            enemy.change_x = 2
-            self.enemy_list.append(enemy)
+            worm.boundary_right = initial_x + crawl_range
+            worm.boundary_left = initial_x - crawl_range
+            worm.change_x = 2
+            self.enemy_list.append(worm)
 
             # Create the 'physics engine for enemy'
             engine = arcade.PhysicsEnginePlatformer(
-                enemy, self.scene.get_sprite_list(
+                worm, self.scene.get_sprite_list(
                     "Platforms", ), GRAVITY
             )
             self.engine_list.append(engine)
