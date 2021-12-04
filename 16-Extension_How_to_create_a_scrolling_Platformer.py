@@ -163,14 +163,18 @@ class MyGame(arcade.Window):
             bee.left = SPRITE_SIZE * 4
 
             initial_x = self.enemy_offset + i * 1000
+            initial_y = self.enemy_offset + i * 1000
             fly_range = 400
             bee.center_x = initial_x
-            bee.center_y = 400
+            bee.center_y = initial_y
 
             # Set boundaries on the left/right the enemy can't cross
             bee.boundary_right = initial_x + fly_range
             bee.boundary_left = initial_x - fly_range
+            bee.boundary_bottom = initial_y - fly_range
+            bee.boundary_top = initial_y + fly_range
             bee.change_x = 2
+            bee.change_y = 2
 
             self.enemy_list.append(bee)
 
@@ -256,12 +260,20 @@ class MyGame(arcade.Window):
 
         # Check each enemy
         for enemy in self.enemy_list:
+            # checking x boundary
             # If the enemy hit the left boundary, reverse
             if enemy.boundary_left is not None and enemy.left < enemy.boundary_left:
                 enemy.change_x *= -1
             # If the enemy hit the right boundary, reverse
             elif enemy.boundary_right is not None and enemy.right > enemy.boundary_right:
                 enemy.change_x *= -1
+
+            # checking y boundary
+            if enemy.boundary_top is not None and enemy.top > enemy.boundary_top:
+                enemy.change_y *= -1
+            # If the enemy hit the right boundary, reverse
+            elif enemy.boundary_bottom is not None and enemy.bottom < enemy.boundary_bottom:
+                enemy.change_y *= -1
 
         # See if we hit any coins
         coin_hit_list = arcade.check_for_collision_with_list(
