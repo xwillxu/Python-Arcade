@@ -157,7 +157,7 @@ class MyGame(arcade.Window):
 
         for i in range(self.enemy_count):
             bee = arcade.Sprite(
-                "image/enemies/bee.png", 0.5)
+                "images/enemies/bee.png", 0.5)
 
             bee.bottom = SPRITE_SIZE * 4
             bee.left = SPRITE_SIZE * 4
