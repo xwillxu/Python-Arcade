@@ -187,6 +187,11 @@ class MyGame(arcade.Window):
 
             self.enemy_list.append(bee)
 
+    def bullet(self):
+        """Bullet"""
+
+        bullet = arcade.Sprite("")
+
     def on_draw(self):
         """Render the screen."""
 
