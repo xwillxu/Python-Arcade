@@ -16,7 +16,7 @@ SPRITE_PIXEL_SIZE = 128
 GRID_PIXEL_SIZE = (SPRITE_PIXEL_SIZE * TILE_SCALING)
 
 # Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 10
+PLAYER_MOVEMENT_SPEED = 15
 GRAVITY = 1
 PLAYER_JUMP_SPEED = 20
 SPRITE_SIZE = 64
@@ -101,6 +101,11 @@ class MyGame(arcade.Window):
         self.hit_timer = 0.0
         self.hit = False
 
+        # Enemy Setup
+
+        self.enemy_count = 11
+        self.enemy_offset = 600
+
         # Create the Player Sprite lists
         player_list = arcade.SpriteList()
 
@@ -128,8 +133,8 @@ class MyGame(arcade.Window):
         # for sprite in self.enemy_list:
         #     sprite.change_x = -10
 
-        self.enemy_count = 11
-        self.enemy_offset = 600
+    def enemy(self):
+
         for i in range(self.enemy_count):
             slime = arcade.Sprite(
                 "images/enemies/slimeBlue.png", 0.5)
@@ -147,7 +152,7 @@ class MyGame(arcade.Window):
             # Set boundaries on the left/right the enemy can't cross
             slime.boundary_right = initial_x + crawl_range
             slime.boundary_left = initial_x - crawl_range
-            slime.change_x = 5
+            slime.change_x = 4
 
             print("center x", slime.center_x, "boundary right",
                   slime.boundary_right, "boundary left", slime.boundary_left)
