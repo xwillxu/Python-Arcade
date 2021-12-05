@@ -140,7 +140,7 @@ class MyGame(arcade.Window):
             initial_x = self.enemy_offset + i * 1000
             crawl_range = 400
             worm.center_x = initial_x
-            worm.center_y = 400
+            worm.center_y = 1200
 
             # Set boundaries on the left/right the enemy can't cross
             worm.boundary_right = initial_x + crawl_range
