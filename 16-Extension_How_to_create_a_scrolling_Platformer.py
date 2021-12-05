@@ -163,16 +163,17 @@ class MyGame(arcade.Window):
             bee.left = SPRITE_SIZE * 4
 
             initial_x = self.enemy_offset + i * 1000
-            initial_y = self.enemy_offset + i * 1000
-            fly_range = 400
+            initial_y = 620
+            fly_range_x = 400
+            fly_range_y = 50
             bee.center_x = initial_x
             bee.center_y = initial_y
 
             # Set boundaries on the left/right the enemy can't cross
-            bee.boundary_right = initial_x + fly_range
-            bee.boundary_left = initial_x - fly_range
-            bee.boundary_bottom = initial_y - fly_range
-            bee.boundary_top = initial_y + fly_range
+            bee.boundary_right = initial_x + fly_range_x
+            bee.boundary_left = initial_x - fly_range_x
+            bee.boundary_bottom = initial_y - fly_range_y
+            bee.boundary_top = initial_y + fly_range_y
             bee.change_x = 2
             bee.change_y = 2
 
