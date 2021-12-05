@@ -265,6 +265,11 @@ class MyGame(arcade.Window):
 
         self.enemy_list.update()
 
+        for sprite in self.enemy_lists:
+            if self.player_sprite.collides_with_sprite(sprite):
+                sprite.remove_from_sprite_lists()
+                arcade.close_window()
+
         # Check each enemy
         for enemy in self.enemy_list:
             # checking x boundary
