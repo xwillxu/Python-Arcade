@@ -128,13 +128,10 @@ class MyGame(arcade.Window):
                 "Platforms", ), GRAVITY
         )
 
-        # self.enemy_list = self.tile_map.sprite_lists["Enemies"]
-        # print(self.enemy_list.__len__())
-        # for sprite in self.enemy_list:
-        #     sprite.change_x = -10
+        self.enemy()
 
     def enemy(self):
-
+        """Enemies"""
         for i in range(self.enemy_count):
             slime = arcade.Sprite(
                 "images/enemies/slimeBlue.png", 0.5)
