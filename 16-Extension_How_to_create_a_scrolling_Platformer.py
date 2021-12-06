@@ -23,7 +23,7 @@ GRAVITY = 1
 PLAYER_JUMP_SPEED = 20
 SPRITE_SIZE = 64
 
-BULLET_SPEED = 5
+BULLET_SPEED = 30
 
 
 class MyGame(arcade.Window):
@@ -65,6 +65,7 @@ class MyGame(arcade.Window):
         self.end_of_map = 0
 
         self.enemy_list = arcade.SpriteList()
+        self.bullet_list = arcade.SpriteList()
         self.engine_list = []
 
         # Load sounds
@@ -207,6 +208,7 @@ class MyGame(arcade.Window):
         self.scene.draw()
 
         self.enemy_list.draw()
+        self.bullet_list.draw()
 
         # Activate the GUI camera before drawing GUI elements
         self.gui_camera.use()
@@ -246,7 +248,7 @@ class MyGame(arcade.Window):
 
         # Create a bullet
         bullet = arcade.Sprite(
-            "RealPython/materials/arcade-a-primer/images/missile.png", 1)
+            "RealPython/materials/arcade-a-primer/images/missile.png", 2, 0, 0, 0, 0, 0, 0, 1, 1, True)
 
         # Position the bullet at the player's current location
         start_x = self.player_sprite.center_x
@@ -299,6 +301,8 @@ class MyGame(arcade.Window):
 
         # Move the player with the physics engine
         self.physics_engine.update()
+
+        self.bullet_list.update()
 
         for engine in self.engine_list:
             engine.update()
