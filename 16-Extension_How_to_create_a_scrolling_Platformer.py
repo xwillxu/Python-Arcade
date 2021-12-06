@@ -195,7 +195,7 @@ class MyGame(arcade.Window):
 
             self.enemy_list.append(bee)
 
-    def bullet(self):
+    def bullet(self, x, y):
         """Bullet"""
 
         # Create a bullet
@@ -211,8 +211,8 @@ class MyGame(arcade.Window):
         # Get from the mouse the destination location for the bullet
         # IMPORTANT! If you have a scrolling screen, you will also need
         # to add in self.view_bottom and self.view_left.
-        dest_x = x
-        dest_y = y
+        dest_x = x + self.camera.position.x
+        dest_y = y + self.camera.position.y
 
         # Do math to calculate how to get the bullet to the destination.
         # Calculation the angle in radians between the start points
@@ -224,12 +224,18 @@ class MyGame(arcade.Window):
         # Angle the bullet sprite so it doesn't look like it is flying
         # sideways.
         bullet.angle = math.degrees(angle)
+        # print(x_diff, 'xdiff', x, self.player_sprite.center_x)
+        # print(y_diff, 'ydiff')
         # print(f"Bullet angle: {bullet.angle:.2f}")
+
+        # print(self.camera.position, 'camera position')
 
         # Taking into account the angle, calculate our change_x
         # and change_y. Velocity is how fast the bullet travels.
         bullet.change_x = math.cos(angle) * BULLET_SPEED
         bullet.change_y = math.sin(angle) * BULLET_SPEED
+        # print(f"Bullet change x: {bullet.change_x:.2f}")
+        # print(f"Bullet change y: {bullet.change_y:.2f}")
 
         # Add the bullet to the appropriate lists
         self.bullet_list.append(bullet)
@@ -285,7 +291,7 @@ class MyGame(arcade.Window):
     def on_mouse_press(self, x, y, button, modifiers):
         """ Called whenever the mouse button is clicked. """
 
-        self.bullet()
+        self.bullet(x, y)
 
     def center_camera_to_player(self):
         screen_center_x = self.player_sprite.center_x - \
@@ -328,9 +334,11 @@ class MyGame(arcade.Window):
                 arcade.close_window()
 
         for sprite in self.enemy_list:
-            if bullet.collides_with_sprite(sprite):
-                sprite.remove_from_sprite_lists()
-                arcade.close_window()
+            for bullet in self.bullet_list:
+                if bullet.collides_with_sprite(sprite):
+                    sprite.remove_from_sprite_lists()
+                    bullet.remove_from_sprite_lists()
+                    self.score += 10
 
         # Check each enemy
         for enemy in self.enemy_list:
