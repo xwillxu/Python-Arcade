@@ -160,38 +160,38 @@ class MyGame(arcade.Window):
             slime.change_x = 10
 
             # print("center x", slime.center_x, "boundary right",
-            slime.boundary_right, "boundary left", slime.boundary_left)
+            # slime.boundary_right, "boundary left", slime.boundary_left)
 
             self.enemy_list.append(slime)
 
             # Create the 'physics engine for enemy'
-            engine=arcade.PhysicsEnginePlatformer(
+            engine = arcade.PhysicsEnginePlatformer(
                 slime, self.scene.get_sprite_list(
                     "Platforms", ), GRAVITY
             )
             self.engine_list.append(engine)
 
         for i in range(self.enemy_count):
-            bee=arcade.Sprite(
+            bee = arcade.Sprite(
                 "images/enemies/bee.png", 0.5)
 
-            bee.bottom=SPRITE_SIZE * 4
-            bee.left=SPRITE_SIZE * 4
+            bee.bottom = SPRITE_SIZE * 4
+            bee.left = SPRITE_SIZE * 4
 
-            initial_x=self.enemy_offset + i * 1000
-            initial_y=620
-            fly_range_x=400
-            fly_range_y=50
-            bee.center_x=initial_x
-            bee.center_y=initial_y
+            initial_x = self.enemy_offset + i * 1000
+            initial_y = 620
+            fly_range_x = 400
+            fly_range_y = 50
+            bee.center_x = initial_x
+            bee.center_y = initial_y
 
             # Set boundaries on the left/right the enemy can't cross
-            bee.boundary_right=initial_x + fly_range_x
-            bee.boundary_left=initial_x - fly_range_x
-            bee.boundary_bottom=initial_y - fly_range_y
-            bee.boundary_top=initial_y + fly_range_y
-            bee.change_x=5
-            bee.change_y=5
+            bee.boundary_right = initial_x + fly_range_x
+            bee.boundary_left = initial_x - fly_range_x
+            bee.boundary_bottom = initial_y - fly_range_y
+            bee.boundary_top = initial_y + fly_range_y
+            bee.change_x = 5
+            bee.change_y = 5
 
             self.enemy_list.append(bee)
 
@@ -199,31 +199,31 @@ class MyGame(arcade.Window):
         """Bullet"""
 
         # Create a bullet
-        bullet=arcade.Sprite(
+        bullet = arcade.Sprite(
             "RealPython/materials/arcade-a-primer/images/missile.png", 2, 0, 0, 0, 0, 0, 0, 1, 1, True)
 
         # Position the bullet at the player's current location
-        start_x=self.player_sprite.center_x
-        start_y=self.player_sprite.center_y
-        bullet.center_x=start_x
-        bullet.center_y=start_y
+        start_x = self.player_sprite.center_x
+        start_y = self.player_sprite.center_y
+        bullet.center_x = start_x
+        bullet.center_y = start_y
 
         # Get from the mouse the destination location for the bullet
         # IMPORTANT! If you have a scrolling screen, you will also need
         # to add in self.view_bottom and self.view_left.
-        dest_x=x + self.camera.position.x
-        dest_y=y + self.camera.position.y
+        dest_x = x + self.camera.position.x
+        dest_y = y + self.camera.position.y
 
         # Do math to calculate how to get the bullet to the destination.
         # Calculation the angle in radians between the start points
         # and end points. This is the angle the bullet will travel.
-        x_diff=dest_x - start_x
-        y_diff=dest_y - start_y
-        angle=math.atan2(y_diff, x_diff)
+        x_diff = dest_x - start_x
+        y_diff = dest_y - start_y
+        angle = math.atan2(y_diff, x_diff)
 
         # Angle the bullet sprite so it doesn't look like it is flying
         # sideways.
-        bullet.angle=math.degrees(angle)
+        bullet.angle = math.degrees(angle)
         # print(x_diff, 'xdiff', x, self.player_sprite.center_x)
         # print(y_diff, 'ydiff')
         # print(f"Bullet angle: {bullet.angle:.2f}")
@@ -232,8 +232,8 @@ class MyGame(arcade.Window):
 
         # Taking into account the angle, calculate our change_x
         # and change_y. Velocity is how fast the bullet travels.
-        bullet.change_x=math.cos(angle) * BULLET_SPEED
-        bullet.change_y=math.sin(angle) * BULLET_SPEED
+        bullet.change_x = math.cos(angle) * BULLET_SPEED
+        bullet.change_y = math.sin(angle) * BULLET_SPEED
         # print(f"Bullet change x: {bullet.change_x:.2f}")
         # print(f"Bullet change y: {bullet.change_y:.2f}")
 
@@ -259,7 +259,7 @@ class MyGame(arcade.Window):
         self.gui_camera.use()
 
         # Draw our score on the screen, scrolling it with the viewport
-        score_text=f"Score: {self.score}"
+        score_text = f"Score: {self.score}"
         arcade.draw_text(
             score_text,
             10,
@@ -273,20 +273,20 @@ class MyGame(arcade.Window):
 
         if key == arcade.key.UP or key == arcade.key.W:
             if self.physics_engine.can_jump():
-                self.player_sprite.change_y=PLAYER_JUMP_SPEED
+                self.player_sprite.change_y = PLAYER_JUMP_SPEED
                 arcade.play_sound(self.jump_sound)
         elif key == arcade.key.LEFT or key == arcade.key.A:
-            self.player_sprite.change_x=-PLAYER_MOVEMENT_SPEED
+            self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
         elif key == arcade.key.RIGHT or key == arcade.key.D:
-            self.player_sprite.change_x=PLAYER_MOVEMENT_SPEED
+            self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
 
         if key == arcade.key.LEFT or key == arcade.key.A:
-            self.player_sprite.change_x=0
+            self.player_sprite.change_x = 0
         elif key == arcade.key.RIGHT or key == arcade.key.D:
-            self.player_sprite.change_x=0
+            self.player_sprite.change_x = 0
 
     def on_mouse_press(self, x, y, button, modifiers):
         """ Called whenever the mouse button is clicked. """
@@ -294,16 +294,18 @@ class MyGame(arcade.Window):
         self.bullet(x, y)
 
     def center_camera_to_player(self):
-        screen_center_x=self.player_sprite.center_x -
-            (self.camera.viewport_width / 2)
-        screen_center_y=self.player_sprite.center_y - (
+        screen_center_x = self.player_sprite.center_x - (
+            self.camera.viewport_width / 2
+        )
+
+        screen_center_y = self.player_sprite.center_y - (
             self.camera.viewport_height / 2
         )
         if screen_center_x < 0:
-            screen_center_x=0
+            screen_center_x = 0
         if screen_center_y < 0:
-            screen_center_y=0
-        player_centered=screen_center_x, screen_center_y
+            screen_center_y = 0
+        player_centered = screen_center_x, screen_center_y
 
         self.camera.move_to(player_centered)
 
@@ -358,11 +360,11 @@ class MyGame(arcade.Window):
                 enemy.change_y *= -1
 
         # See if we hit any coins
-        coin_hit_list=arcade.check_for_collision_with_list(
+        coin_hit_list = arcade.check_for_collision_with_list(
             self.player_sprite, self.scene.get_sprite_list("Coins")
         )
 
-        danger_hit_list=arcade.check_for_collision_with_list(
+        danger_hit_list = arcade.check_for_collision_with_list(
             self.player_sprite, self.scene.get_sprite_list("Dangers"))
 
         # Loop through each coin we hit (if any) and remove it
@@ -376,7 +378,7 @@ class MyGame(arcade.Window):
 
         for danger in danger_hit_list:
             arcade.play_sound(self.game_over)
-            self.hit=True
+            self.hit = True
 
         # print(self.end_of_map)
         # print(self.player_sprite.center_x)
@@ -390,7 +392,7 @@ class MyGame(arcade.Window):
 
 def main():
     """Main method"""
-    window=MyGame()
+    window = MyGame()
     window.setup(window.level)
     arcade.run()
 
