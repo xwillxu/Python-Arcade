@@ -136,9 +136,52 @@ class MyGame(arcade.Window):
                 "Platforms", ), GRAVITY
         )
 
-        self.enemy()
+        # self.manualEnemy()
 
-    def enemy(self):
+        enemyFromTilemap = self.tile_map.sprite_lists["Enemy_With_Gravity"]
+        self.tiledEnemyWithGravity(enemyFromTilemap)
+
+        enemyNoGravityFromTilemap = self.tile_map.sprite_lists["Enemy"]
+        # self.tiledEnemyBee(enemyFromTilemap)
+
+    def tiledEnemyBee(self, enemyFromTilemap):
+        for enemy in enemyFromTilemap:
+            crawl_range = 400
+            initial_x = enemy.center_x
+
+            # Set boundaries on the left/right the enemy can't cross
+            enemy.boundary_right = initial_x + crawl_range
+            enemy.boundary_left = initial_x - crawl_range
+            enemy.change_x = 5
+
+            # print("center x", slime.center_x, "boundary right",
+            # slime.boundary_right, "boundary left", slime.boundary_left)
+
+            self.enemy_list.append(enemy)
+
+    def tiledEnemyWithGravity(self, enemyFromTilemap):
+        for enemy in enemyFromTilemap:
+            crawl_range = 400
+            initial_x = enemy.center_x
+
+            # Set boundaries on the left/right the enemy can't cross
+            enemy.boundary_right = initial_x + crawl_range
+            enemy.boundary_left = initial_x - crawl_range
+            enemy.change_x = 5
+
+            # print("center x", slime.center_x, "boundary right",
+            # slime.boundary_right, "boundary left", slime.boundary_left)
+
+            self.enemy_list.append(enemy)
+
+            # Create the 'physics engine for enemy'
+            engine = arcade.PhysicsEnginePlatformer(
+                enemy, self.scene.get_sprite_list(
+                    "Platforms", ), GRAVITY
+            )
+            self.engine_list.append(engine)
+
+    def manualEnemy(self):
         """Enemies"""
         for i in range(self.enemy_count):
             slime = arcade.Sprite(
