@@ -157,7 +157,7 @@ class MyGame(arcade.Window):
             # Set boundaries on the left/right the enemy can't cross
             slime.boundary_right = initial_x + crawl_range
             slime.boundary_left = initial_x - crawl_range
-            slime.change_x = 10
+            slime.change_x = 5
 
             # print("center x", slime.center_x, "boundary right",
             # slime.boundary_right, "boundary left", slime.boundary_left)
@@ -190,8 +190,8 @@ class MyGame(arcade.Window):
             bee.boundary_left = initial_x - fly_range_x
             bee.boundary_bottom = initial_y - fly_range_y
             bee.boundary_top = initial_y + fly_range_y
-            bee.change_x = 5
-            bee.change_y = 5
+            bee.change_x = 3
+            bee.change_y = 3
 
             self.enemy_list.append(bee)
 
