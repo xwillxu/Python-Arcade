@@ -438,6 +438,22 @@ class MyGame(arcade.Window):
         # Position the camera
         self.center_camera_to_player()
 
+        for bullet in self.bullet_list:
+            if bullet.center_x < 0:
+                bullet.remove_from_sprite_lists()
+                print("remove from x less than 0")
+            if bullet.center_x - self.camera.position.x > 1200:
+                bullet.remove_from_sprite_lists()
+                print("remove from yxbigger than 600",
+                      self.camera.position.x, bullet.center_x)
+            if bullet.center_y < 0:
+                bullet.remove_from_sprite_lists()
+                print("remove from y less than 0")
+            if bullet.center_y - self.camera.position.y > 800:
+                bullet.remove_from_sprite_lists()
+                print("remove from y bigger than 600",
+                      self.camera.position.y, bullet.center_y)
+
 
 def main():
     """Main method"""
