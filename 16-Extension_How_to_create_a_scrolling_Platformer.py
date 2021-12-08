@@ -142,17 +142,23 @@ class MyGame(arcade.Window):
         self.tiledEnemyWithGravity(enemyFromTilemap)
 
         enemyNoGravityFromTilemap = self.tile_map.sprite_lists["Enemy"]
-        # self.tiledEnemyBee(enemyFromTilemap)
+        self.tiledEnemyBee(enemyNoGravityFromTilemap)
 
-    def tiledEnemyBee(self, enemyFromTilemap):
-        for enemy in enemyFromTilemap:
-            crawl_range = 400
+    def tiledEnemyBee(self, enemyNoGravityFromTilemap):
+        for enemy in enemyNoGravityFromTilemap:
+            fly_range_x = 400
+            fly_range_y = 65
             initial_x = enemy.center_x
+            initial_y = 620
 
             # Set boundaries on the left/right the enemy can't cross
-            enemy.boundary_right = initial_x + crawl_range
-            enemy.boundary_left = initial_x - crawl_range
+            enemy.boundary_right = initial_x + fly_range_x
+            enemy.boundary_left = initial_x - fly_range_x
             enemy.change_x = 5
+            enemy.change_y = 3
+
+            enemy.boundary_top = initial_y + fly_range_y
+            enemy.boundary_bottom = initial_y - fly_range_y
 
             # print("center x", slime.center_x, "boundary right",
             # slime.boundary_right, "boundary left", slime.boundary_left)
