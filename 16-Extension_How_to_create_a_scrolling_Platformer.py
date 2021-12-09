@@ -167,13 +167,13 @@ class MyGame(arcade.Window):
                 "Platforms", ), GRAVITY
         )
 
-        # self.manualEnemy()
+        self.manualEnemy()
 
-        enemyFromTilemap = self.tile_map.sprite_lists["Enemy_With_Gravity"]
-        self.tiledEnemyWithGravity(enemyFromTilemap)
+        # enemyFromTilemap = self.tile_map.sprite_lists["Enemy_With_Gravity"]
+        # self.tiledEnemyWithGravity(enemyFromTilemap)
 
-        enemyNoGravityFromTilemap = self.tile_map.sprite_lists["Enemy"]
-        self.tiledEnemyBee(enemyNoGravityFromTilemap)
+        # enemyNoGravityFromTilemap = self.tile_map.sprite_lists["Enemy"]
+        # self.tiledEnemyBee(enemyNoGravityFromTilemap)
 
     def tiledEnemyBee(self, enemyNoGravityFromTilemap):
         for enemy in enemyNoGravityFromTilemap:
@@ -221,8 +221,8 @@ class MyGame(arcade.Window):
     def manualEnemy(self):
         """Enemies"""
         for i in range(self.enemy_count):
-            slime = arcade.Sprite(
-                "images/enemies/slimeBlue.png", 0.5)
+            slime = Health_Sprite(
+                "images/enemies/slimeBlue.png", 0.5, 10)
 
             slime.bottom = SPRITE_SIZE * 4
             slime.left = SPRITE_SIZE * 4
@@ -252,8 +252,8 @@ class MyGame(arcade.Window):
             self.engine_list.append(engine)
 
         for i in range(self.enemy_count):
-            bee = arcade.Sprite(
-                "images/enemies/bee.png", 0.5)
+            bee = Health_Sprite(
+                "images/enemies/bee.png", 0.5, 10)
 
             bee.bottom = SPRITE_SIZE * 4
             bee.left = SPRITE_SIZE * 4
