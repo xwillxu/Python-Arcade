@@ -147,18 +147,18 @@ class MyGame(arcade.Window):
     def tiledEnemyBee(self, enemyNoGravityFromTilemap):
         for enemy in enemyNoGravityFromTilemap:
             fly_range_x = 400
-            fly_range_y = 65
+            fly_range_y = 75
             initial_x = enemy.center_x
             initial_y = 620
 
             # Set boundaries on the left/right the enemy can't cross
             enemy.boundary_right = initial_x + fly_range_x
             enemy.boundary_left = initial_x - fly_range_x
-            enemy.change_x = 5
-            enemy.change_y = 3
 
             enemy.boundary_top = initial_y + fly_range_y
             enemy.boundary_bottom = initial_y - fly_range_y
+            enemy.change_x = 5
+            enemy.change_y = 3
 
             # print("center x", slime.center_x, "boundary right",
             # slime.boundary_right, "boundary left", slime.boundary_left)
@@ -441,18 +441,18 @@ class MyGame(arcade.Window):
         for bullet in self.bullet_list:
             if bullet.center_x < 0:
                 bullet.remove_from_sprite_lists()
-                print("remove from x less than 0")
+                # print("remove from x less than 0")
             if bullet.center_x - self.camera.position.x > 1200:
                 bullet.remove_from_sprite_lists()
-                print("remove from yxbigger than 600",
-                      self.camera.position.x, bullet.center_x)
+                # print("remove from xbigger than 600",
+                # self.camera.position.x, bullet.center_x)
             if bullet.center_y < 0:
                 bullet.remove_from_sprite_lists()
-                print("remove from y less than 0")
+                # print("remove from y less than 0")
             if bullet.center_y - self.camera.position.y > 800:
                 bullet.remove_from_sprite_lists()
-                print("remove from y bigger than 600",
-                      self.camera.position.y, bullet.center_y)
+                # print("remove from y bigger than 600",
+                #   self.camera.position.y, bullet.center_y)
 
 
 def main():
