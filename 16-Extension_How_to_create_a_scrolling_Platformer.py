@@ -28,7 +28,7 @@ BULLET_SPEED = 30
 # HealthBar Setup
 HEALTHBAR_WIDTH = 50
 HEALTHBAR_HEIGHT = 6
-HEALTHBAR_OFFSET_Y = -10
+HEALTHBAR_OFFSET_Y = 50
 
 
 class Health_Sprite(arcade.Sprite):
@@ -45,13 +45,13 @@ class Health_Sprite(arcade.Sprite):
             arcade.draw_rectangle_filled(center_x=self.center_x,
                                          center_y=self.center_y + HEALTHBAR_OFFSET_Y,
                                          width=HEALTHBAR_WIDTH,
-                                         height=5,
+                                         height=HEALTHBAR_HEIGHT,
                                          color=arcade.color.RED)
 
         health_width = HEALTHBAR_WIDTH * (self.cur_health / self.max_health)
 
         arcade.draw_rectangle_filled(center_x=self.center_x - 0.5 * (HEALTHBAR_WIDTH - health_width),
-                                     center_y=self.center_y - 10,
+                                     center_y=self.center_y + HEALTHBAR_OFFSET_Y,
                                      width=health_width,
                                      height=HEALTHBAR_HEIGHT,
                                      color=arcade.color.GREEN)
@@ -167,20 +167,30 @@ class MyGame(arcade.Window):
                 "Platforms", ), GRAVITY
         )
 
-        self.manualEnemy()
+        # self.manualEnemy()
 
-        # enemyFromTilemap = self.tile_map.sprite_lists["Enemy_With_Gravity"]
-        # self.tiledEnemyWithGravity(enemyFromTilemap)
+        enemyFromTilemap = self.tile_map.sprite_lists["Enemy_With_Gravity"]
+        self.tiledEnemyWithGravity(enemyFromTilemap)
+        for original in self.tile_map.sprite_lists["Enemy_With_Gravity"]:
+            original.center_x = -100
 
-        # enemyNoGravityFromTilemap = self.tile_map.sprite_lists["Enemy"]
-        # self.tiledEnemyBee(enemyNoGravityFromTilemap)
+        enemyNoGravityFromTilemap = self.tile_map.sprite_lists["Enemy"]
+        self.tiledEnemyBee(enemyNoGravityFromTilemap)
+        for original in self.tile_map.sprite_lists["Enemy"]:
+            original.center_x = -100
 
     def tiledEnemyBee(self, enemyNoGravityFromTilemap):
         for enemy in enemyNoGravityFromTilemap:
+            initial_x = enemy.center_x
+            initial_y = enemy.center_y
+            enemy = Health_Sprite(
+                "images/enemies/bee.png", 0.5, 10)
+
+            enemy.center_x = initial_x
+            enemy.center_y = initial_y
+
             fly_range_x = 400
             fly_range_y = 75
-            initial_x = enemy.center_x
-            initial_y = 620
 
             # Set boundaries on the left/right the enemy can't cross
             enemy.boundary_right = initial_x + fly_range_x
@@ -198,8 +208,13 @@ class MyGame(arcade.Window):
 
     def tiledEnemyWithGravity(self, enemyFromTilemap):
         for enemy in enemyFromTilemap:
-            crawl_range = 400
             initial_x = enemy.center_x
+            initial_y = enemy.center_y
+            enemy = Health_Sprite(
+                "images/enemies/slimeBlue.png", 0.5, 10)
+            crawl_range = 400
+            enemy.center_x = initial_x
+            enemy.center_y = initial_y
 
             # Set boundaries on the left/right the enemy can't cross
             enemy.boundary_right = initial_x + crawl_range
@@ -332,6 +347,9 @@ class MyGame(arcade.Window):
         # Draw our Scene
         self.scene.draw()
 
+        for sprite in self.enemy_list:
+            sprite.draw_health_bar()
+
         self.enemy_list.draw()
         self.bullet_list.draw()
 
@@ -418,9 +436,11 @@ class MyGame(arcade.Window):
         for sprite in self.enemy_list:
             for bullet in self.bullet_list:
                 if bullet.collides_with_sprite(sprite):
-                    sprite.remove_from_sprite_lists()
                     bullet.remove_from_sprite_lists()
-                    self.score += 10
+                    sprite.cur_health -= 2
+                    if sprite.cur_health <= 0:
+                        self.score += 10
+                        sprite.remove_from_sprite_lists()
 
         # Check each enemy
         for enemy in self.enemy_list:
