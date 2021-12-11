@@ -1,0 +1,24 @@
+{ "columns":0,
+ "grid":
+    {
+     "height":1,
+     "orientation":"orthogonal",
+     "width":1
+    },
+ "margin":0,
+ "name":"Boss tileset",
+ "spacing":0,
+ "tilecount":1,
+ "tiledversion":"1.7.2",
+ "tileheight":450,
+ "tiles":[
+        {
+         "id":1,
+         "image":"..\/..\/..\/..\/..\/Downloads\/SlimeMonster.png",
+         "imageheight":450,
+         "imagewidth":360
+        }],
+ "tilewidth":360,
+ "type":"tileset",
+ "version":"1.6"
+}

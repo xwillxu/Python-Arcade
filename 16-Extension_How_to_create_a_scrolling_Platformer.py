@@ -174,6 +174,11 @@ class MyGame(arcade.Window):
         for original in self.tile_map.sprite_lists["Enemy_With_Gravity"]:
             original.center_x = -100
 
+        BossFromTilemap = self.tile_map.sprite_lists["Boss"]
+        self.Boss(BossFromTilemap)
+        for original in self.tile_map.sprite_lists["Boss"]:
+            original.center_x = -100
+
         enemyNoGravityFromTilemap = self.tile_map.sprite_lists["Enemy"]
         self.tiledEnemyBee(enemyNoGravityFromTilemap)
         for original in self.tile_map.sprite_lists["Enemy"]:
@@ -206,12 +211,39 @@ class MyGame(arcade.Window):
 
             self.enemy_list.append(enemy)
 
+    def Boss(self, BossFromTilemap):
+        for enemy in BossFromTilemap:
+            initial_x = enemy.center_x
+            initial_y = enemy.center_y
+            enemy = Health_Sprite(
+                "images/enemies/SlimeMonster.png", 0.5, 100)
+            crawl_range = 1000
+            enemy.center_x = initial_x
+            enemy.center_y = initial_y
+
+            # Set boundaries on the left/right the enemy can't cross
+            enemy.boundary_right = initial_x + crawl_range
+            enemy.boundary_left = initial_x - crawl_range
+            enemy.change_x = 10
+
+            # print("center x", slime.center_x, "boundary right",
+            # slime.boundary_right, "boundary left", slime.boundary_left)
+
+            self.enemy_list.append(enemy)
+
+            # Create the 'physics engine for enemy'
+            engine = arcade.PhysicsEnginePlatformer(
+                enemy, self.scene.get_sprite_list(
+                    "Platforms", ), GRAVITY
+            )
+            self.engine_list.append(engine)
+
     def tiledEnemyWithGravity(self, enemyFromTilemap):
         for enemy in enemyFromTilemap:
             initial_x = enemy.center_x
             initial_y = enemy.center_y
             enemy = Health_Sprite(
-                "images/enemies/slimeBlue.png", 0.5, 10)
+                "images/enemies/slimeBlock.png", 0.5, 10)
             crawl_range = 400
             enemy.center_x = initial_x
             enemy.center_y = initial_y
