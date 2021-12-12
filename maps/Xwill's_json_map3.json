@@ -366,16 +366,28 @@
          "name":"Boss",
          "objects":[
                 {
-                 "gid":189,
-                 "height":450,
-                 "id":1023,
+                 "gid":190,
+                 "height":138,
+                 "id":1026,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":360,
-                 "x":1520,
-                 "y":533
+                 "width":100,
+                 "x":42143,
+                 "y":717
+                }, 
+                {
+                 "gid":190,
+                 "height":134,
+                 "id":1028,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":104,
+                 "x":1928,
+                 "y":505
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -384,7 +396,7 @@
          "y":0
         }],
  "nextlayerid":16,
- "nextobjectid":1025,
+ "nextobjectid":1029,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.2",

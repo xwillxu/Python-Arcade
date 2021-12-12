@@ -13,8 +13,8 @@
  "tileheight":450,
  "tiles":[
         {
-         "id":1,
-         "image":"..\/..\/..\/..\/..\/Downloads\/SlimeMonster.png",
+         "id":2,
+         "image":"..\/images\/enemies\/SlimeMonster.png",
          "imageheight":450,
          "imagewidth":360
         }],
