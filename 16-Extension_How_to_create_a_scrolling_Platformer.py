@@ -24,6 +24,7 @@ PLAYER_JUMP_SPEED = 30
 SPRITE_SIZE = 64
 
 BULLET_SPEED = 30
+BOSS_BULLET_SPEED = 10
 
 # HealthBar Setup
 HEALTHBAR_WIDTH = 50
@@ -186,8 +187,6 @@ class MyGame(arcade.Window):
         for original in self.tile_map.sprite_lists["Enemy"]:
             original.center_x = -100
 
-        self.Boss_bullet()
-
     def tiledEnemyBee(self, enemyNoGravityFromTilemap):
         for enemy in enemyNoGravityFromTilemap:
             initial_x = enemy.center_x
@@ -229,6 +228,8 @@ class MyGame(arcade.Window):
             Boss.boundary_right = initial_x + crawl_range
             Boss.boundary_left = initial_x - crawl_range
             Boss.change_x = 10
+
+            Boss.properties["Boss"] = True
 
             # print("center x", slime.center_x, "boundary right",
             # slime.boundarwwy_right, "boundary left", slime.boundary_left)
@@ -326,16 +327,38 @@ class MyGame(arcade.Window):
 
             self.enemy_list.append(bee)
 
-    def Boss_bullet(self):
+    def Boss_bullet(self, boss):
         """Boss's bullets"""
 
         Bossbullet = Health_Sprite("images/BossBullet.png", 0.07, 1)
 
-        Bossbullet.center_x = 600
-        Bossbullet.center_y = 400
+        Bossbullet.center_x = boss.center_x
+        Bossbullet.center_y = boss.center_y
 
-        Bossbullet.angle = 90
-        Bossbullet.properties['boss_bullet'] = True
+        # First, calculate the angle to the player. We could do this
+        # only when the bullet fires, but in this case we will rotate
+        # the enemy to face the player each frame, so we'll do this
+        # each frame.
+
+        # Position the start at the enemy's current location
+        start_x = Bossbullet.center_x
+        start_y = Bossbullet.center_y
+
+        # Get the destination location for the bullet
+        dest_x = self.player_sprite.center_x
+        dest_y = self.player_sprite.center_y
+
+        # Do math to calculate how to get the bullet to the destination.
+        # Calculation the angle in radians between the start points
+        # and end points. This is the angle the bullet will travel.
+        x_diff = dest_x - start_x
+        y_diff = dest_y - start_y
+        angle = math.atan2(y_diff, x_diff)
+        # Set the enemy to face the player.
+        Bossbullet.angle = math.degrees(angle)-90
+
+        Bossbullet.change_x = math.cos(angle) * BOSS_BULLET_SPEED
+        Bossbullet.change_y = math.sin(angle) * BOSS_BULLET_SPEED
 
         self.enemy_list.append(Bossbullet)
 
@@ -464,48 +487,13 @@ class MyGame(arcade.Window):
 
         self.bullet_list.update()
 
+        self.frame_count += 1
+
         # Loop through each enemy that we have
         for enemy in self.enemy_list:
-            if 'boss_bullet' in enemy.properties and enemy.properties['boss_bullet'] == True:
-                # First, calculate the angle to the player. We could do this
-                # only when the bullet fires, but in this case we will rotate
-                # the enemy to face the player each frame, so we'll do this
-                # each frame.
-
-                # Position the start at the enemy's current location
-                start_x = enemy.center_x
-                start_y = enemy.center_y
-
-                # Get the destination location for the bullet
-                dest_x = self.player_sprite.center_x
-                dest_y = self.player_sprite.center_y
-
-                # Do math to calculate how to get the bullet to the destination.
-                # Calculation the angle in radians between the start points
-                # and end points. This is the angle the bullet will travel.
-                x_diff = dest_x - start_x
-                y_diff = dest_y - start_y
-                angle = math.atan2(y_diff, x_diff)
-
-                # Set the enemy to face the player.
-                enemy.angle = math.degrees(angle)-90
-
-                # Shoot every 60 frames change of shooting each frame
+            if 'Boss' in enemy.properties and enemy.properties['Boss'] == True:
                 if self.frame_count % 60 == 0:
-                    Bossbullet = arcade.Sprite(
-                        ":resources:images/space_shooter/laserBlue01.png")
-                    Bossbullet.center_x = start_x
-                    Bossbullet.center_y = start_y
-
-                    # Angle the bullet sprite
-                    Bossbullet.angle = math.degrees(angle)
-
-                    # Taking into account the angle, calculate our change_x
-                    # and change_y. Velocity is how fast the bullet travels.
-                    Bossbullet.change_x = math.cos(angle) * BULLET_SPEED
-                    Bossbullet.change_y = math.sin(angle) * BULLET_SPEED
-
-                    self.enemy_list.append(Bossbullet)
+                    self.Boss_bullet(enemy)
 
         for engine in self.engine_list:
             engine.update()
