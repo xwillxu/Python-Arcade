@@ -20,7 +20,7 @@ GRID_PIXEL_SIZE = (SPRITE_PIXEL_SIZE * TILE_SCALING)
 # Movement speed of player, in pixels per frame
 PLAYER_MOVEMENT_SPEED = 20
 GRAVITY = 1
-PLAYER_JUMP_SPEED = 30
+PLAYER_JUMP_SPEED = 20
 SPRITE_SIZE = 64
 
 BULLET_SPEED = 30
@@ -99,6 +99,7 @@ class MyGame(arcade.Window):
         self.enemy_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
         self.engine_list = []
+        self.shield_list = arcade.SpriteList()
 
         # Load sounds
         self.collect_coin_sound = arcade.load_sound(
@@ -147,6 +148,10 @@ class MyGame(arcade.Window):
         self.enemy_offset = 600
 
         self.frame_count = 1
+
+        # Shield setup
+        self.damage = 0
+        self.shield_count = 0
 
         # Create the Player Sprite lists
         player_list = arcade.SpriteList()
@@ -407,13 +412,37 @@ class MyGame(arcade.Window):
         # Add the bullet to the appropriate lists
         self.bullet_list.append(bullet)
 
+    def shield(self, boss):
+        """Shield that defends boss. Remove it and the boss is dead"""
+
+        self.hasShield = False
+        duration = 200
+        # when frame count = 50, the current duration will be 150
+        currentDuration = self.frame_count % duration
+
+        print(currentDuration)
+        if currentDuration < 100:
+            if not self.hasShield:
+                print('add one shield')
+                shield = arcade.Sprite("images/Shieldpng.png", 0.1)
+
+                shield.center_x = boss.center_x
+                shield.center_y = boss.center_y + 50
+
+                self.shield_list.append(shield)
+
+        else:
+            for shield in self.shield_list:
+                print('remove shield')
+                self.shield_list.remove(shield)
+
     def on_draw(self):
         """Render the screen."""
 
         # Clear the screen to the background color
         arcade.start_render()
 
-        # Activate the game camera
+        # Actddddivate the game camera
         self.camera.use()
 
         # Draw our Scene
@@ -424,6 +453,7 @@ class MyGame(arcade.Window):
 
         self.enemy_list.draw()
         self.bullet_list.draw()
+        self.shield_list.draw()
 
         # Activate the GUI camera before drawing GUI elements
         self.gui_camera.use()
@@ -492,8 +522,19 @@ class MyGame(arcade.Window):
         # Loop through each enemy that we have
         for enemy in self.enemy_list:
             if 'Boss' in enemy.properties and enemy.properties['Boss'] == True:
-                if self.frame_count % 60 == 0:
+                if self.frame_count % 20 == 0:
                     self.Boss_bullet(enemy)
+
+        for enemy in self.enemy_list:
+            if 'Boss' in enemy.properties and enemy.properties['Boss'] == True:
+                # add a shield
+                self.shield(enemy)
+                self.damage = 0.25
+
+                # update existing shields to boss
+                for shield in self.shield_list:
+                    shield.center_x = enemy.center_x
+                    shield.center_y = enemy.center_y + 30
 
         for engine in self.engine_list:
             engine.update()
@@ -517,7 +558,8 @@ class MyGame(arcade.Window):
             for bullet in self.bullet_list:
                 if bullet.collides_with_sprite(sprite):
                     bullet.remove_from_sprite_lists()
-                    sprite.cur_health -= 2
+                    self.damage = 2
+                    sprite.cur_health -= self.damage
                     if sprite.cur_health <= 0:
                         self.score += 10
                         sprite.remove_from_sprite_lists()
