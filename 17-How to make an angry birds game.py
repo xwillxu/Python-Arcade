@@ -10,6 +10,15 @@ SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Angry Birds"
 
+# Classes
+
+
+class Player(arcade.Sprite):
+    """Player Sprite"""
+
+    def __init__(self):
+        """Player Init"""
+
 
 class Game(arcade.Window):
     """Game Window"""
@@ -23,6 +32,8 @@ class Game(arcade.Window):
         """Setup"""
 
         arcade.set_background_color(arcade.color.AERO_BLUE)
+
+        self.player = Player()
 
     def on_key_press(self, key, modifiers):
         """Key Press"""
