@@ -52,8 +52,8 @@ class Game(arcade.Window):
         self.player = arcade.Sprite("images/bird.png", SCALE)
 
         # Player Start X and Y
-        self.player.center_x = 600
-        self.player.center_y = 400
+        self.player.center_x = 200
+        self.player.center_y = 200
 
         # Player's change X and Y
         self.player.change_x = 0
@@ -91,10 +91,18 @@ class Game(arcade.Window):
                     shape, ":resources:images/tiles/boxCrate_double.png", width=size, height=size)
                 self.box_list.append(sprite)
 
+    # Sprites
+
+    def angry_bird_launch(self, x, y):
+        """Angry Bird Launch"""
+
+        angry_bird = arcade.Sprite("images/bird.png")
+
     def on_mouse_press(self, x, y, button, modifiers):
         """Mouse Press"""
 
-        pass
+        if button == arcade.MOUSE_BUTTON_LEFT or arcade.MOUSE_BUTTON_RIGHT:
+            self.angry_bird_launch(x, y)
 
     def on_mouse_release(self, x, y, button, modifiers):
         """Mouse Release"""
@@ -115,6 +123,14 @@ class Game(arcade.Window):
         # Draw Stuff
         self.player.draw()
         self.box_list.draw()
+
+        for line in self.static_lines:
+            body = line.body
+
+            pv1 = body.position + line.a.rotated(body.angle)
+            pv2 = body.position + line.b.rotated(body.angle)
+            arcade.draw_line(pv1.x, pv1.y - 48, pv2.x, pv2.y - 48,
+                             arcade.color.GREEN_YELLOW, 95)
 
 
 if __name__ == "__main__":
