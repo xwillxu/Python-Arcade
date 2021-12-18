@@ -12,6 +12,7 @@ SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Angry Birds"
 
 SCALE = 0.5
+BULLET_SPEED = 30
 
 # Classes
 
@@ -21,6 +22,13 @@ class PhysicsSprite(arcade.Sprite):
         super().__init__(filename, center_x=pymunk_shape.body.position.x,
                          center_y=pymunk_shape.body.position.y)
         self.pymunk_shape = pymunk_shape
+
+
+class CircleSprite(PhysicsSprite):
+    def __init__(self, pymunk_shape, filename):
+        super().__init__(pymunk_shape, filename)
+        self.width = pymunk_shape.radius * 2
+        self.height = pymunk_shape.radius * 2
 
 
 class BoxSprite(PhysicsSprite):
@@ -42,6 +50,7 @@ class Game(arcade.Window):
 
         self.box_list: arcade.SpriteList[PhysicsSprite] = arcade.SpriteList()
         self.static_lines = []
+        self.angry_bird_list = arcade.SpriteList()
 
     def setup(self):
         """Setup"""
@@ -74,7 +83,7 @@ class Game(arcade.Window):
         self.static_lines.append(shape)
 
         for row in range(10):
-            for column in range(2):
+            for column in range(3):
                 size = 32
                 mass = 1.0
                 x = 800 + column * 32
@@ -91,29 +100,116 @@ class Game(arcade.Window):
                     shape, ":resources:images/tiles/boxCrate_double.png", width=size, height=size)
                 self.box_list.append(sprite)
 
+        for row in range(1):
+            for column in range(3):
+                size = 32
+                mass = 1.0
+                x = 800 + column * 32
+                y = (floor_height + size / 2) + row * size + 500
+                moment = pymunk.moment_for_box(mass, (size, size))
+                body = pymunk.Body(mass, moment)
+                body.position = pymunk.Vec2d(x, y)
+                shape = pymunk.Poly.create_box(body, (size, size))
+                shape.elasticity = 0.2
+                shape.friction = 0.9
+                self.space.add(body, shape)
+
+                sprite = BoxSprite(
+                    shape, "images/pig.png", width=size, height=size)
+                self.box_list.append(sprite)
+
     # Sprites
 
     def angry_bird_launch(self, x, y):
         """Angry Bird Launch"""
 
-        angry_bird = arcade.Sprite("images/bird.png")
+        # Position the bullet at the player's current location
+        start_x = self.player.center_x
+        start_y = self.player.center_y
+
+        # Get from the mouse the destination location for the bullet
+        # IMPORTANT! If you have a scrolling screen, you will also need
+        # to add in self.view_bottom and self.view_left.
+        dest_x = x
+        dest_y = y
+
+        # Do math to calculate how to get the bullet to the destination.
+        # Calculation the angle in radians between the start points
+        # and end points. This is the angle the bullet will travel.
+        x_diff = dest_x - start_x
+        y_diff = dest_y - start_y
+        angle = math.atan2(y_diff, x_diff)
+
+        # By calculating the distance between mouse click and the player sprite
+        velocity = (x_diff * x_diff + y_diff * y_diff) / 100
+
+        # you can only have 1000 max
+        if velocity > 1000:
+            velocity = 1000
+
+        velocity_x = math.cos(angle) * velocity
+        velocity_y = math.sin(angle) * velocity
+
+        # With right mouse button, shoot a heavy coin fast.
+        mass = 10
+        radius = 20
+        inertia = pymunk.moment_for_circle(mass, 0, radius, (0, 0))
+        body = pymunk.Body(mass, inertia)
+
+        # set the physics object starting place
+        body.position = start_x, start_y  # the same as set a spirte center_x and center_y
+
+        # set the physics object staring speed, just like you setting change_x and change_y
+        body.velocity = velocity_x, velocity_y
+
+        shape = pymunk.Circle(body, radius, pymunk.Vec2d(0, 0))
+        shape.friction = 0.3
+        self.space.add(body, shape)
+
+        # Create a bullet
+        angry_bird = CircleSprite(shape, "images/bird.png")
+
+        # Add the bullet to the appropriate lists
+        self.angry_bird_list.append(angry_bird)
 
     def on_mouse_press(self, x, y, button, modifiers):
         """Mouse Press"""
 
-        if button == arcade.MOUSE_BUTTON_LEFT or arcade.MOUSE_BUTTON_RIGHT:
-            self.angry_bird_launch(x, y)
-
-    def on_mouse_release(self, x, y, button, modifiers):
-        """Mouse Release"""
-
-        pass
+        self.angry_bird_launch(x, y)
 
     def on_update(self, delta_time):
         """Update"""
 
         # Update Stuff
         self.player.update()
+        self.box_list.update()
+        self.angry_bird_list.update()
+
+        # Update physics
+        # Use a constant time step, don't use delta_time
+        # See "Game loop / moving time forward"
+
+        self.space.step(1 / 60.0)
+
+        for sprite in self.box_list:
+            if sprite.pymunk_shape.body.position.y < 0:
+                # Remove balls from physics space
+                self.space.remove(sprite.pymunk_shape,
+                                  sprite.pymunk_shape.body)
+                # Remove balls from physics list
+                sprite.remove_from_sprite_lists()
+
+        # Move sprites to where physics objects are
+        for sprite in self.box_list:
+            sprite.center_x = sprite.pymunk_shape.body.position.x
+            sprite.center_y = sprite.pymunk_shape.body.position.y
+            sprite.angle = math.degrees(sprite.pymunk_shape.body.angle)
+
+        # Move sprites to where physics objects are
+        for sprite in self.angry_bird_list:
+            sprite.center_x = sprite.pymunk_shape.body.position.x
+            sprite.center_y = sprite.pymunk_shape.body.position.y
+            sprite.angle = math.degrees(sprite.pymunk_shape.body.angle)
 
     def on_draw(self):
         """Draw"""
@@ -123,6 +219,7 @@ class Game(arcade.Window):
         # Draw Stuff
         self.player.draw()
         self.box_list.draw()
+        self.angry_bird_list.draw()
 
         for line in self.static_lines:
             body = line.body
