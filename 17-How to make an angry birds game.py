@@ -10,14 +10,9 @@ SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Angry Birds"
 
+SCALE = 0.5
+
 # Classes
-
-
-class Player(arcade.Sprite):
-    """Player Sprite"""
-
-    def __init__(self):
-        """Player Init"""
 
 
 class Game(arcade.Window):
@@ -28,12 +23,24 @@ class Game(arcade.Window):
 
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
+        # Add Lists
+
     def setup(self):
         """Setup"""
 
-        arcade.set_background_color(arcade.color.AERO_BLUE)
+        arcade.set_background_color(arcade.color.BLUE_YONDER)
 
-        self.player = Player()
+        # Player Setup
+        self.player = arcade.Sprite("images/bird.png", SCALE, 0, 0, 0,
+                                    0, 0, 0, 1, 1, False, False, False, "Simple", 4.5, None, 0)
+
+        # Player Start X and Y
+        self.player.center_x = 600
+        self.player.center_y = 400
+
+        # Player's change X and Y
+        self.player.change_x = 0
+        self.player.change_y = 0
 
     def on_key_press(self, key, modifiers):
         """Key Press"""
@@ -48,12 +55,16 @@ class Game(arcade.Window):
     def on_update(self, delta_time):
         """Update"""
 
-        pass
+        # Update Stuff
+        self.player.update()
 
     def on_draw(self):
         """Draw"""
 
         arcade.start_render()
+
+        # Draw Stuff
+        self.player.draw()
 
 
 if __name__ == "__main__":
