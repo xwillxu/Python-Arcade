@@ -77,7 +77,7 @@ class Game(arcade.Window):
             for column in range(2):
                 size = 32
                 mass = 1.0
-                x = 500 + column * 32
+                x = 800 + column * 32
                 y = (floor_height + size / 2) + row * size
                 moment = pymunk.moment_for_box(mass, (size, size))
                 body = pymunk.Body(mass, moment)
@@ -91,13 +91,13 @@ class Game(arcade.Window):
                     shape, ":resources:images/tiles/boxCrate_double.png", width=size, height=size)
                 self.box_list.append(sprite)
 
-    def on_key_press(self, key, modifiers):
-        """Key Press"""
+    def on_mouse_press(self, x, y, button, modifiers):
+        """Mouse Press"""
 
         pass
 
-    def on_key_release(self, key, modifiers):
-        """Key Release"""
+    def on_mouse_release(self, x, y, button, modifiers):
+        """Mouse Release"""
 
         pass
 
