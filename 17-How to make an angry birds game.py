@@ -3,6 +3,7 @@ Angry birds(Remake)
 """
 # Imports
 import arcade
+import random
 import pymunk
 import math
 
@@ -82,11 +83,47 @@ class Game(arcade.Window):
         self.space.add(shape, body)
         self.static_lines.append(shape)
 
-        for row in range(10):
-            for column in range(3):
+        for row in range(random.randint(5, 15)):
+            for column in range(1):
                 size = 32
                 mass = 1.0
                 x = 800 + column * 32
+                y = (floor_height + size / 2) + row * size
+                moment = pymunk.moment_for_box(mass, (size, size))
+                body = pymunk.Body(mass, moment)
+                body.position = pymunk.Vec2d(x, y)
+                shape = pymunk.Poly.create_box(body, (size, size))
+                shape.elasticity = 0.2
+                shape.friction = 0.9
+                self.space.add(body, shape)
+
+                sprite = BoxSprite(
+                    shape, ":resources:images/tiles/boxCrate_double.png", width=size, height=size)
+                self.box_list.append(sprite)
+
+        for row in range(random.randint(5, 15)):
+            for column in range(1):
+                size = 32
+                mass = 1.0
+                x = 830 + column * 32
+                y = (floor_height + size / 2) + row * size
+                moment = pymunk.moment_for_box(mass, (size, size))
+                body = pymunk.Body(mass, moment)
+                body.position = pymunk.Vec2d(x, y)
+                shape = pymunk.Poly.create_box(body, (size, size))
+                shape.elasticity = 0.2
+                shape.friction = 0.9
+                self.space.add(body, shape)
+
+                sprite = BoxSprite(
+                    shape, ":resources:images/tiles/boxCrate_double.png", width=size, height=size)
+                self.box_list.append(sprite)
+
+        for row in range(random.randint(5, 15)):
+            for column in range(1):
+                size = 32
+                mass = 1.0
+                x = 860 + column * 32
                 y = (floor_height + size / 2) + row * size
                 moment = pymunk.moment_for_box(mass, (size, size))
                 body = pymunk.Body(mass, moment)
@@ -167,7 +204,8 @@ class Game(arcade.Window):
         self.space.add(body, shape)
 
         # Create a bullet
-        angry_bird = CircleSprite(shape, "images/bird.png")
+        angry_bird = CircleSprite(shape,
+                                  "images/bird.png")
 
         # Add the bullet to the appropriate lists
         self.angry_bird_list.append(angry_bird)

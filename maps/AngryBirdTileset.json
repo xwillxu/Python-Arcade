@@ -1,11 +1,24 @@
 { "columns":0,
+ "grid":
+    {
+     "height":1,
+     "orientation":"orthogonal",
+     "width":1
+    },
  "margin":0,
  "name":"AngryBirdTileset",
  "spacing":0,
- "tilecount":0,
+ "tilecount":1,
  "tiledversion":"1.7.2",
- "tileheight":1,
- "tilewidth":1,
+ "tileheight":92,
+ "tiles":[
+        {
+         "id":0,
+         "image":"..\/images\/pig.png",
+         "imageheight":92,
+         "imagewidth":102
+        }],
+ "tilewidth":102,
  "type":"tileset",
  "version":"1.6"
 }
