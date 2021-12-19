@@ -83,7 +83,7 @@ class Game(arcade.Window):
         self.space.add(shape, body)
         self.static_lines.append(shape)
 
-        for row in range(random.randint(5, 15)):
+        for row in range(random.randint(5, 10)):
             for column in range(1):
                 size = 32
                 mass = 1.0
@@ -101,11 +101,11 @@ class Game(arcade.Window):
                     shape, ":resources:images/tiles/boxCrate_double.png", width=size, height=size)
                 self.box_list.append(sprite)
 
-        for row in range(random.randint(5, 15)):
+        for row in range(random.randint(5, 10)):
             for column in range(1):
                 size = 32
                 mass = 1.0
-                x = 830 + column * 32
+                x = 835 + column * 32
                 y = (floor_height + size / 2) + row * size
                 moment = pymunk.moment_for_box(mass, (size, size))
                 body = pymunk.Body(mass, moment)
@@ -119,11 +119,11 @@ class Game(arcade.Window):
                     shape, ":resources:images/tiles/boxCrate_double.png", width=size, height=size)
                 self.box_list.append(sprite)
 
-        for row in range(random.randint(5, 15)):
+        for row in range(random.randint(5, 10)):
             for column in range(1):
                 size = 32
                 mass = 1.0
-                x = 860 + column * 32
+                x = 870 + column * 32
                 y = (floor_height + size / 2) + row * size
                 moment = pymunk.moment_for_box(mass, (size, size))
                 body = pymunk.Body(mass, moment)
@@ -142,7 +142,7 @@ class Game(arcade.Window):
                 size = 32
                 mass = 1.0
                 x = 800 + column * 32
-                y = (floor_height + size / 2) + row * size + 500
+                y = (floor_height + size / 2) + row * size + 300
                 moment = pymunk.moment_for_box(mass, (size, size))
                 body = pymunk.Body(mass, moment)
                 body.position = pymunk.Vec2d(x, y)
