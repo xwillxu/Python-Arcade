@@ -1,13 +1,26 @@
 """
 Angry birds(Remake)
 """
+
+"""Instrutions:
+
+1: Click to launch a Angry Bird
+2: Take down the pigs with birds
+3: Random Bird Launcher
+4: Can only launch 5 birds
+5: Randomise the box steps
+6: Have Fun
+Bonus Step: Tranform it into an multilevel angry bird game(Not Made Yet)
+
+
+"""
 # Imports
+
+# Screen setup
 import arcade
 import random
 import pymunk
 import math
-
-# Screen setup
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Angry Birds"
