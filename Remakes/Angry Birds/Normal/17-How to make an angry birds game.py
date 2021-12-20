@@ -167,8 +167,10 @@ class Game(arcade.Window):
                 shape.friction = 0.9
                 self.space.add(body, shape)
 
+                pig = random.randint(1, 3)
+
                 sprite = BoxSprite(
-                    shape, "images/pig.png", width=size, height=size)
+                    shape, f"images/pig{pig}.png", width=size, height=size)
                 self.box_list.append(sprite)
 
     # Sprites
