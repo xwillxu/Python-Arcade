@@ -193,7 +193,7 @@ class Game(arcade.Window):
             velocity_y = math.sin(angle) * velocity
 
             # With right mouse button, shoot a heavy coin fast.
-            mass = 0.9
+            mass = 0.7
             radius = 20
             inertia = pymunk.moment_for_circle(mass, 0, radius, (0, 0))
             body = pymunk.Body(mass, inertia)
