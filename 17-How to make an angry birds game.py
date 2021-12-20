@@ -59,7 +59,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.BLUE_YONDER)
 
         # Player Setup
-        self.player = arcade.Sprite("images/bird.png", SCALE)
+        self.player = arcade.Sprite("images/ClassicChuck2.png", SCALE)
 
         # Player Start X and Y
         self.player.center_x = 200
@@ -86,10 +86,10 @@ class Game(arcade.Window):
         self.space.add(shape, body)
         self.static_lines.append(shape)
 
-        for row in range(random.randint(5, 10)):
+        for row in range(random.randint(5, 9)):
             for column in range(1):
                 size = 32
-                mass = 1.0
+                mass = 1.5
                 x = 800 + column * 32
                 y = (floor_height + size / 2) + row * size
                 moment = pymunk.moment_for_box(mass, (size, size))
@@ -104,11 +104,11 @@ class Game(arcade.Window):
                     shape, ":resources:images/tiles/boxCrate_double.png", width=size, height=size)
                 self.box_list.append(sprite)
 
-        for row in range(random.randint(5, 10)):
+        for row in range(random.randint(5, 9)):
             for column in range(1):
                 size = 32
-                mass = 1.0
-                x = 835 + column * 32
+                mass = 1.5
+                x = 840 + column * 32
                 y = (floor_height + size / 2) + row * size
                 moment = pymunk.moment_for_box(mass, (size, size))
                 body = pymunk.Body(mass, moment)
@@ -122,11 +122,11 @@ class Game(arcade.Window):
                     shape, ":resources:images/tiles/boxCrate_double.png", width=size, height=size)
                 self.box_list.append(sprite)
 
-        for row in range(random.randint(5, 10)):
+        for row in range(random.randint(5, 9)):
             for column in range(1):
                 size = 32
-                mass = 1.0
-                x = 870 + column * 32
+                mass = 1.5
+                x = 880 + column * 32
                 y = (floor_height + size / 2) + row * size
                 moment = pymunk.moment_for_box(mass, (size, size))
                 body = pymunk.Body(mass, moment)
@@ -143,8 +143,8 @@ class Game(arcade.Window):
         for row in range(1):
             for column in range(3):
                 size = 32
-                mass = 0.1
-                x = 800 + column * 32
+                mass = 1.0
+                x = 800 + column * 31
                 y = (floor_height + size / 2) + row * size + 300
                 moment = pymunk.moment_for_box(mass, (size, size))
                 body = pymunk.Body(mass, moment)
@@ -163,7 +163,7 @@ class Game(arcade.Window):
     def angry_bird_launch(self, x, y):
         """Angry Bird Launch"""
 
-        if self.angry_bird_count < 3:
+        if self.angry_bird_count < 5:
 
             # Position the bullet at the player's current location
             start_x = self.player.center_x
@@ -193,7 +193,7 @@ class Game(arcade.Window):
             velocity_y = math.sin(angle) * velocity
 
             # With right mouse button, shoot a heavy coin fast.
-            mass = 1.00
+            mass = 0.9
             radius = 20
             inertia = pymunk.moment_for_circle(mass, 0, radius, (0, 0))
             body = pymunk.Body(mass, inertia)
@@ -208,9 +208,11 @@ class Game(arcade.Window):
             shape.friction = 0.3
             self.space.add(body, shape)
 
+            bird_random = random.randint(1, 3)
+
             # Create a bullet
             angry_bird = CircleSprite(shape,
-                                      "images/bird.png")
+                                      f"images/ClassicChuck{bird_random}.png")
 
             self.angry_bird_count += 1
 
