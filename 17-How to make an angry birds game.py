@@ -69,6 +69,9 @@ class Game(arcade.Window):
         self.player.change_x = 0
         self.player.change_y = 0
 
+        # Angry Bird Count
+        self.angry_bird_count = 0
+
         # Pymunk Setup
         self.space = pymunk.Space()
         self.space.iterations = 35
@@ -140,7 +143,7 @@ class Game(arcade.Window):
         for row in range(1):
             for column in range(3):
                 size = 32
-                mass = 1.0
+                mass = 0.1
                 x = 800 + column * 32
                 y = (floor_height + size / 2) + row * size + 300
                 moment = pymunk.moment_for_box(mass, (size, size))
@@ -160,55 +163,59 @@ class Game(arcade.Window):
     def angry_bird_launch(self, x, y):
         """Angry Bird Launch"""
 
-        # Position the bullet at the player's current location
-        start_x = self.player.center_x
-        start_y = self.player.center_y
+        if self.angry_bird_count < 3:
 
-        # Get from the mouse the destination location for the bullet
-        # IMPORTANT! If you have a scrolling screen, you will also need
-        # to add in self.view_bottom and self.view_left.
-        dest_x = x
-        dest_y = y
+            # Position the bullet at the player's current location
+            start_x = self.player.center_x
+            start_y = self.player.center_y
 
-        # Do math to calculate how to get the bullet to the destination.
-        # Calculation the angle in radians between the start points
-        # and end points. This is the angle the bullet will travel.
-        x_diff = dest_x - start_x
-        y_diff = dest_y - start_y
-        angle = math.atan2(y_diff, x_diff)
+            # Get from the mouse the destination location for the bullet
+            # IMPORTANT! If you have a scrolling screen, you will also need
+            # to add in self.view_bottom and self.view_left.
+            dest_x = x
+            dest_y = y
 
-        # By calculating the distance between mouse click and the player sprite
-        velocity = (x_diff * x_diff + y_diff * y_diff) / 100
+            # Do math to calculate how to get the bullet to the destination.
+            # Calculation the angle in radians between the start points
+            # and end points. This is the angle the bullet will travel.
+            x_diff = dest_x - start_x
+            y_diff = dest_y - start_y
+            angle = math.atan2(y_diff, x_diff)
 
-        # you can only have 1000 max
-        if velocity > 1000:
-            velocity = 1000
+            # By calculating the distance between mouse click and the player sprite
+            velocity = (x_diff * x_diff + y_diff * y_diff) / 100
 
-        velocity_x = math.cos(angle) * velocity
-        velocity_y = math.sin(angle) * velocity
+            # you can only have 1000 max
+            if velocity > 1000:
+                velocity = 1000
 
-        # With right mouse button, shoot a heavy coin fast.
-        mass = 10
-        radius = 20
-        inertia = pymunk.moment_for_circle(mass, 0, radius, (0, 0))
-        body = pymunk.Body(mass, inertia)
+            velocity_x = math.cos(angle) * velocity
+            velocity_y = math.sin(angle) * velocity
 
-        # set the physics object starting place
-        body.position = start_x, start_y  # the same as set a spirte center_x and center_y
+            # With right mouse button, shoot a heavy coin fast.
+            mass = 1.00
+            radius = 20
+            inertia = pymunk.moment_for_circle(mass, 0, radius, (0, 0))
+            body = pymunk.Body(mass, inertia)
 
-        # set the physics object staring speed, just like you setting change_x and change_y
-        body.velocity = velocity_x, velocity_y
+            # set the physics object starting place
+            body.position = start_x, start_y  # the same as set a spirte center_x and center_y
 
-        shape = pymunk.Circle(body, radius, pymunk.Vec2d(0, 0))
-        shape.friction = 0.3
-        self.space.add(body, shape)
+            # set the physics object staring speed, just like you setting change_x and change_y
+            body.velocity = velocity_x, velocity_y
 
-        # Create a bullet
-        angry_bird = CircleSprite(shape,
-                                  "images/bird.png")
+            shape = pymunk.Circle(body, radius, pymunk.Vec2d(0, 0))
+            shape.friction = 0.3
+            self.space.add(body, shape)
 
-        # Add the bullet to the appropriate lists
-        self.angry_bird_list.append(angry_bird)
+            # Create a bullet
+            angry_bird = CircleSprite(shape,
+                                      "images/bird.png")
+
+            self.angry_bird_count += 1
+
+            # Add the bullet to the appropriate lists
+            self.angry_bird_list.append(angry_bird)
 
     def on_mouse_press(self, x, y, button, modifiers):
         """Mouse Press"""
