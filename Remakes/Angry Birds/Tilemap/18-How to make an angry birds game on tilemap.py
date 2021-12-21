@@ -26,6 +26,7 @@ SCREEN_TITLE = "Angry Birds"
 
 SCALE = 0.5
 BULLET_SPEED = 30
+TILE_SCALING = 0.5
 
 # Classes
 
@@ -98,6 +99,22 @@ class Game(arcade.Window):
         self.space.add(shape, body)
         self.static_lines.append(shape)
 
+        # Map name for tilemap
+        map_name = "maps/AngryBird_level_1.json"
+
+        # Layer specific options are defined based on Layer names in a dictionary
+        # Doing this will make the SpriteList for the platforms layer
+        # use spatial hashing for detection.
+        layer_options = {
+            "Platforms": {
+                "use_spatial_hash": True,
+            },
+        }
+
+        # Read in the tiled map
+        self.tile_map = arcade.load_tilemap(
+            map_name, TILE_SCALING, layer_options)
+
         for row in range(random.randint(5, 9)):
             for column in range(1):
                 size = 32
@@ -167,7 +184,7 @@ class Game(arcade.Window):
                 self.space.add(body, shape)
 
                 sprite = BoxSprite(
-                    shape, "images/pig.png", width=size, height=size)
+                    shape, "images/pig1.png", width=size, height=size)
                 self.box_list.append(sprite)
 
     # Sprites
