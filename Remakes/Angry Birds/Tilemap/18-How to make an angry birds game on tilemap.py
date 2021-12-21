@@ -90,15 +90,6 @@ class Game(arcade.Window):
         self.space.iterations = 35
         self.space.gravity = (0.0, -900.0)
 
-        # Create Floor
-        floor_height = 80
-        body = pymunk.Body(body_type=pymunk.Body.STATIC)
-        shape = pymunk.Segment(body, [0, floor_height], [
-                               SCREEN_WIDTH, floor_height], 0.0)
-        shape.friction = 10
-        self.space.add(shape, body)
-        self.static_lines.append(shape)
-
         # Map name for tilemap
         map_name = "maps/AngryBird_level_1.json"
 
@@ -112,8 +103,18 @@ class Game(arcade.Window):
         }
 
         # Read in the tiled map
+        # Draw
         self.tile_map = arcade.load_tilemap(
             map_name, TILE_SCALING, layer_options)
+
+        # Create Floor
+        floor_height = 80
+        body = pymunk.Body(body_type=pymunk.Body.STATIC)
+        shape = pymunk.Segment(body, [0, floor_height], [
+                               SCREEN_WIDTH, floor_height], 0.0)
+        shape.friction = 10
+        self.space.add(shape, body)
+        self.static_lines.append(shape)
 
         for row in range(random.randint(5, 9)):
             for column in range(1):
