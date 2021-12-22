@@ -61,6 +61,7 @@ class Game(arcade.Window):
         # Lists
         self.wall_list = None
         self.item_list = None
+        self.angry_bird_list = arcade.SpriteList()
 
     def setup(self):
         """Setup"""
@@ -125,6 +126,55 @@ class Game(arcade.Window):
                                             friction=DYNAMIC_ITEM_FRICTION,
                                             collision_type="item")
 
+    # Sprites
+
+    def angry_bird_launch(self, x, y):
+        """Angry Bird Launch"""
+
+        if self.angry_bird_count < 5:
+
+            # Position the bullet at the player's current location
+            start_x = self.player.center_x
+            start_y = self.player.center_y
+
+            # Get from the mouse the destination location for the bullet
+            # IMPORTANT! If you have a scrolling screen, you will also need
+            # to add in self.view_bottom and self.view_left.
+            dest_x = x
+            dest_y = y
+
+            # Do math to calculate how to get the bullet to the destination.
+            # Calculation the angle in radians between the start points
+            # and end points. This is the angle the bullet will travel.
+            x_diff = dest_x - start_x
+            y_diff = dest_y - start_y
+            angle = math.atan2(y_diff, x_diff)
+
+            # By calculating the distance between mouse click and the player sprite
+            velocity = (x_diff * x_diff + y_diff * y_diff) / 100
+
+            # you can only have 1000 max
+            if velocity > 1000:
+                velocity = 1000
+
+            velocity_x = math.cos(angle) * velocity
+            velocity_y = math.sin(angle) * velocity
+
+            # With right mouse button, shoot a heavy coin fast.
+            mass = 0.7
+            radius = 20
+
+            bird_random = random.randint(1, 3)
+
+            # Create a bullet
+            angry_bird = arcade.Sprite(
+                f"images/ClassicChuck{bird_random}.png", SCALE)
+
+            self.angry_bird_count += 1
+
+            # Add the bullet to the appropriate lists
+            self.angry_bird_list.append(angry_bird)
+
     def on_update(self, delta_time):
         """Update"""
 
@@ -137,6 +187,7 @@ class Game(arcade.Window):
 
         self.item_list.draw()
         self.wall_list.draw()
+        self.angry_bird_list.draw()
 
 
 if __name__ == "__main__":
