@@ -67,8 +67,22 @@ class Game(arcade.Window):
 
         arcade.set_background_color(arcade.color.BLUE_YONDER)
 
+        # Player Setup
+        self.player = arcade.Sprite("images/ClassicChuck2.png", SCALE)
+
+        # Player Start X and Y
+        self.player.center_x = 200
+        self.player.center_y = 200
+
+        # Player's change X and Y
+        self.player.change_x = 0
+        self.player.change_y = 0
+
+        # Angry Bird Count
+        self.angry_bird_count = 0
+
         # Map name
-        map_name = "arcade/doc/tutorials/pymunk_platformer/pymunk_test_map.json"
+        map_name = "maps/AngryBird_level_1.json"
 
         # Load in TileMap
         tile_map = arcade.load_tilemap(map_name, SCALE)
@@ -111,10 +125,6 @@ class Game(arcade.Window):
                                             friction=DYNAMIC_ITEM_FRICTION,
                                             collision_type="item")
 
-        # Add kinematic sprites
-        self.physics_engine.add_sprite_list(self.moving_sprites_list,
-                                            body_type=arcade.PymunkPhysicsEngine.KINEMATIC)
-
     def on_update(self, delta_time):
         """Update"""
 
@@ -125,7 +135,8 @@ class Game(arcade.Window):
 
         arcade.start_render()
 
-        pass
+        self.item_list.draw()
+        self.wall_list.draw()
 
 
 if __name__ == "__main__":
