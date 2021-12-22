@@ -72,8 +72,8 @@ class Game(arcade.Window):
         self.player = arcade.Sprite("images/ClassicChuck2.png", SCALE)
 
         # Player Start X and Y
-        self.player.center_x = 200
-        self.player.center_y = 200
+        self.player.center_x = 500
+        self.player.center_y = 500
 
         # Player's change X and Y
         self.player.change_x = 0
@@ -174,6 +174,11 @@ class Game(arcade.Window):
 
             # Add the bullet to the appropriate lists
             self.angry_bird_list.append(angry_bird)
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        """Mouse Press"""
+
+        self.angry_bird_launch(x, y)
 
     def on_update(self, delta_time):
         """Update"""
