@@ -40,6 +40,15 @@ DEFAULT_DAMPING = 1.0
 WALL_FRICTION = 0.7
 DYNAMIC_ITEM_FRICTION = 0.6
 
+# How much force to put on the bullet
+BULLET_MOVE_FORCE = 60000
+
+# Mass of the bullet
+BULLET_MASS = 1
+
+# Make bullet less affected by gravity
+BULLET_GRAVITY = 300
+
 
 class Game(arcade.Window):
     """Game"""
@@ -55,15 +64,21 @@ class Game(arcade.Window):
         # Our Scene Object
         self.scene = None
 
-        # Our physics enginea
+        # Our physics engine
         self.physics_engine = None
+
+        # Level
+        self.level = 1
 
         # Lists
         self.wall_list = None
         self.item_list = None
+        self.pig_list = None
         self.angry_bird_list = arcade.SpriteList()
+        self.killed_count = 0
+        self.killed_target = 0
 
-    def setup(self):
+    def setup(self, level):
         """Setup"""
 
         arcade.set_background_color(arcade.color.BLUE_YONDER)
@@ -72,8 +87,8 @@ class Game(arcade.Window):
         self.player = arcade.Sprite("images/ClassicChuck2.png", SCALE)
 
         # Player Start X and Y
-        self.player.center_x = 500
-        self.player.center_y = 500
+        self.player.center_x = 200
+        self.player.center_y = 300
 
         # Player's change X and Y
         self.player.change_x = 0
@@ -82,8 +97,11 @@ class Game(arcade.Window):
         # Angry Bird Count
         self.angry_bird_count = 0
 
-        # Map name
-        map_name = "maps/AngryBird_level_1.json"
+        self.all_pigs_killed = False
+
+        # Map setup
+        self.level += 1
+        map_name = f"maps/AngryBird_level_{level}.json"
 
         # Load in TileMap
         tile_map = arcade.load_tilemap(map_name, SCALE)
@@ -91,6 +109,9 @@ class Game(arcade.Window):
         # Pull the sprite layers out of the tile map
         self.wall_list = tile_map.sprite_lists["Platform"]
         self.item_list = tile_map.sprite_lists["Boxes"]
+        self.pig_list = tile_map.sprite_lists["Pigs"]
+        self.killed_target = self.pig_list.__len__()
+        print('Pig to kill', self.killed_target)
 
         # --- Pymunk Physics Engine Setup ---
 
@@ -126,43 +147,29 @@ class Game(arcade.Window):
                                             friction=DYNAMIC_ITEM_FRICTION,
                                             collision_type="item")
 
+        # Create the pigs
+        self.physics_engine.add_sprite_list(self.pig_list,
+                                            friction=DYNAMIC_ITEM_FRICTION,
+                                            collision_type="item")
+
+        # Call stuff
+        self.pig_killed()
+
     # Sprites
+
+    def pig_killed(self):
+        """Pig Killed"""
+
+        for sprite in self.pig_list:
+            # print("angle", sprite.angle)
+            if abs(sprite.angle) > 40:
+                self.pig_list.remove(sprite)
+                self.killed_count += 1
 
     def angry_bird_launch(self, x, y):
         """Angry Bird Launch"""
 
-        if self.angry_bird_count < 5:
-
-            # Position the bullet at the player's current location
-            start_x = self.player.center_x
-            start_y = self.player.center_y
-
-            # Get from the mouse the destination location for the bullet
-            # IMPORTANT! If you have a scrolling screen, you will also need
-            # to add in self.view_bottom and self.view_left.
-            dest_x = x
-            dest_y = y
-
-            # Do math to calculate how to get the bullet to the destination.
-            # Calculation the angle in radians between the start points
-            # and end points. This is the angle the bullet will travel.
-            x_diff = dest_x - start_x
-            y_diff = dest_y - start_y
-            angle = math.atan2(y_diff, x_diff)
-
-            # By calculating the distance between mouse click and the player sprite
-            velocity = (x_diff * x_diff + y_diff * y_diff) / 100
-
-            # you can only have 1000 max
-            if velocity > 1000:
-                velocity = 1000
-
-            velocity_x = math.cos(angle) * velocity
-            velocity_y = math.sin(angle) * velocity
-
-            # With right mouse button, shoot a heavy coin fast.
-            mass = 0.7
-            radius = 20
+        if self.angry_bird_count < 100:
 
             bird_random = random.randint(1, 3)
 
@@ -172,8 +179,56 @@ class Game(arcade.Window):
 
             self.angry_bird_count += 1
 
-            # Add the bullet to the appropriate lists
-            self.angry_bird_list.append(angry_bird)
+        # Position the bullet at the player's current location
+        start_x = self.player.center_x
+        start_y = self.player.center_y
+        angry_bird.position = self.player.position
+
+        # Get from the mouse the destination location for the bullet
+        # IMPORTANT! If you have a scrolling screen, you will also need
+        # to add in self.view_bottom and self.view_left.
+        dest_x = x
+        dest_y = y
+
+        # Do math to calculate how to get the bullet to the destination.
+        # Calculation the angle in radians between the start points
+        # and end points. This is the angle the bullet will travel.
+        x_diff = dest_x - start_x
+        y_diff = dest_y - start_y
+        angle = math.atan2(y_diff, x_diff)
+
+        # What is the 1/2 size of this sprite, so we can figure out how far
+        # away to spawn the bullet
+        size = max(self.player.width, self.player.height) / 2
+
+        # Use angle to to spawn bullet away from player in proper direction
+        angry_bird.center_x += size * math.cos(angle)
+        angry_bird.center_y += size * math.sin(angle)
+
+        # Set angle of bullet
+        angry_bird.angle = math.degrees(angle)
+
+        # Gravity to use for the bullet
+        # If we don't use custom gravity, bullet drops too fast, or we have
+        # to make it go too fast.
+        # Force is in relation to bullet's angle.
+        bullet_gravity = (0, -BULLET_GRAVITY)
+
+        # Add the sprite. This needs to be done AFTER setting the fields above.
+        self.physics_engine.add_sprite(angry_bird,
+                                       mass=BULLET_MASS,
+                                       damping=1.0,
+                                       friction=0.6,
+                                       collision_type="bullet",
+                                       gravity=bullet_gravity,
+                                       elasticity=0.9)
+
+        # Add force to bullet
+        force = (BULLET_MOVE_FORCE, 0)
+        self.physics_engine.apply_force(angry_bird, force)
+
+        # Add the bullet to the appropriate lists
+        self.angry_bird_list.append(angry_bird)
 
     def on_mouse_press(self, x, y, button, modifiers):
         """Mouse Press"""
@@ -183,7 +238,19 @@ class Game(arcade.Window):
     def on_update(self, delta_time):
         """Update"""
 
-        pass
+        # Move items in the physics engine
+        self.physics_engine.step()
+
+        # Call stuff
+        self.pig_killed()
+
+        # check target count and killed count
+        if self.killed_count == self.killed_target:
+            self.all_pigs_killed = True
+
+        if self.all_pigs_killed == True:
+            self.level += 1
+            self.setup(self.level)
 
     def on_draw(self):
         """Draw"""
@@ -192,10 +259,12 @@ class Game(arcade.Window):
 
         self.item_list.draw()
         self.wall_list.draw()
+        self.pig_list.draw()
         self.angry_bird_list.draw()
+        self.player.draw()
 
 
 if __name__ == "__main__":
     window = Game()
-    window.setup()
+    window.setup(window.level)
     arcade.run()

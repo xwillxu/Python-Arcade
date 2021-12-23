@@ -10,15 +10,15 @@
  "spacing":0,
  "tilecount":1,
  "tiledversion":"1.7.2",
- "tileheight":343,
+ "tileheight":128,
  "tiles":[
         {
-         "id":1,
+         "id":2,
          "image":"..\/images\/pig1.png",
-         "imageheight":343,
-         "imagewidth":341
+         "imageheight":128,
+         "imagewidth":128
         }],
- "tilewidth":341,
+ "tilewidth":128,
  "type":"tileset",
  "version":"1.6"
 }
