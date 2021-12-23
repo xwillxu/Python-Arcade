@@ -17,6 +17,7 @@ Angry birds(Remake) Tilemap version
 
 
 # Screen setup
+from os import remove
 import arcade
 import random
 import math
@@ -99,8 +100,7 @@ class Game(arcade.Window):
 
         self.all_pigs_killed = False
 
-        # Map setup
-        self.level += 1
+        # Map name
         map_name = f"maps/AngryBird_level_{level}.json"
 
         # Load in TileMap
@@ -129,6 +129,9 @@ class Game(arcade.Window):
         # Create the physics engine
         self.physics_engine = arcade.PymunkPhysicsEngine(damping=damping,
                                                          gravity=gravity)
+
+        # clean up
+        self.angry_bird_list = arcade.SpriteList()
 
         # Create the walls.
         # By setting the body type to PymunkPhysicsEngine.STATIC the walls can't
@@ -169,7 +172,7 @@ class Game(arcade.Window):
     def angry_bird_launch(self, x, y):
         """Angry Bird Launch"""
 
-        if self.angry_bird_count < 100:
+        if self.angry_bird_count < 25:
 
             bird_random = random.randint(1, 3)
 
@@ -248,8 +251,12 @@ class Game(arcade.Window):
         if self.killed_count == self.killed_target:
             self.all_pigs_killed = True
 
+        print("Killed", self.killed_count)
+        print("Target", self.killed_target)
+
         if self.all_pigs_killed == True:
             self.level += 1
+            self.killed_count = 0
             self.setup(self.level)
 
     def on_draw(self):
@@ -262,6 +269,9 @@ class Game(arcade.Window):
         self.pig_list.draw()
         self.angry_bird_list.draw()
         self.player.draw()
+
+        Max_Angry_Bird = f"Shot: {self.angry_bird_count:.0f}"
+        arcade.draw_text(Max_Angry_Bird, 1000, 760, arcade.color.BLACK, 20)
 
 
 if __name__ == "__main__":
