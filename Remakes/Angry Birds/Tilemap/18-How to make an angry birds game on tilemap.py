@@ -150,9 +150,15 @@ class Game(arcade.Window):
                                             body_type=arcade.PymunkPhysicsEngine.STATIC)
 
         # Create the items
-        self.physics_engine.add_sprite_list(self.item_list,
+        self.physics_engine.add_sprite_list(self.item_list, mass=1,
                                             friction=DYNAMIC_ITEM_FRICTION,
                                             collision_type="item")
+        for sprite in self.item_list:
+            normalmass = 1
+            if "mass" in sprite.properties:
+                normalmass = sprite.properties["mass"]
+            self.physics_engine.add_sprite(
+                sprite, normalmass, DYNAMIC_ITEM_FRICTION, collision_type="item")
 
         # Create the pigs
         self.physics_engine.add_sprite_list(self.pig_list,

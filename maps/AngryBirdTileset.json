@@ -8,13 +8,19 @@
  "margin":0,
  "name":"AngryBirdTileset",
  "spacing":0,
- "tilecount":1,
+ "tilecount":2,
  "tiledversion":"1.7.2",
  "tileheight":128,
  "tiles":[
         {
          "id":2,
          "image":"..\/images\/pig1.png",
+         "imageheight":128,
+         "imagewidth":128
+        }, 
+        {
+         "id":4,
+         "image":"..\/images\/pig2.png",
          "imageheight":128,
          "imagewidth":128
         }],
