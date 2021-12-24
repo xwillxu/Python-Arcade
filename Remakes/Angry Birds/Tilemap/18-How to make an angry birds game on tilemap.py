@@ -17,10 +17,12 @@ Angry birds(Remake) Tilemap version
 
 
 # Screen setup
+
 from os import remove
 import arcade
 import random
 import math
+from arcade.sprite import Sprite
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Angry Birds"
@@ -100,6 +102,8 @@ class Game(arcade.Window):
 
         self.all_pigs_killed = False
 
+        self.can_bomb = True
+
         # Map name
         map_name = f"maps/AngryBird_level_{level}.json"
 
@@ -166,6 +170,10 @@ class Game(arcade.Window):
         for sprite in self.pig_list:
             # print("angle", sprite.angle)
             if abs(sprite.angle) > 40:
+                self.pig_list.remove(sprite)
+                self.killed_count += 1
+
+            elif sprite.center_x >= 1200 or sprite.center_x <= 0 or sprite.center_y >= 800 or sprite.center_y <= 0:
                 self.pig_list.remove(sprite)
                 self.killed_count += 1
 
