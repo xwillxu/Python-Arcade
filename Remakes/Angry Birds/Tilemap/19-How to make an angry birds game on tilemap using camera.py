@@ -18,9 +18,11 @@ Angry birds(Remake) Tilemap version
 
 # Screen setup
 
+from os import remove
 import arcade
 import random
 import math
+from arcade.sprite import Sprite
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Angry Birds"
@@ -71,6 +73,12 @@ class Game(arcade.Window):
         # Level
         self.level = 1
 
+        # A Camera that can be used for scrolling the screen
+        self.camera = None
+
+        # A Camera that can be used to draw GUI elements
+        self.gui_camera = None
+
         # Lists
         self.wall_list = None
         self.item_list = None
@@ -79,8 +87,17 @@ class Game(arcade.Window):
         self.killed_count = 0
         self.killed_target = 0
 
+        # camera target
+        self.camera_target = None
+        self.previous_x = 0
+        self.current_x = 0
+
     def setup(self, level):
         """Setup"""
+
+        # Setup the Cameras
+        self.camera = arcade.Camera(self.width, self.height)
+        self.gui_camera = arcade.Camera(self.width, self.height)
 
         arcade.set_background_color(arcade.color.BLUE_YONDER)
 
@@ -184,6 +201,9 @@ class Game(arcade.Window):
     def angry_bird_launch(self, x, y):
         """Angry Bird Launch"""
 
+        if not self.camera_target == None:
+            return
+
         if self.angry_bird_count < 25:
 
             bird_random = random.randint(1, 3)
@@ -245,6 +265,29 @@ class Game(arcade.Window):
         # Add the bullet to the appropriate lists
         self.angry_bird_list.append(angry_bird)
 
+        self.camera_target = angry_bird
+
+    def center_camera_to_player(self):
+
+        # which sprite we should follow
+        target = self.player
+
+        if not self.camera_target == None:
+            target = self.camera_target
+
+        screen_center_x = target.center_x - \
+            (self.camera.viewport_width / 2)
+        screen_center_y = target.center_y - (
+            self.camera.viewport_height / 2
+        )
+        if screen_center_x < 0:
+            screen_center_x = 0
+        if screen_center_y < 0:
+            screen_center_y = 0
+        player_centered = screen_center_x, screen_center_y
+
+        self.camera.move_to(player_centered)
+
     def on_mouse_press(self, x, y, button, modifiers):
         """Mouse Press"""
 
@@ -271,10 +314,25 @@ class Game(arcade.Window):
             self.killed_count = 0
             self.setup(self.level)
 
+        if not self.camera_target == None:
+            self.previous_x = self.current_x
+            self.current_x = self.camera_target.center_x
+            if abs(self.current_x - self.previous_x) < 0.01 or self.current_x < 50 or self.camera_target.center_x >= 1200:
+                print("Remove camera target due to no x change", self.camera_target.change_x,
+                      self.camera_target.velocity, self.camera_target.center_x)
+                self.camera_target = None
+            else:
+                print("Current x", self.previous_x, self.current_x)
+
+        self.center_camera_to_player()
+
     def on_draw(self):
         """Draw"""
 
         arcade.start_render()
+
+        # Activate the game camera
+        self.camera.use()
 
         self.item_list.draw()
         self.wall_list.draw()
