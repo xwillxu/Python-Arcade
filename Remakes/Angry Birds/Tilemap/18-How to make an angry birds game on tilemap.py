@@ -10,7 +10,9 @@ Angry birds(Remake) Tilemap version
 4: Can only launch 5 birds
 5: Randomise the box steps
 6: Have Fun
-7: Made With Tilemap(Inprogress)
+7: Made With Tilemap
+8: Make it with camera
+9: Make it like the real Game
 
 """
 # Imports

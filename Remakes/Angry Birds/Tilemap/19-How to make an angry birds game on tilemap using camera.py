@@ -1,5 +1,5 @@
 """
-Angry birds(Remake) Tilemap version
+Angry birds(Remake) Tilemap version + Camera version
 """
 
 """Instrutions:
@@ -10,7 +10,9 @@ Angry birds(Remake) Tilemap version
 4: Can only launch 5 birds
 5: Randomise the box steps
 6: Have Fun
-7: Made With Tilemap(Inprogress)
+7: Made With Tilemap
+8: Made With Camera
+9: Make it like the real Game
 
 """
 # Imports
@@ -44,10 +46,10 @@ WALL_FRICTION = 0.7
 DYNAMIC_ITEM_FRICTION = 0.6
 
 # How much force to put on the bullet
-BULLET_MOVE_FORCE = 60000
+BULLET_MOVE_FORCE = 80000
 
 # Mass of the bullet
-BULLET_MASS = 1
+BULLET_MASS = 2
 
 # Make bullet less affected by gravity
 BULLET_GRAVITY = 300
