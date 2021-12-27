@@ -193,7 +193,7 @@
                 {
                  "name":"mass",
                  "type":"int",
-                 "value":5
+                 "value":1
                 }]
         }],
  "tilewidth":128,

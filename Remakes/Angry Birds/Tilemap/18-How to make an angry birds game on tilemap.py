@@ -11,8 +11,8 @@ Angry birds(Remake) Tilemap version
 5: Randomise the box steps
 6: Have Fun
 7: Made With Tilemap
-8: Make it with camera
-9: Make it like the real Game
+8: Make it with camera(Unfinished)
+9: Make it like the real Game(Unfinished)
 
 """
 # Imports

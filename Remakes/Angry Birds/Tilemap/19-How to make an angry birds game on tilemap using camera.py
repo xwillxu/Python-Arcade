@@ -12,7 +12,7 @@ Angry birds(Remake) Tilemap version + Camera version
 6: Have Fun
 7: Made With Tilemap
 8: Made With Camera
-9: Make it like the real Game
+9: Make it like the real Game(Unfinished)
 
 """
 # Imports
@@ -49,7 +49,7 @@ DYNAMIC_ITEM_FRICTION = 0.6
 BULLET_MOVE_FORCE = 80000
 
 # Mass of the bullet
-BULLET_MASS = 2
+BULLET_MASS = 1
 
 # Make bullet less affected by gravity
 BULLET_GRAVITY = 300
@@ -73,7 +73,7 @@ class Game(arcade.Window):
         self.physics_engine = None
 
         # Level
-        self.level = 1
+        self.level = 10
 
         # A Camera that can be used for scrolling the screen
         self.camera = None
@@ -91,8 +91,8 @@ class Game(arcade.Window):
 
         # camera target
         self.camera_target = None
-        self.previous_x = 0
-        self.current_x = 0
+        self.previous_y = 0
+        self.current_y = 0
 
     def setup(self, level):
         """Setup"""
@@ -118,8 +118,6 @@ class Game(arcade.Window):
         self.angry_bird_count = 0
 
         self.all_pigs_killed = False
-
-        self.can_bomb = True
 
         # Map name
         map_name = f"maps/AngryBird_level_{level}.json"
@@ -196,7 +194,7 @@ class Game(arcade.Window):
                 self.pig_list.remove(sprite)
                 self.killed_count += 1
 
-            elif sprite.center_x >= 1200 or sprite.center_x <= 0 or sprite.center_y >= 800 or sprite.center_y <= 0:
+            elif sprite.center_x >= 10000 or sprite.center_x <= 0 or sprite.center_y >= 800 or sprite.center_y <= 0:
                 self.pig_list.remove(sprite)
                 self.killed_count += 1
 
@@ -317,14 +315,14 @@ class Game(arcade.Window):
             self.setup(self.level)
 
         if not self.camera_target == None:
-            self.previous_x = self.current_x
-            self.current_x = self.camera_target.center_x
-            if abs(self.current_x - self.previous_x) < 0.01 or self.current_x < 50 or self.camera_target.center_x >= 1200:
-                print("Remove camera target due to no x change", self.camera_target.change_x,
-                      self.camera_target.velocity, self.camera_target.center_x)
+            self.previous_y = self.current_y
+            self.current_y = self.camera_target.center_y
+            if abs(self.current_y - self.previous_y) < 0.01 or self.current_y < 50 or self.current_y > 1200:
+                print("Remove camera target due to no y change", self.camera_target.change_y,
+                      self.camera_target.velocity, self.camera_target.center_y)
                 self.camera_target = None
             else:
-                print("Current x", self.previous_x, self.current_x)
+                print("Current x", self.previous_y, self.current_y)
 
         self.center_camera_to_player()
 
