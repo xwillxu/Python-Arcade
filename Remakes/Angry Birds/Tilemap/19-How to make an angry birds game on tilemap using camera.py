@@ -46,13 +46,13 @@ WALL_FRICTION = 0.7
 DYNAMIC_ITEM_FRICTION = 0.6
 
 # How much force to put on the bullet
-BULLET_MOVE_FORCE = 80000
+BULLET_MOVE_FORCE = 60000
 
 # Mass of the bullet
 BULLET_MASS = 1
 
 # Make bullet less affected by gravity
-BULLET_GRAVITY = 300
+BULLET_GRAVITY = 1500
 
 
 class Game(arcade.Window):
@@ -73,7 +73,7 @@ class Game(arcade.Window):
         self.physics_engine = None
 
         # Level
-        self.level = 10
+        self.level = 11
 
         # A Camera that can be used for scrolling the screen
         self.camera = None
@@ -317,12 +317,12 @@ class Game(arcade.Window):
         if not self.camera_target == None:
             self.previous_y = self.current_y
             self.current_y = self.camera_target.center_y
-            if abs(self.current_y - self.previous_y) < 0.01 or self.current_y < 50 or self.current_y > 1200:
-                print("Remove camera target due to no y change", self.camera_target.change_y,
-                      self.camera_target.velocity, self.camera_target.center_y)
+            if abs(self.current_y - self.previous_y) < 0.01 or self.current_y < 50 or self.current_y > 1200 or self.current_y < 0:
+                # print("Remove camera target due to no y change", self.camera_target.change_y,
+                #   self.camera_target.velocity, self.camera_target.center_y)
                 self.camera_target = None
-            else:
-                print("Current x", self.previous_y, self.current_y)
+            # else:
+            #     print("Current y", self.previous_y, self.current_y)
 
         self.center_camera_to_player()
 

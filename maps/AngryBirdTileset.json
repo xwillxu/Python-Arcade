@@ -8,9 +8,9 @@
  "margin":0,
  "name":"AngryBirdTileset",
  "spacing":0,
- "tilecount":3,
+ "tilecount":10,
  "tiledversion":"1.7.2",
- "tileheight":128,
+ "tileheight":1280,
  "tiles":[
         {
          "id":2,
@@ -29,8 +29,50 @@
          "image":"..\/images\/wood1.png",
          "imageheight":38,
          "imagewidth":406
+        }, 
+        {
+         "id":6,
+         "image":"..\/images\/Green_box.png",
+         "imageheight":128,
+         "imagewidth":128
+        }, 
+        {
+         "id":7,
+         "image":"..\/images\/Black_box.png",
+         "imageheight":128,
+         "imagewidth":128
+        }, 
+        {
+         "id":8,
+         "image":"..\/images\/White_box.png",
+         "imageheight":128,
+         "imagewidth":128
+        }, 
+        {
+         "id":9,
+         "image":"..\/images\/LightGreen_box.png",
+         "imageheight":128,
+         "imagewidth":128
+        }, 
+        {
+         "id":10,
+         "image":"..\/images\/DarkGreen_box.png",
+         "imageheight":128,
+         "imagewidth":128
+        }, 
+        {
+         "id":11,
+         "image":"..\/images\/GiantPig.png",
+         "imageheight":1280,
+         "imagewidth":1280
+        }, 
+        {
+         "id":12,
+         "image":"..\/images\/GiantKingPig.png",
+         "imageheight":1280,
+         "imagewidth":1280
         }],
- "tilewidth":406,
+ "tilewidth":1280,
  "type":"tileset",
  "version":"1.6"
 }
