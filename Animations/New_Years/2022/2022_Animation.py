@@ -42,6 +42,13 @@ class Animation(arcade.Window):
         self.Jingle_bells = arcade.Sound(
             "sounds/jingle-bells-violin-loop-8645.mp3")
 
+        arcade.schedule(self.JingleBells, 235)
+
+        self.JingleBells()
+
+    def JingleBells(self):
+        """Jingle Bells"""
+
         arcade.play_sound(self.Jingle_bells)
 
     def snowflakes(self):

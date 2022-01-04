@@ -147,7 +147,7 @@ class MyGame(arcade.Window):
                     column_count = end_column - start_column + 1
                     column_mid = (start_column + end_column) / 2
 
-                    wall = arcade.Sprite(":resources:images/tiles/grassCenter.png", SPRITE_SCALING,
+                    wall = arcade.Sprite(":resources:images/tiles/boxCrate.png", SPRITE_SCALING,
                                          repeat_count_x=column_count)
                     wall.center_x = column_mid * SPRITE_SIZE + SPRITE_SIZE / 2
                     wall.center_y = row * SPRITE_SIZE + SPRITE_SIZE / 2
