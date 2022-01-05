@@ -34,13 +34,41 @@ class Animation(arcade.Window):
 
         self.SpriteList.draw()
 
-        school_text = "Back To School 2022!"
+        school_text = "Back To School 2022!(After Winter Break) "
+
         arcade.draw_text(
             school_text,
-            375,
+            100,
             650,
             arcade.csscolor.BLACK,
-            33,
+            25,
+        )
+
+        school_text2 = "Well when we got back it was online school!"
+        arcade.draw_text(
+            school_text2,
+            100,
+            600,
+            arcade.csscolor.BLACK,
+            25,
+        )
+
+        school_text3 = "Well I Hope Everyone is Having Fun!"
+        arcade.draw_text(
+            school_text3,
+            100,
+            550,
+            arcade.csscolor.BLACK,
+            25,
+        )
+
+        school_text4 = "Bye Xwill"
+        arcade.draw_text(
+            school_text4,
+            100,
+            450,
+            arcade.csscolor.BLACK,
+            25,
         )
 
     def on_update(self, delta_time):
