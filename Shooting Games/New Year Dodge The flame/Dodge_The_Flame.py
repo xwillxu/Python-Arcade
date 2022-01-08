@@ -33,7 +33,7 @@ class Game(arcade.Window):
         self.player = arcade.Sprite("images/Ice_Cube.png", SUPER_SCALE)
 
         self.player.center_x = 600
-        self.player.center_y = 300
+        self.player.center_y = 200
 
         self.player.change_x = 0
 
