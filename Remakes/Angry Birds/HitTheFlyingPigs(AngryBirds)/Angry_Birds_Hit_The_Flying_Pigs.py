@@ -105,6 +105,20 @@ class Game(arcade.Window):
 
         arcade.schedule(self.Pigs, 3)
         self.Pigs(0)
+        self.music(0)
+        arcade.schedule(self.music, 15.5)
+
+        # Music
+        self.music = arcade.load_sound(
+            "RealPython/materials/arcade-a-primer/sounds/Apoxode_-_Electric_1.wav")
+
+        self.collision_sound = arcade.load_sound(
+            "RealPython/materials/arcade-a-primer/sounds/Collision.wav")
+
+    def music(self, delta_time):
+        """Music"""
+
+        arcade.play_sound(self.music)
 
     # Sprites
 
@@ -202,6 +216,7 @@ class Game(arcade.Window):
         for pig in self.pig_list:
             for angry_bird in self.angry_bird_list:
                 if angry_bird.collides_with_list(self.pig_list):
+                    arcade.play_sound(self.collision_sound)
                     self.score += 1
                     pig.remove_from_sprite_lists()
 
