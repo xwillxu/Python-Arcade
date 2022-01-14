@@ -1,4 +1,4 @@
-# Some Random Animation
+# Some Random Animation(Unfinshed Will get back to it.
 
 
 import arcade
@@ -28,6 +28,11 @@ class Animation(arcade.Window):
         sunset.center_y = 400
 
         self.animation_list.append(sunset)
+
+        sparkle = arcade.Sprite("images/sparkle.png")
+
+        sparkle.center_x = 600
+        sparkle.center_y = 300
 
     def on_draw(self):
         """Draw"""
