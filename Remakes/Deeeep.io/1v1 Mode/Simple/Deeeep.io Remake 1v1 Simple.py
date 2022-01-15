@@ -30,6 +30,8 @@ class Game(arcade.Window):
 
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
+        self.player = arcade.Sprite("Tiger_Shark.png")
+
     def on_draw(self):
         """Draw"""
 
