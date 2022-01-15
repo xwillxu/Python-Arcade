@@ -12,14 +12,13 @@ Instrutions:
 
 import arcade
 import math
-import os
 
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Deeeep.io 1v1 Remake"
 
 TINY_SCALE = 0.7
-SCALE = 0.5
+SCALE = 0.4
 SUPER_SCALE = 0.2
 
 
@@ -34,9 +33,11 @@ class Game(arcade.Window):
     def setup(self):
         """Setup"""
 
+        self.set_fullscreen(not self.fullscreen)
+
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
-        self.player = arcade.Sprite("images/Tiger_Shark.png", SUPER_SCALE)
+        self.player = arcade.Sprite("images/Tiger_Shark.png", SCALE)
         self.player.center_x = 600
         self.player.center_y = 400
         self.player.change_x = 0
@@ -46,6 +47,10 @@ class Game(arcade.Window):
         """ Called whenever the mouse button is clicked. """
 
         self.player_move(x, y)
+
+    def on_key_press(self, symbol: int, modifiers: int):
+        if arcade.key.SPACE:
+            self.set_fullscreen(not self.fullscreen)
 
     def on_draw(self):
         """Draw"""
