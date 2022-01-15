@@ -18,6 +18,10 @@ SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Deeeep.io 1v1 Remake"
 
+TINY_SCALE = 0.7
+SCALE = 0.5
+SUPER_SCALE = 0.2
+
 
 class Game(arcade.Window):
     """Game"""
@@ -32,7 +36,7 @@ class Game(arcade.Window):
 
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
-        self.player = arcade.Sprite("images/Tiger_Shark.png")
+        self.player = arcade.Sprite("images/Tiger_Shark.png", SUPER_SCALE)
         self.player.center_x = 600
         self.player.center_y = 400
         self.player.change_x = 0
@@ -68,7 +72,7 @@ class Game(arcade.Window):
 
         # Angle the bullet sprite so it doesn't look like it is flying
         # sideways.
-        self.player.angle = math.degrees(angle)
+        self.player.angle = math.degrees(angle) - 90
 
         # Taking into account the angle, calculate our change_x
         # and change_y. Velocity is how fast the bullet travels.
