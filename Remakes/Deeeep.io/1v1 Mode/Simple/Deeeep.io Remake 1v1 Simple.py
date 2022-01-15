@@ -37,16 +37,27 @@ class Game(arcade.Window):
 
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
+        self.speed = 5
+
         self.player = arcade.Sprite("images/Tiger_Shark.png", SCALE)
         self.player.center_x = 600
         self.player.center_y = 400
         self.player.change_x = 0
         self.player.change_y = 0
 
+        self.boost_timer = 0
+
+        self.boost_timer_start = False
+
     def on_mouse_motion(self, x, y, dx, dy):
         """ Called whenever the mouse button is clicked. """
 
         self.player_move(x, y)
+
+    def on_mouse_release(self, x, y, button, modifiers):
+        """Mouse Release"""
+
+        self.boost_timer_start = True
 
     def on_key_press(self, symbol: int, modifiers: int):
         if arcade.key.SPACE:
@@ -81,8 +92,8 @@ class Game(arcade.Window):
 
         # Taking into account the angle, calculate our change_x
         # and change_y. Velocity is how fast the bullet travels.
-        self.player.change_x = math.cos(angle) * 5
-        self.player.change_y = math.sin(angle) * 5
+        self.player.change_x = math.cos(angle) * self.speed
+        self.player.change_y = math.sin(angle) * self.speed
         # print(f"Bullet change x: {bullet.change_x:.2f}")
         # print(f"Bullet change y: {bullet.change_y:.2f}")
 
@@ -90,6 +101,18 @@ class Game(arcade.Window):
         """Update"""
 
         self.player.update()
+
+        if self.boost_timer_start == True:
+            self.boost_timer += 0.01
+
+        if self.boost_timer >= 10:
+            self.boost_timer_start = False
+            self.boost_timer = 0
+
+        if self.boost_timer > 0:
+            self.speed = 10
+        else:
+            self.speed = 5
 
 
 if __name__ == "__main__":
