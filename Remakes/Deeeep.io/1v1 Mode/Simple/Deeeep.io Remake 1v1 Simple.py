@@ -23,18 +23,6 @@ SCALE = 0.4
 SUPER_SCALE = 0.2
 
 
-class Orb:
-    def __init__(self, x, y, radius, color):
-        self.x = x
-        self.y = y
-        self.radius = radius
-        self.color = color
-
-    def draw(self):
-
-        arcade.draw_circle_filled(self.x, self.y, self.radius, self.color)
-
-
 class Game(arcade.Window):
     """Game"""
 
@@ -62,14 +50,18 @@ class Game(arcade.Window):
 
         self.boost_timer_start = False
 
-        self.orb_list = []
-        # add random orbs
-        for i in range(100):
-            center_x = random.randint(10, 1890)
-            center_y = random.randint(10, 1050)
+        self.orb_list = arcade.SpriteList()
 
-            self.orb_list.append(
-                Orb(center_x, center_y, 10, arcade.color.GREEN))
+        for i in range(100):
+
+            center_x = random.randint(10, 1890)
+            center_y = random.randint(10, 1040)
+            orb = arcade.Sprite("images/Orb.png", SCALE / 4)
+
+            orb.center_x = center_x
+            orb.center_y = center_y
+
+            self.orb_list.append(orb)
 
     def on_mouse_motion(self, x, y, dx, dy):
         """ Called whenever the mouse button is clicked. """
@@ -92,8 +84,7 @@ class Game(arcade.Window):
 
         self.player.draw()
 
-        for orb in self.orb_list:
-            orb.draw()
+        self.orb_list.draw()
 
     def player_move(self, x, y):
         """Player Move"""
