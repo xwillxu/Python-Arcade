@@ -12,6 +12,7 @@ Instrutions:
 
 import arcade
 import math
+import random
 
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
@@ -20,6 +21,18 @@ SCREEN_TITLE = "Deeeep.io 1v1 Remake"
 TINY_SCALE = 0.7
 SCALE = 0.4
 SUPER_SCALE = 0.2
+
+
+class Orb:
+    def __init__(self, x, y, radius, color):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.color = color
+
+    def draw(self):
+
+        arcade.draw_circle_filled(self.x, self.y, self.radius, self.color)
 
 
 class Game(arcade.Window):
@@ -49,6 +62,15 @@ class Game(arcade.Window):
 
         self.boost_timer_start = False
 
+        self.orb_list = []
+        # add random orbs
+        for i in range(100):
+            center_x = random.randint(10, 1890)
+            center_y = random.randint(10, 1050)
+
+            self.orb_list.append(
+                Orb(center_x, center_y, 10, arcade.color.GREEN))
+
     def on_mouse_motion(self, x, y, dx, dy):
         """ Called whenever the mouse button is clicked. """
 
@@ -69,6 +91,9 @@ class Game(arcade.Window):
         arcade.start_render()
 
         self.player.draw()
+
+        for orb in self.orb_list:
+            orb.draw()
 
     def player_move(self, x, y):
         """Player Move"""
@@ -94,8 +119,6 @@ class Game(arcade.Window):
         # and change_y. Velocity is how fast the bullet travels.
         self.player.change_x = math.cos(angle) * self.speed
         self.player.change_y = math.sin(angle) * self.speed
-        # print(f"Bullet change x: {bullet.change_x:.2f}")
-        # print(f"Bullet change y: {bullet.change_y:.2f}")
 
     def on_update(self, delta_time):
         """Update"""
