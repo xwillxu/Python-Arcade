@@ -103,7 +103,7 @@ class Game(arcade.Window):
         self.player.update()
 
         if self.boost_timer_start == True:
-            self.boost_timer += 0.01
+            self.boost_timer += 0.06
 
         if self.boost_timer >= 10:
             self.boost_timer_start = False
