@@ -39,6 +39,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         self.speed = 5
+        self.score = 0
 
         self.player = arcade.Sprite("images/Tiger_Shark.png", SCALE)
         self.player.center_x = 600
@@ -53,15 +54,19 @@ class Game(arcade.Window):
         self.orb_list = arcade.SpriteList()
 
         for i in range(100):
+            self.Orb()
 
-            center_x = random.randint(10, 1890)
-            center_y = random.randint(10, 1040)
-            orb = arcade.Sprite("images/Orb.png", SCALE / 4)
+    def Orb(self):
+        """Orb"""
 
-            orb.center_x = center_x
-            orb.center_y = center_y
+        center_x = random.randint(10, 1890)
+        center_y = random.randint(10, 1040)
+        orb = arcade.Sprite("images/Orb.png", SCALE / 4)
 
-            self.orb_list.append(orb)
+        orb.center_x = center_x
+        orb.center_y = center_y
+
+        self.orb_list.append(orb)
 
     def on_mouse_motion(self, x, y, dx, dy):
         """ Called whenever the mouse button is clicked. """
@@ -85,6 +90,9 @@ class Game(arcade.Window):
         self.player.draw()
 
         self.orb_list.draw()
+
+        output = f"Score: {self.score}"
+        arcade.draw_text(output, 10, 70, arcade.color.SUNSET, 13)
 
     def player_move(self, x, y):
         """Player Move"""
@@ -127,6 +135,12 @@ class Game(arcade.Window):
             self.speed = 10
         else:
             self.speed = 5
+
+        for orb in self.orb_list:
+            if self.player.collides_with_sprite(orb):
+                orb.remove_from_sprite_lists()
+                self.score += 1
+                self.Orb()
 
 
 if __name__ == "__main__":
