@@ -13,14 +13,18 @@ will not heal.)
 7. Choose a form of AI to play against.
 8. Have Fun(As Always)"""
 
+
 import arcade
 import math
+import random
 
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Deeeep.io 1v1 Remake"
 
+TINY_SCALE = 0.7
 SCALE = 0.4
+SUPER_SCALE = 0.2
 
 
 class Game(arcade.Window):
@@ -39,6 +43,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         self.speed = 5
+        self.score = 0
 
         self.player = arcade.Sprite("images/Tiger_Shark.png", SCALE)
         self.player.center_x = 600
@@ -49,6 +54,23 @@ class Game(arcade.Window):
         self.boost_timer = 0
 
         self.boost_timer_start = False
+
+        self.orb_list = arcade.SpriteList()
+
+        for i in range(100):
+            self.Orb()
+
+    def Orb(self):
+        """Orb"""
+
+        center_x = random.randint(10, 1890)
+        center_y = random.randint(10, 1040)
+        orb = arcade.Sprite("images/Orb.png", SCALE / 4)
+
+        orb.center_x = center_x
+        orb.center_y = center_y
+
+        self.orb_list.append(orb)
 
     def on_mouse_motion(self, x, y, dx, dy):
         """ Called whenever the mouse button is clicked. """
@@ -70,6 +92,11 @@ class Game(arcade.Window):
         arcade.start_render()
 
         self.player.draw()
+
+        self.orb_list.draw()
+
+        output = f"Score: {self.score}"
+        arcade.draw_text(output, 10, 70, arcade.color.SUNSET, 13)
 
     def player_move(self, x, y):
         """Player Move"""
@@ -95,8 +122,6 @@ class Game(arcade.Window):
         # and change_y. Velocity is how fast the bullet travels.
         self.player.change_x = math.cos(angle) * self.speed
         self.player.change_y = math.sin(angle) * self.speed
-        # print(f"Bullet change x: {bullet.change_x:.2f}")
-        # print(f"Bullet change y: {bullet.change_y:.2f}")
 
     def on_update(self, delta_time):
         """Update"""
@@ -114,6 +139,12 @@ class Game(arcade.Window):
             self.speed = 10
         else:
             self.speed = 5
+
+        for orb in self.orb_list:
+            if self.player.collides_with_sprite(orb):
+                orb.remove_from_sprite_lists()
+                self.score += 1
+                self.Orb()
 
 
 if __name__ == "__main__":
