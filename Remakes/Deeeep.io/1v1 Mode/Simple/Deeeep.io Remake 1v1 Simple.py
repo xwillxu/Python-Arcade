@@ -164,6 +164,15 @@ class Game(arcade.Window):
                 self.score += 1
                 self.BlueOrb()
 
+        if self.player.top > self.height:
+            self.player.top = self.height
+        if self.player.right > self.width:
+            self.player.right = self.width
+        if self.player.bottom < 0:
+            self.player.bottom = 0
+        if self.player.left < 0:
+            self.player.left = 0
+
 
 if __name__ == "__main__":
     window = Game()
