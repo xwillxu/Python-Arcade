@@ -112,7 +112,7 @@ class Game(arcade.Window):
         self.orb_list2.draw()
 
         output = f"Score: {self.score}"
-        arcade.draw_text(output, 10, 70, arcade.color.SUNSET, 13)
+        arcade.draw_text(output, 10, 70, arcade.color.SUNSET, 19)
 
     def player_move(self, x, y):
         """Player Move"""
@@ -167,6 +167,15 @@ class Game(arcade.Window):
                 orb.remove_from_sprite_lists()
                 self.score += 1
                 self.BlueOrb()
+
+        if self.player.top > self.height:
+            self.player.top = self.height
+        if self.player.right > self.width:
+            self.player.right = self.width
+        if self.player.bottom < 0:
+            self.player.bottom = 0
+        if self.player.left < 0:
+            self.player.left = 0
 
 
 if __name__ == "__main__":
