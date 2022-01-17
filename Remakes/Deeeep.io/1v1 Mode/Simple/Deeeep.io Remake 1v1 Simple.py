@@ -53,11 +53,14 @@ class Game(arcade.Window):
 
         self.orb_list = arcade.SpriteList()
         self.orb_list2 = arcade.SpriteList()
+        self.fish_list = arcade.SpriteList()
 
         for i in range(50):
             self.GreenOrb()
         for i in range(50):
             self.BlueOrb()
+        for i in range(5):
+            self.fish()
 
     def GreenOrb(self):
         """Orb"""
@@ -86,10 +89,35 @@ class Game(arcade.Window):
     def fish(self):
         """fish"""
 
-        fish = arcade.Sprite("images/Sardine.png")
+        fish = arcade.Sprite("images/Sardine.png", SUPER_SCALE/4)
 
         fish.center_x = random.randint(10, 1890)
         fish.center_y = random.randint(10, 1040)
+
+        # Get from the mouse the destination location for the bullet
+        # IMPORTANT! If you have a scrolling screen, you will also need
+        # to add in self.view_bottom and self.view_left.
+        dest_x = random.randint(10, 1890)
+        dest_y = random.randint(10, 1040)
+
+        # Do math to calculate how to get the bullet to the destination.
+        # Calculation the angle in radians between the start points
+        # and end points. This is the angle the bullet will travel.
+        x_diff = dest_x - fish.center_x
+        y_diff = dest_y - fish.center_y
+        angle = math.atan2(y_diff, x_diff)
+
+        # Angle the bullet sprite so it doesn't look like it is flying
+        # sideways.
+        fish.angle = math.degrees(angle) - 90
+
+        # Taking into account the angle, calculate our change_x
+        # and change_y. Velocity is how fast the bullet travels.
+        fish.change_x = math.cos(angle) * 4.5
+        fish.change_y = math.sin(angle) * 4.5
+
+        # Add the bullet to the appropriate lists
+        self.fish_list.append(fish)
 
     def on_mouse_motion(self, x, y, dx, dy):
         """ Called whenever the mouse button is clicked. """
@@ -114,6 +142,7 @@ class Game(arcade.Window):
 
         self.orb_list.draw()
         self.orb_list2.draw()
+        self.fish_list.draw()
 
         output = f"Score: {self.score}"
         arcade.draw_text(output, 10, 70, arcade.color.SUNSET, 19)
@@ -147,6 +176,7 @@ class Game(arcade.Window):
         """Update"""
 
         self.player.update()
+        self.fish_list.update()
 
         if self.boost_timer_start == True:
             self.boost_timer += 0.06
@@ -172,6 +202,12 @@ class Game(arcade.Window):
                 self.score += 1
                 self.BlueOrb()
 
+        for fish in self.fish_list:
+            if self.player.collides_with_sprite(fish):
+                fish.remove_from_sprite_lists()
+                self.score += 5
+                self.fish()
+
         if self.player.top > self.height:
             self.player.top = self.height
         if self.player.right > self.width:
@@ -180,6 +216,20 @@ class Game(arcade.Window):
             self.player.bottom = 0
         if self.player.left < 0:
             self.player.left = 0
+
+        for fish in self.fish_list:
+            if fish.top > self.height:
+                fish.remove_from_sprite_lists()
+                self.fish()
+            if fish.right > self.width:
+                fish.remove_from_sprite_lists()
+                self.fish()
+            if fish.bottom < 0:
+                fish.remove_from_sprite_lists()
+                self.fish()
+            if fish.left < 0:
+                fish.remove_from_sprite_lists()
+                self.fish()
 
 
 if __name__ == "__main__":
