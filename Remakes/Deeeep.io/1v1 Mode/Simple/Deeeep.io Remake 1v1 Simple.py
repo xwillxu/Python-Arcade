@@ -108,7 +108,7 @@ class Game(arcade.Window):
         self.orb_list2.draw()
 
         output = f"Score: {self.score}"
-        arcade.draw_text(output, 10, 70, arcade.color.SUNSET, 13)
+        arcade.draw_text(output, 10, 70, arcade.color.SUNSET, 19)
 
     def player_move(self, x, y):
         """Player Move"""
