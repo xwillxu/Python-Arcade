@@ -83,6 +83,14 @@ class Game(arcade.Window):
 
         self.orb_list2.append(orb)
 
+    def fish(self):
+        """fish"""
+
+        fish = arcade.Sprite("images/Sardine.png")
+
+        fish.center_x = random.randint(10, 1890)
+        fish.center_y = random.randint(10, 1040)
+
     def on_mouse_motion(self, x, y, dx, dy):
         """ Called whenever the mouse button is clicked. """
 
