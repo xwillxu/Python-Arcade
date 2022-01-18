@@ -14,6 +14,7 @@ will not heal.)
 8. Have Fun(As Always)"""
 
 
+from turtle import distance
 import arcade
 import math
 import random
@@ -50,6 +51,9 @@ class Game(arcade.Window):
         self.player.center_y = 400
         self.player.change_x = 0
         self.player.change_y = 0
+
+        self.shark_center_x = self.player.center_x
+        self.shark_center_y = self.player.center_y
 
         self.boost_timer = 0
 
@@ -123,6 +127,21 @@ class Game(arcade.Window):
         # Add the bullet to the appropriate lists
         self.fish_list.append(fish)
 
+        if fish.center_x >= self.shark_center_x or fish.center_x <= self.shark_center_x or fish.center_y >= self.shark_center_y or fish.center_y <= self.shark_center_y:
+            x_diff = self.shark_center_x + fish.center_x
+            y_diff = self.shark_center_y + fish.center_y
+
+            angle = math.atan2(y_diff, x_diff)
+
+            # Angle the bullet sprite so it doesn't look like it is flying
+            # sideways.
+            fish.angle = math.degrees(angle) - 90
+
+            # Taking into account the angle, calculate our change_x
+            # and change_y. Velocity is how fast the bullet travels.
+            fish.change_x = math.cos(angle) * 4.5
+            fish.change_y = math.sin(angle) * 4.5
+
     def on_mouse_motion(self, x, y, dx, dy):
         """ Called whenever the mouse button is clicked. """
 
@@ -182,12 +201,36 @@ class Game(arcade.Window):
         self.player.update()
         self.fish_list.update()
 
+        self.shark_center_x = self.player.center_x
+        self.shark_center_y = self.player.center_y
+
         if self.boost_timer_start == True:
             self.boost_timer += 0.06
 
         if self.boost_timer >= 10:
             self.boost_timer_start = False
             self.boost_timer = 0
+
+        for fish in self.fish_list:
+            distancex = abs(fish.center_x - self.shark_center_x)
+            distancey = abs(fish.center_y - self.shark_center_y)
+            distance = math.sqrt(distancex * distancex + distancey * distancey)
+            print(distance, 'distance')
+            if distance < 300:
+                print('too close, run away')
+                x_diff = self.shark_center_x - fish.center_x
+                y_diff = self.shark_center_y - fish.center_y
+
+                angle = math.atan2(y_diff, x_diff)
+
+                # Angle the bullet sprite so it doesn't look like it is flying
+                # sideways.
+                fish.angle = math.degrees(angle) + 90
+
+                # Taking into account the angle, calculate our change_x
+                # and change_y. Velocity is how fast the bullet travels.
+                fish.change_x = - math.cos(angle) * 4.5
+                fish.change_y = - math.sin(angle) * 4.5
 
         if self.boost_timer > 0:
             self.speed = 10
