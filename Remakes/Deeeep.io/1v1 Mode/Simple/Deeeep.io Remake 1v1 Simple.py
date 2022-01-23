@@ -325,19 +325,21 @@ class Game(arcade.Window):
 
         distance = math.sqrt(distance_to_player_x * distance_to_player_x +
                              distance_to_player_y * distance_to_player_y)
-        range_of_attack = 1500
+        range_of_attack = 700
 
         if distance > range_of_attack:
             "Go in a random direction"
             shark.change_x += random.randint(-1, 1)
             shark.change_y += random.randint(-1, 1)
 
-            x_diff = shark.change_x - shark.center_x
-            y_diff = shark.change_y - shark.center_y
+            center_x_in_future = shark.center_x + shark.change_x
+            center_y_in_future = shark.center_y + shark.change_y
+            x_diff = center_x_in_future - shark.center_x
+            y_diff = center_y_in_future - shark.center_y
 
             angle = math.atan2(y_diff, x_diff)
 
-            shark.angle = math.degrees(angle)
+            shark.angle = math.degrees(angle) - 90
 
         else:
             "Attack player"
