@@ -31,6 +31,8 @@ class Game(arcade.Window):
 
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
+        self.AI_list = arcade.SpriteList()
+
     def setup(self):
         """Setup"""
 
@@ -64,6 +66,8 @@ class Game(arcade.Window):
             self.BlueOrb()
         for i in range(5):
             self.fish()
+
+        self.AI()
 
     def GreenOrb(self):
         """Orb"""
@@ -147,6 +151,19 @@ class Game(arcade.Window):
 
         self.boost_timer_start = True
 
+    def AI(self):
+        """AI shark"""
+
+        AI_shark = arcade.Sprite("images/Tiger_Shark.png", SCALE)
+
+        AI_shark.center_x = 1290
+        AI_shark.center_y = 640
+
+        AI_shark.change_x = 0
+        AI_shark.change_y = 0
+
+        self.AI_list.append(AI_shark)
+
     def on_key_press(self, symbol: int, modifiers: int):
         if arcade.key.SPACE:
             self.set_fullscreen(not self.fullscreen)
@@ -161,9 +178,10 @@ class Game(arcade.Window):
         self.orb_list.draw()
         self.orb_list2.draw()
         self.fish_list.draw()
+        self.AI_list.draw()
 
         output = f"Score: {self.score}"
-        arcade.draw_text(output, 10, 700, arcade.color.SUNSET, 19)
+        arcade.draw_text(output, 10, 1000, arcade.color.SUNSET, 19)
 
         arcade.draw_lrtb_rectangle_filled(
             0, 200000, 100, 0, arcade.color.BRONZE_YELLOW)
@@ -198,6 +216,7 @@ class Game(arcade.Window):
 
         self.player.update()
         self.fish_list.update()
+        self.AI_list.update()
 
         self.shark_center_x = self.player.center_x
         self.shark_center_y = self.player.center_y
