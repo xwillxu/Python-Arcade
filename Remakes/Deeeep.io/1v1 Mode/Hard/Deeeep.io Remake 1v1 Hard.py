@@ -168,7 +168,10 @@ class Game(arcade.Window):
         self.fish_list.draw()
 
         output = f"Score: {self.score}"
-        arcade.draw_text(output, 10, 70, arcade.color.SUNSET, 19)
+        arcade.draw_text(output, 10, 700, arcade.color.SUNSET, 19)
+
+        arcade.draw_lrtb_rectangle_filled(
+            0, 200000, 100, 0, arcade.color.BRONZE_YELLOW)
 
     def player_move(self, x, y):
         """Player Move"""
