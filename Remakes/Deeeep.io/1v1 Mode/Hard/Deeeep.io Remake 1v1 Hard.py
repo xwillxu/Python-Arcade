@@ -28,6 +28,38 @@ SCALE = 0.4
 SUPER_SCALE = 0.2
 
 
+# HealthBar Setup
+HEALTHBAR_WIDTH = 50
+HEALTHBAR_HEIGHT = 10
+HEALTHBAR_OFFSET_Y = 50
+
+
+class Health_Sprite(arcade.Sprite):
+    '''Health Sprite'''
+
+    def __init__(self, image, scale, max_health):
+        super().__init__(image, scale)
+
+        self.max_health = max_health
+        self.cur_health = max_health
+
+    def draw_health_bar(self):
+        if self.cur_health < self.max_health:
+            arcade.draw_rectangle_filled(center_x=self.center_x,
+                                         center_y=self.center_y + HEALTHBAR_OFFSET_Y,
+                                         width=HEALTHBAR_WIDTH,
+                                         height=HEALTHBAR_HEIGHT,
+                                         color=arcade.color.RED)
+
+        health_width = HEALTHBAR_WIDTH * (self.cur_health / self.max_health)
+
+        arcade.draw_rectangle_filled(center_x=self.center_x - 0.5 * (HEALTHBAR_WIDTH - health_width),
+                                     center_y=self.center_y + HEALTHBAR_OFFSET_Y,
+                                     width=health_width,
+                                     height=HEALTHBAR_HEIGHT,
+                                     color=arcade.color.GREEN)
+
+
 class Game(arcade.Window):
     """Game"""
 
@@ -35,6 +67,8 @@ class Game(arcade.Window):
         """Init"""
 
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+
+        self.AI_list = arcade.SpriteList()
 
     def setup(self):
         """Setup"""
@@ -69,6 +103,10 @@ class Game(arcade.Window):
             self.BlueOrb()
         for i in range(5):
             self.fish()
+
+        self.AI()
+
+        self.frame_count = 0
 
     def GreenOrb(self):
         """Orb"""
@@ -152,6 +190,19 @@ class Game(arcade.Window):
 
         self.boost_timer_start = True
 
+    def AI(self):
+        """AI shark"""
+
+        AI_shark = arcade.Sprite("images/Tiger_Shark.png", SCALE)
+
+        AI_shark.center_x = 1290
+        AI_shark.center_y = 640
+
+        AI_shark.change_x = 0
+        AI_shark.change_y = 0
+
+        self.AI_list.append(AI_shark)
+
     def on_key_press(self, symbol: int, modifiers: int):
         if arcade.key.SPACE:
             self.set_fullscreen(not self.fullscreen)
@@ -166,9 +217,10 @@ class Game(arcade.Window):
         self.orb_list.draw()
         self.orb_list2.draw()
         self.fish_list.draw()
+        self.AI_list.draw()
 
         output = f"Score: {self.score}"
-        arcade.draw_text(output, 10, 700, arcade.color.SUNSET, 19)
+        arcade.draw_text(output, 10, 1000, arcade.color.SUNSET, 19)
 
         arcade.draw_lrtb_rectangle_filled(
             0, 200000, 100, 0, arcade.color.BRONZE_YELLOW)
@@ -203,6 +255,9 @@ class Game(arcade.Window):
 
         self.player.update()
         self.fish_list.update()
+        self.AI_list.update()
+
+        self.frame_count += 1
 
         self.shark_center_x = self.player.center_x
         self.shark_center_y = self.player.center_y
@@ -218,9 +273,9 @@ class Game(arcade.Window):
             distancex = abs(fish.center_x - self.shark_center_x)
             distancey = abs(fish.center_y - self.shark_center_y)
             distance = math.sqrt(distancex * distancex + distancey * distancey)
-            print(distance, 'distance')
+            # print(distance, 'distance')
             if distance < 300:
-                print('too close, run away')
+                # print('too close, run away')
                 x_diff = self.shark_center_x - fish.center_x
                 y_diff = self.shark_center_y - fish.center_y
 
@@ -280,6 +335,61 @@ class Game(arcade.Window):
             if fish.left < 0:
                 fish.remove_from_sprite_lists()
                 self.fish()
+        for shark in self.AI_list:
+            if self.frame_count % 1 == 0:
+                self.AI_move(player=self.player, shark=shark,
+                             delta_time=delta_time)
+
+        for shark in self.AI_list:
+            if shark.top > self.height:
+                shark.top = self.height
+            if shark.right > self.width:
+                shark.right = self.width
+            if shark.bottom < 0:
+                shark.bottom = 0
+            if shark.left < 0:
+                shark.left = 0
+
+    def AI_move(self, player, shark, delta_time):
+        """AI Move Command"""
+
+        # Random Movement
+        distance_to_player_x = abs(player.center_x - shark.center_x)
+        distance_to_player_y = abs(player.center_y - shark.center_y)
+
+        x_diff = None
+        y_diff = None
+
+        distance = math.sqrt(distance_to_player_x * distance_to_player_x +
+                             distance_to_player_y * distance_to_player_y)
+        range_of_attack = 700
+
+        if distance > range_of_attack:
+            "Go in a random direction"
+            shark.change_x += random.randint(-1, 1)
+            shark.change_y += random.randint(-1, 1)
+
+            center_x_in_future = shark.center_x + shark.change_x
+            center_y_in_future = shark.center_y + shark.change_y
+            x_diff = center_x_in_future - shark.center_x
+            y_diff = center_y_in_future - shark.center_y
+
+            angle = math.atan2(y_diff, x_diff)
+
+            shark.angle = math.degrees(angle) - 90
+
+        else:
+            "Attack player"
+
+            x_diff = player.center_x - shark.center_x
+            y_diff = player.center_y - shark.center_y
+
+            angle = math.atan2(y_diff, x_diff)
+
+            shark.angle = math.degrees(angle) - 90
+
+            shark.change_x = math.cos(angle) * 4.5
+            shark.change_y = math.sin(angle) * 4.5
 
 
 if __name__ == "__main__":
