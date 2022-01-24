@@ -73,6 +73,7 @@ class Game(arcade.Window):
 
         self.speed = 5
         self.score = 0
+        self.ai_score = 0
 
         self.player = Health_Sprite(
             "images/Tiger_Shark.png", SCALE, max_health=800)
@@ -215,8 +216,11 @@ class Game(arcade.Window):
         self.fish_list.draw()
         self.AI_list.draw()
 
-        output = f"Score: {self.score}"
+        output = f"Your Score: {self.score}"
         arcade.draw_text(output, 10, 1000, arcade.color.SUNSET, 19)
+
+        output = f"AI Score: {self.ai_score}"
+        arcade.draw_text(output, 10, 900, arcade.color.SUNSET, 19)
 
         arcade.draw_lrtb_rectangle_filled(
             0, 200000, 100, 0, arcade.color.BRONZE_YELLOW)
@@ -310,17 +314,34 @@ class Game(arcade.Window):
                 self.score += 1
                 self.GreenOrb()
 
+            for ai in self.AI_list:
+                if ai.collides_with_sprite(orb):
+                    orb.remove_from_sprite_lists()
+                    self.ai_score += 1
+                    self.GreenOrb()
+
         for orb in self.orb_list2:
             if self.player.collides_with_sprite(orb):
                 orb.remove_from_sprite_lists()
                 self.score += 1
                 self.BlueOrb()
+            for ai in self.AI_list:
+                if ai.collides_with_sprite(orb):
+                    orb.remove_from_sprite_lists()
+                    self.ai_score += 1
+                    self.BlueOrb()
 
         for fish in self.fish_list:
+
             if self.player.collides_with_sprite(fish):
                 fish.remove_from_sprite_lists()
                 self.score += 5
                 self.fish()
+            for ai in self.AI_list:
+                if ai.collides_with_sprite(fish):
+                    fish.remove_from_sprite_lists()
+                    self.ai_score += 5
+                    self.fish()
 
         if self.player.top > self.height:
             self.player.top = self.height
