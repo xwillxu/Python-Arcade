@@ -74,7 +74,8 @@ class Game(arcade.Window):
         self.speed = 5
         self.score = 0
 
-        self.player = arcade.Sprite("images/Tiger_Shark.png", SCALE)
+        self.player = Health_Sprite(
+            "images/Tiger_Shark.png", SCALE, max_health=800)
         self.player.center_x = 600
         self.player.center_y = 400
         self.player.change_x = 0
@@ -187,7 +188,8 @@ class Game(arcade.Window):
     def AI(self):
         """AI shark"""
 
-        AI_shark = arcade.Sprite("images/Tiger_Shark.png", SCALE)
+        AI_shark = Health_Sprite(
+            "images/Tiger_Shark.png", SCALE, max_health=800)
 
         AI_shark.center_x = 1290
         AI_shark.center_y = 640
@@ -218,6 +220,11 @@ class Game(arcade.Window):
 
         arcade.draw_lrtb_rectangle_filled(
             0, 200000, 100, 0, arcade.color.BRONZE_YELLOW)
+
+        for sprite in self.AI_list:
+            sprite.draw_health_bar()
+
+        self.player.draw_health_bar()
 
     def player_move(self, x, y):
         """Player Move"""

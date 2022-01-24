@@ -226,6 +226,11 @@ class Game(arcade.Window):
         arcade.draw_lrtb_rectangle_filled(
             0, 200000, 100, 0, arcade.color.BRONZE_YELLOW)
 
+        for sprite in self.AI_list:
+            sprite.draw_health_bar()
+
+        self.player.draw_health_bar()
+
     def player_move(self, x, y):
         """Player Move"""
 
