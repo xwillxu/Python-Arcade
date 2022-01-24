@@ -263,6 +263,14 @@ class Game(arcade.Window):
         self.shark_center_x = self.player.center_x
         self.shark_center_y = self.player.center_y
 
+        if self.frame_count % 5 == 0:
+            for ai in self.AI_list:
+                if self.player.collides_with_sprite(ai):
+                    self.player.cur_health -= 160
+
+                    if self.player.cur_health <= 0:
+                        arcade.close_window()
+
         if self.boost_timer_start == True:
             self.boost_timer += 0.06
 
