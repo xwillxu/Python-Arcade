@@ -292,6 +292,12 @@ class Game(arcade.Window):
             else:
                 ai.cur_health = ai.max_health
 
+        if not self.player.cur_health >= 800:
+            if self.frame_count % 10 == 0:
+                self.player.cur_health += 20
+        else:
+            self.player.cur_health = self.player.max_health
+
         if self.boost_timer_start == True:
             self.boost_timer += 0.06
 
