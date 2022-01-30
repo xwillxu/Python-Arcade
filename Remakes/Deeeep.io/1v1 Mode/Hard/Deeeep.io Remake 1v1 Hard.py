@@ -86,6 +86,8 @@ class Game(arcade.Window):
         self.player_weapon = arcade.Sprite(
             "images/Tiger_Shark_head.png", SCALE)
 
+        self.ai_weapon = arcade.Sprite("images/Tiger_Shark_head.png", SCALE)
+
         self.player = Health_Sprite(
             "images/Tiger_Shark.png", SCALE, max_health=800)
         self.player.center_x = 600
@@ -289,11 +291,13 @@ class Game(arcade.Window):
             for ai in self.AI_list:
                 if self.player_weapon.collides_with_sprite(ai):
                     ai.cur_health -= 160
+                if self.ai_weapon.collides_with_sprite(self.player):
+                    self.player.cur_health -= 160
 
-                    if self.player.cur_health <= 0:
-                        arcade.close_window()
-                    if ai.cur_health <= 0:
-                        ai.remove_from_sprite_lists()
+                if self.player.cur_health <= 0:
+                    arcade.close_window()
+                if ai.cur_health <= 0:
+                    ai.remove_from_sprite_lists()
 
         for ai in self.AI_list:
             if not ai.cur_health >= 800:
@@ -389,6 +393,9 @@ class Game(arcade.Window):
 
                 ai.change_x = - self.player.change_x
                 ai.change_y = - self.player.change_y
+            if self.player.collides_with_sprite(ai):
+                self.player.change_x = -self.player.change_x
+                self.player.change_y = -self.player.change_y
 
         if self.player.top > self.height:
             self.player.top = self.height
