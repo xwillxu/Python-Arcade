@@ -249,7 +249,6 @@ class Game(arcade.Window):
 
         self.player.draw_health_bar()
         self.player_weapon.draw()
-        self.ai_weapon.draw()
 
     def player_move(self, x, y):
         """Player Move"""
