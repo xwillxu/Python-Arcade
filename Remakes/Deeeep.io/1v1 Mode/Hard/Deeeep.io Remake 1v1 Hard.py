@@ -17,6 +17,7 @@ will not heal.)
 import arcade
 import math
 import random
+from helper import follow_sprite
 
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
@@ -58,6 +59,8 @@ class Health_Sprite(arcade.Sprite):
                                      height=HEALTHBAR_HEIGHT,
                                      color=arcade.color.GREEN)
 
+# see reference in https://api.arcade.academy/en/latest/examples/sprite_move_angle.html
+
 
 class Game(arcade.Window):
     """Game"""
@@ -79,6 +82,9 @@ class Game(arcade.Window):
         self.speed = 5
         self.score = 0
         self.ai_score = 0
+
+        self.player_weapon = arcade.Sprite(
+            "images/Tiger_Shark_head.png", SCALE)
 
         self.player = Health_Sprite(
             "images/Tiger_Shark.png", SCALE, max_health=800)
@@ -234,6 +240,7 @@ class Game(arcade.Window):
             sprite.draw_health_bar()
 
         self.player.draw_health_bar()
+        self.player_weapon.draw()
 
     def player_move(self, x, y):
         """Player Move"""
@@ -274,11 +281,8 @@ class Game(arcade.Window):
 
         if self.frame_count % 5 == 0:
             for ai in self.AI_list:
-                if self.player.collides_with_sprite(ai):
-                    if self.ai_score > self.score:
-                        self.player.cur_health -= 160
-                    if self.ai_score < self.score:
-                        ai.cur_health -= 160
+                if self.player_weapon.collides_with_sprite(ai):
+                    ai.cur_health -= 160
 
                     if self.player.cur_health <= 0:
                         arcade.close_window()
@@ -416,6 +420,8 @@ class Game(arcade.Window):
                 shark.bottom = 0
             if shark.left < 0:
                 shark.left = 0
+
+        follow_sprite(self.player_weapon, self.player, offset=10)
 
     def AI_move(self, player, shark, delta_time):
         """AI Move Command"""
