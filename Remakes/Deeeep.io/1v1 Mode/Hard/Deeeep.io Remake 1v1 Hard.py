@@ -100,6 +100,9 @@ class Game(arcade.Window):
 
         self.boost_timer_start = False
 
+        self.ai_center_x = 0
+        self.ai_center_y = 0
+
         self.orb_list = arcade.SpriteList()
         self.orb_list2 = arcade.SpriteList()
         self.fish_list = arcade.SpriteList()
@@ -208,6 +211,9 @@ class Game(arcade.Window):
 
         AI_shark.change_x = 0
         AI_shark.change_y = 0
+
+        self.ai_center_x = AI_shark.center_x
+        self.ai_center_y = AI_shark.center_y
 
         self.AI_list.append(AI_shark)
 
