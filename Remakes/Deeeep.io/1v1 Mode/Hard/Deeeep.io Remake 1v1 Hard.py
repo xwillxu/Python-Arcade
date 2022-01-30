@@ -249,6 +249,7 @@ class Game(arcade.Window):
 
         self.player.draw_health_bar()
         self.player_weapon.draw()
+        self.ai_weapon.draw()
 
     def player_move(self, x, y):
         """Player Move"""
@@ -293,6 +294,8 @@ class Game(arcade.Window):
                     ai.cur_health -= 160
                 if self.ai_weapon.collides_with_sprite(self.player):
                     self.player.cur_health -= 160
+
+                    print("player_hp", self.player.cur_health)
 
                 if self.player.cur_health <= 0:
                     arcade.close_window()
@@ -434,7 +437,9 @@ class Game(arcade.Window):
             if shark.left < 0:
                 shark.left = 0
 
-        follow_sprite(self.player_weapon, self.player, offset=0)
+        follow_sprite(self.player_weapon, self.player, offset=100)
+        for ai in self.AI_list:
+            follow_sprite(self.ai_weapon, ai, offset=100)
 
     def AI_move(self, player, shark, delta_time):
         """AI Move Command"""
