@@ -421,7 +421,7 @@ class Game(arcade.Window):
             if shark.left < 0:
                 shark.left = 0
 
-        follow_sprite(self.player_weapon, self.player, offset=10)
+        follow_sprite(self.player_weapon, self.player, offset=0)
 
     def AI_move(self, player, shark, delta_time):
         """AI Move Command"""
