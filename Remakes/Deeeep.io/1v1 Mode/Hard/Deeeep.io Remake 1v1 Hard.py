@@ -89,7 +89,7 @@ class Game(arcade.Window):
         self.ai_weapon = arcade.Sprite("images/Tiger_Shark_head.png", SCALE)
 
         self.player = Health_Sprite(
-            "images/Tiger_Shark.png", SCALE, max_health=800)
+            "images/Tiger_Shark.png", SCALE, max_health=900)
         self.player.center_x = 600
         self.player.center_y = 400
         self.player.change_x = 0
@@ -206,7 +206,7 @@ class Game(arcade.Window):
         """AI shark"""
 
         AI_shark = Health_Sprite(
-            "images/Tiger_Shark.png", SCALE, max_health=800)
+            "images/Tiger_Shark.png", SCALE, max_health=900)
 
         AI_shark.center_x = 1290
         AI_shark.center_y = 640
@@ -249,6 +249,7 @@ class Game(arcade.Window):
 
         self.player.draw_health_bar()
         self.player_weapon.draw()
+        self.player.draw_hit_box(arcade.color.RED, 10)
 
     def player_move(self, x, y):
         """Player Move"""
@@ -302,7 +303,7 @@ class Game(arcade.Window):
                     ai.remove_from_sprite_lists()
 
         for ai in self.AI_list:
-            if not ai.cur_health >= 800:
+            if not ai.cur_health >= 900:
                 if self.frame_count % 10 == 0:
                     ai.cur_health += 20
             else:
@@ -436,9 +437,9 @@ class Game(arcade.Window):
             if shark.left < 0:
                 shark.left = 0
 
-        follow_sprite(self.player_weapon, self.player, offset=100)
+        follow_sprite(self.player_weapon, self.player, offset=0)
         for ai in self.AI_list:
-            follow_sprite(self.ai_weapon, ai, offset=100)
+            follow_sprite(self.ai_weapon, ai, offset=0)
 
     def AI_move(self, player, shark, delta_time):
         """AI Move Command"""
