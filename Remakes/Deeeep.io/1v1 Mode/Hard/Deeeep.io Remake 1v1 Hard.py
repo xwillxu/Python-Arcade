@@ -291,9 +291,9 @@ class Game(arcade.Window):
         if self.frame_count % 5 == 0:
             for ai in self.AI_list:
                 if self.player_weapon.collides_with_sprite(ai):
-                    ai.cur_health -= 160
+                    ai.cur_health -= 10
                 if self.ai_weapon.collides_with_sprite(self.player):
-                    self.player.cur_health -= 160
+                    self.player.cur_health -= 10
 
                     print("player_hp", self.player.cur_health)
 
@@ -302,12 +302,12 @@ class Game(arcade.Window):
                 if ai.cur_health <= 0:
                     ai.remove_from_sprite_lists()
 
-        for ai in self.AI_list:
-            if not ai.cur_health >= 900:
-                if self.frame_count % 10 == 0:
-                    ai.cur_health += 20
-            else:
-                ai.cur_health = ai.max_health
+        # for ai in self.AI_list:
+        #     if not ai.cur_health >= 900:
+        #         if self.frame_count % 10 == 0:
+        #             ai.cur_health += 20
+        #     else:
+        #         ai.cur_health = ai.max_health
 
         if not self.player.cur_health >= 800:
             if self.frame_count % 10 == 0:
@@ -470,17 +470,33 @@ class Game(arcade.Window):
             shark.angle = math.degrees(angle) - 90
 
         else:
+
             "Attack player"
 
-            x_diff = player.center_x - shark.center_x
-            y_diff = player.center_y - shark.center_y
+            if shark.cur_health > 450:
+                print(shark.cur_health, 'attack current health')
 
-            angle = math.atan2(y_diff, x_diff)
+                x_diff = player.center_x - shark.center_x
+                y_diff = player.center_y - shark.center_y
 
-            shark.angle = math.degrees(angle) - 90
+                angle = math.atan2(y_diff, x_diff)
 
-            shark.change_x = math.cos(angle) * 4.5
-            shark.change_y = math.sin(angle) * 4.5
+                shark.angle = math.degrees(angle) - 90
+
+                shark.change_x = math.cos(angle) * 4.5
+                shark.change_y = math.sin(angle) * 4.5
+
+            else:
+                print(shark.cur_health, 'run away current health')
+                x_diff = player.center_x - shark.center_x
+                y_diff = player.center_y - shark.center_y
+
+                angle = math.atan2(y_diff, x_diff)
+
+                shark.angle = - math.degrees(angle) - 90
+
+                shark.change_x = - math.cos(angle) * 4.5
+                shark.change_y = - math.sin(angle) * 4.5
 
 
 if __name__ == "__main__":
