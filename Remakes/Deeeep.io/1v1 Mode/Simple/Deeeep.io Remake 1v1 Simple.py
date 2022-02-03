@@ -10,7 +10,7 @@ Instrutions:
 6. Defeat the AI
 7. Have Fun"""
 
-from timeit import repeat
+from helper import follow_sprite
 import arcade
 import math
 import random
@@ -55,6 +55,9 @@ class Health_Sprite(arcade.Sprite):
                                      color=arcade.color.GREEN)
 
 
+# see reference in https://api.arcade.academy/en/latest/examples/sprite_move_angle.html
+
+
 class Game(arcade.Window):
     """Game"""
 
@@ -76,8 +79,13 @@ class Game(arcade.Window):
         self.score = 0
         self.ai_score = 0
 
+        self.player_weapon = arcade.Sprite(
+            "images/Tiger_Shark_head.png", SCALE)
+
+        self.ai_weapon = arcade.Sprite("images/Tiger_Shark_head.png", SCALE)
+
         self.player = Health_Sprite(
-            "images/Tiger_Shark.png", SCALE, max_health=800)
+            "images/Tiger_Shark.png", SCALE, max_health=900)
         self.player.center_x = 600
         self.player.center_y = 400
         self.player.change_x = 0
@@ -89,6 +97,9 @@ class Game(arcade.Window):
         self.boost_timer = 0
 
         self.boost_timer_start = False
+
+        self.ai_center_x = 0
+        self.ai_center_y = 0
 
         self.orb_list = arcade.SpriteList()
         self.orb_list2 = arcade.SpriteList()
@@ -191,13 +202,16 @@ class Game(arcade.Window):
         """AI shark"""
 
         AI_shark = Health_Sprite(
-            "images/Tiger_Shark.png", SCALE, max_health=800)
+            "images/Tiger_Shark.png", SCALE, max_health=900)
 
         AI_shark.center_x = 1290
         AI_shark.center_y = 640
 
         AI_shark.change_x = 0
         AI_shark.change_y = 0
+
+        self.ai_center_x = AI_shark.center_x
+        self.ai_center_y = AI_shark.center_y
 
         self.AI_list.append(AI_shark)
 
@@ -230,6 +244,8 @@ class Game(arcade.Window):
             sprite.draw_health_bar()
 
         self.player.draw_health_bar()
+        self.player_weapon.draw()
+        self.player.draw_hit_box(arcade.color.RED, 10)
 
     def player_move(self, x, y):
         """Player Move"""
@@ -270,29 +286,26 @@ class Game(arcade.Window):
 
         if self.frame_count % 5 == 0:
             for ai in self.AI_list:
-                if self.player.collides_with_sprite(ai):
-                    if self.ai_score > self.score:
-                        self.player.cur_health -= 160
-                    if self.ai_score < self.score:
-                        ai.cur_health -= 160
+                if self.player_weapon.collides_with_sprite(ai):
+                    ai.cur_health -= 90
+                if self.ai_weapon.collides_with_sprite(self.player):
+                    self.player.cur_health -= 90
 
-                    if self.player.cur_health <= 0:
-                        arcade.close_window()
-                    if ai.cur_health <= 0:
-                        ai.remove_from_sprite_lists()
+                    print("player_hp", self.player.cur_health)
+
+                if self.player.cur_health <= 0:
+                    arcade.close_window()
+                if ai.cur_health <= 0:
+                    ai.remove_from_sprite_lists()
 
         for ai in self.AI_list:
-            if not ai.cur_health >= 800:
+            if not ai.cur_health >= 900:
                 if self.frame_count % 10 == 0:
                     ai.cur_health += 20
-            else:
-                ai.cur_health = ai.max_health
 
-        if not self.player.cur_health >= 800:
+        if not self.player.cur_health >= 900:
             if self.frame_count % 10 == 0:
                 self.player.cur_health += 20
-        else:
-            self.player.cur_health = self.player.max_health
 
         if self.boost_timer_start == True:
             self.boost_timer += 0.06
@@ -375,6 +388,9 @@ class Game(arcade.Window):
 
                 ai.change_x = - self.player.change_x
                 ai.change_y = - self.player.change_y
+            if self.player.collides_with_sprite(ai):
+                self.player.change_x = -self.player.change_x
+                self.player.change_y = -self.player.change_y
 
         if self.player.top > self.height:
             self.player.top = self.height
@@ -413,6 +429,10 @@ class Game(arcade.Window):
             if shark.left < 0:
                 shark.left = 0
 
+        follow_sprite(self.player_weapon, self.player, offset=0)
+        for ai in self.AI_list:
+            follow_sprite(self.ai_weapon, ai, offset=0)
+
     def AI_move(self, player, shark, delta_time):
         """AI Move Command"""
 
@@ -442,17 +462,33 @@ class Game(arcade.Window):
             shark.angle = math.degrees(angle) - 90
 
         else:
+
             "Attack player"
 
-            x_diff = player.center_x - shark.center_x
-            y_diff = player.center_y - shark.center_y
+            if shark.cur_health > 450:
+                print(shark.cur_health, 'attack current health')
 
-            angle = math.atan2(y_diff, x_diff)
+                x_diff = player.center_x - shark.center_x
+                y_diff = player.center_y - shark.center_y
 
-            shark.angle = math.degrees(angle) - 90
+                angle = math.atan2(y_diff, x_diff)
 
-            shark.change_x = math.cos(angle) * 4.5
-            shark.change_y = math.sin(angle) * 4.5
+                shark.angle = math.degrees(angle) - 90
+
+                shark.change_x = math.cos(angle) * 4.5
+                shark.change_y = math.sin(angle) * 4.5
+
+            else:
+                print(shark.cur_health, 'run away current health')
+                x_diff = player.center_x - shark.center_x
+                y_diff = player.center_y - shark.center_y
+
+                angle = math.atan2(y_diff, x_diff)
+
+                shark.angle = - math.degrees(angle) - 90
+
+                shark.change_x = - math.cos(angle) * 4.5
+                shark.change_y = - math.sin(angle) * 4.5
 
 
 if __name__ == "__main__":
