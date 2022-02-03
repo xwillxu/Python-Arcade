@@ -62,6 +62,7 @@ class Health_Sprite(arcade.Sprite):
 # see reference in https://api.arcade.academy/en/latest/examples/sprite_move_angle.html
 
 
+# Game Class
 class Game(arcade.Window):
     """Game"""
 
@@ -70,24 +71,31 @@ class Game(arcade.Window):
 
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
+        # List Setup
         self.AI_list = arcade.SpriteList()
 
     def setup(self):
         """Setup"""
 
+        # Fullscreen Control
         self.set_fullscreen(not self.fullscreen)
 
+        # Add Backround Color
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
+        # Some Varibles Setup
         self.speed = 5
         self.score = 0
         self.ai_score = 0
 
+        # Players Weapon
         self.player_weapon = arcade.Sprite(
             "images/Tiger_Shark_head.png", SCALE)
 
+        # AI's Weapon
         self.ai_weapon = arcade.Sprite("images/Tiger_Shark_head.png", SCALE)
 
+        # Player Setup
         self.player = Health_Sprite(
             "images/Tiger_Shark.png", SCALE, max_health=900)
         self.player.center_x = 600
@@ -95,20 +103,25 @@ class Game(arcade.Window):
         self.player.change_x = 0
         self.player.change_y = 0
 
+        # Player Position Varibles
         self.shark_center_x = self.player.center_x
         self.shark_center_y = self.player.center_y
 
+        # Boost Varibles
         self.boost_timer = 0
 
         self.boost_timer_start = False
 
+        # AI's Center X And Y Varible
         self.ai_center_x = 0
         self.ai_center_y = 0
 
+        # Food Setup
         self.orb_list = arcade.SpriteList()
         self.orb_list2 = arcade.SpriteList()
         self.fish_list = arcade.SpriteList()
 
+        # Spawn Food
         for i in range(50):
             self.GreenOrb()
         for i in range(50):
@@ -116,8 +129,10 @@ class Game(arcade.Window):
         for i in range(5):
             self.fish()
 
+        # Spawn AI
         self.AI()
 
+        # Frame Count Varible
         self.frame_count = 0
 
     def GreenOrb(self):
