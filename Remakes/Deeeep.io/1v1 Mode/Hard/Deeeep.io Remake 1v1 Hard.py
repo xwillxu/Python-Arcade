@@ -291,9 +291,9 @@ class Game(arcade.Window):
         if self.frame_count % 5 == 0:
             for ai in self.AI_list:
                 if self.player_weapon.collides_with_sprite(ai):
-                    ai.cur_health -= 10
+                    ai.cur_health -= 90
                 if self.ai_weapon.collides_with_sprite(self.player):
-                    self.player.cur_health -= 10
+                    self.player.cur_health -= 90
 
                     print("player_hp", self.player.cur_health)
 
@@ -302,18 +302,14 @@ class Game(arcade.Window):
                 if ai.cur_health <= 0:
                     ai.remove_from_sprite_lists()
 
-        # for ai in self.AI_list:
-        #     if not ai.cur_health >= 900:
-        #         if self.frame_count % 10 == 0:
-        #             ai.cur_health += 20
-        #     else:
-        #         ai.cur_health = ai.max_health
+        for ai in self.AI_list:
+            if not ai.cur_health >= 900:
+                if self.frame_count % 10 == 0:
+                    ai.cur_health += 20
 
-        if not self.player.cur_health >= 800:
+        if not self.player.cur_health >= 900:
             if self.frame_count % 10 == 0:
                 self.player.cur_health += 20
-        else:
-            self.player.cur_health = self.player.max_health
 
         if self.boost_timer_start == True:
             self.boost_timer += 0.06
