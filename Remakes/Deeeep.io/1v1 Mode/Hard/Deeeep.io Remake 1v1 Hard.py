@@ -170,6 +170,7 @@ class Game(arcade.Window):
     def fish(self):
         """fish"""
 
+        # Fish Setup
         fish = arcade.Sprite("images/Sardine.png", SUPER_SCALE/4)
 
         fish.center_x = random.randint(10, 1890)
