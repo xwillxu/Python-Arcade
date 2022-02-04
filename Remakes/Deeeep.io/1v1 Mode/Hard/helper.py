@@ -13,3 +13,16 @@ def follow_sprite(sprite, your_target_sprite, offset=50):
     sprite.center_x = center_x
     sprite.center_y = center_y
     sprite.angle = your_target_sprite.angle
+
+
+def collision(player, ai_list):
+    for ai in ai_list:
+        if player.collides_with_sprite(ai):
+
+            ai.change_x = - player.change_x * 2
+            ai.change_y = - player.change_y * 2
+
+        if player.collides_with_sprite(ai):
+
+            player.change_x = - player.change_x
+            player.change_y = - player.change_y
