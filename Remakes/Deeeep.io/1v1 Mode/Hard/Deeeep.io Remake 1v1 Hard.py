@@ -219,16 +219,19 @@ class Game(arcade.Window):
     def on_mouse_motion(self, x, y, dx, dy):
         """ Called whenever the mouse button is clicked. """
 
+        # Player Movement Function
         self.player_move(x, y)
 
     def on_mouse_release(self, x, y, button, modifiers):
         """Mouse Release"""
 
+        # Start Boost
         self.boost_timer_start = True
 
     def AI(self):
         """AI shark"""
 
+        # AI Setup
         AI_shark = Health_Sprite(
             "images/Tiger_Shark.png", SCALE, max_health=900)
 
@@ -238,9 +241,11 @@ class Game(arcade.Window):
         AI_shark.change_x = 0
         AI_shark.change_y = 0
 
+        # Place AI's center x and y in varibles
         self.ai_center_x = AI_shark.center_x
         self.ai_center_y = AI_shark.center_y
 
+        # Add to AI list
         self.AI_list.append(AI_shark)
 
     def on_key_press(self, symbol: int, modifiers: int):
