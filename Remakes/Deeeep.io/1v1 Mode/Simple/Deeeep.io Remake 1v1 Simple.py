@@ -404,23 +404,6 @@ class Game(arcade.Window):
                     self.ai_score += 5
                     self.fish()
 
-        for ai in self.AI_list:
-            if self.player.collides_with_sprite(ai):
-
-                dest_x = self.player.center_x
-                dest_y = self.player.center_y
-
-                x_diff = dest_x - ai.center_x
-                y_diff = dest_y - ai.center_y
-
-                angle = math.atan2(y_diff, x_diff)
-
-                ai.change_x = - self.player.change_x
-                ai.change_y = - self.player.change_y
-            if self.player.collides_with_sprite(ai):
-                self.player.change_x = -self.player.change_x
-                self.player.change_y = -self.player.change_y
-
         if self.player.top > self.height:
             self.player.top = self.height
         if self.player.right > self.width:
