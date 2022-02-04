@@ -134,30 +134,39 @@ class Game(arcade.Window):
     def GreenOrb(self):
         """Orb"""
 
+        # Green Orb Random Spawn Position
         center_x = random.randint(10, 1890)
         center_y = random.randint(10, 1040)
+
+        # Green Orb Setup
         orb = arcade.Sprite("images/Orb.png", SCALE / 4)
 
         orb.center_x = center_x
         orb.center_y = center_y
 
+        # Add To List To Draw
         self.orb_list.append(orb)
 
     def BlueOrb(self):
         """Orb"""
 
+        # Blue Orb Random Spawn Position
         center_x = random.randint(10, 1890)
         center_y = random.randint(10, 1040)
+
+        # Blue Orb Setup
         orb = arcade.Sprite("images/Orb2.png", SCALE / 4)
 
         orb.center_x = center_x
         orb.center_y = center_y
 
+        # Add To List To Draw
         self.orb_list2.append(orb)
 
     def fish(self):
         """fish"""
 
+        # Fish Setup
         fish = arcade.Sprite("images/Sardine.png", SUPER_SCALE/4)
 
         fish.center_x = random.randint(10, 1890)
