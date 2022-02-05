@@ -10,8 +10,8 @@ Instrutions:
 6. Defeat the AI
 7. Have Fun"""
 
-from msilib.schema import Control
-from helper import follow_sprite
+
+from helper import follow_sprite, collision
 import arcade
 import math
 import random
@@ -444,6 +444,8 @@ class Game(arcade.Window):
         follow_sprite(self.player_weapon, self.player, offset=0)
         for ai in self.AI_list:
             follow_sprite(self.ai_weapon, ai, offset=0)
+
+        collision(self.player, self.AI_list)
 
     def AI_move(self, player, shark, delta_time):
         """AI Move Command"""
