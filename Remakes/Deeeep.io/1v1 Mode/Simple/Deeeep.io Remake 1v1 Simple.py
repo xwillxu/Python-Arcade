@@ -273,15 +273,14 @@ class Game(arcade.Window):
         output = f"AI Score: {self.ai_score}"
         arcade.draw_text(output, 10, 900, arcade.color.SUNSET, 19)
 
+        # Draw Ground
         arcade.draw_lrtb_rectangle_filled(
             0, 200000, 100, 0, arcade.color.BRONZE_YELLOW)
 
+        # Draw Health Bars
         for sprite in self.AI_list:
             sprite.draw_health_bar()
-
         self.player.draw_health_bar()
-        self.player_weapon.draw()
-        self.player.draw_hit_box(arcade.color.RED, 10)
 
     def player_move(self, x, y):
         """Player Move"""
