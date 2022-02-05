@@ -245,24 +245,31 @@ class Game(arcade.Window):
         self.AI_list.append(AI_shark)
 
     def on_key_press(self, symbol: int, modifiers: int):
+        " Key Press"
+        # Fullscreen Control
         if arcade.key.SPACE:
             self.set_fullscreen(not self.fullscreen)
 
     def on_draw(self):
         """Draw"""
 
+        # Start Rendering
         arcade.start_render()
 
+        # Draw Player
         self.player.draw()
 
+        # Draw Lists
         self.orb_list.draw()
         self.orb_list2.draw()
         self.fish_list.draw()
         self.AI_list.draw()
 
+        # Draw Your Score
         output = f"Your Score: {self.score}"
         arcade.draw_text(output, 10, 1000, arcade.color.SUNSET, 19)
 
+        # Draw AI Score
         output = f"AI Score: {self.ai_score}"
         arcade.draw_text(output, 10, 900, arcade.color.SUNSET, 19)
 
