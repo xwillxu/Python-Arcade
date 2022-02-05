@@ -24,5 +24,5 @@ def collision(player, ai_list):
 
         if player.collides_with_sprite(ai):
 
-            player.change_x = - player.change_x
-            player.change_y = - player.change_y
+            player.change_x = - player.change_x * 2
+            player.change_y = - player.change_y * 2
