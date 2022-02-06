@@ -310,6 +310,7 @@ class Game(arcade.Window):
     def on_update(self, delta_time):
         """Update"""
 
+        # 
         self.player.update()
         self.fish_list.update()
         self.AI_list.update()
