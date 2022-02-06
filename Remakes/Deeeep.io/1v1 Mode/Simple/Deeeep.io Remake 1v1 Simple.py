@@ -343,17 +343,21 @@ class Game(arcade.Window):
                 if self.frame_count % 10 == 0:
                     ai.cur_health += 20
 
+        # Heal Player
         if not self.player.cur_health >= 900:
             if self.frame_count % 10 == 0:
                 self.player.cur_health += 20
 
+        # Start Boost Timer
         if self.boost_timer_start == True:
             self.boost_timer += 0.06
 
+        # Boost While Timer Is Set
         if self.boost_timer >= 10:
             self.boost_timer_start = False
             self.boost_timer = 0
 
+        # Make The Fish Run Away From The Player
         for fish in self.fish_list:
             distancex = abs(fish.center_x - self.shark_center_x)
             distancey = abs(fish.center_y - self.shark_center_y)
