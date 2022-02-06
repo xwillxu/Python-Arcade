@@ -322,6 +322,7 @@ class Game(arcade.Window):
         self.shark_center_x = self.player.center_x
         self.shark_center_y = self.player.center_y
 
+        # Collision with sprites
         if self.frame_count % 5 == 0:
             for ai in self.AI_list:
                 if self.player_weapon.collides_with_sprite(ai):
@@ -336,6 +337,7 @@ class Game(arcade.Window):
                 if ai.cur_health <= 0:
                     ai.remove_from_sprite_lists()
 
+        # Heal AI
         for ai in self.AI_list:
             if not ai.cur_health >= 900:
                 if self.frame_count % 10 == 0:
