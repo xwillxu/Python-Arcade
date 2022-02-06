@@ -310,13 +310,15 @@ class Game(arcade.Window):
     def on_update(self, delta_time):
         """Update"""
 
-        # 
+        # Update
         self.player.update()
         self.fish_list.update()
         self.AI_list.update()
 
+        # Frame Count Update
         self.frame_count += 1
 
+        # Add the players center x and y into varibles
         self.shark_center_x = self.player.center_x
         self.shark_center_y = self.player.center_y
 
