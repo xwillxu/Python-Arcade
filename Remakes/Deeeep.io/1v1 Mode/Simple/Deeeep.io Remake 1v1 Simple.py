@@ -379,11 +379,13 @@ class Game(arcade.Window):
                 fish.change_x = - math.cos(angle) * 4.5
                 fish.change_y = - math.sin(angle) * 4.5
 
+        # Change The Speed Of Player While Boosting
         if self.boost_timer > 0:
             self.speed = 10
         else:
             self.speed = 5
 
+        # Orb Collision
         for orb in self.orb_list:
             if self.player.collides_with_sprite(orb):
                 orb.remove_from_sprite_lists()
@@ -396,6 +398,7 @@ class Game(arcade.Window):
                     self.ai_score += 1
                     self.GreenOrb()
 
+        # Orb Collision
         for orb in self.orb_list2:
             if self.player.collides_with_sprite(orb):
                 orb.remove_from_sprite_lists()
@@ -407,6 +410,7 @@ class Game(arcade.Window):
                     self.ai_score += 1
                     self.BlueOrb()
 
+        # Fish Collision
         for fish in self.fish_list:
 
             if self.player.collides_with_sprite(fish):
@@ -419,6 +423,7 @@ class Game(arcade.Window):
                     self.ai_score += 5
                     self.fish()
 
+        # Keep The Player From Going Off The Screen
         if self.player.top > self.height:
             self.player.top = self.height
         if self.player.right > self.width:
@@ -428,6 +433,7 @@ class Game(arcade.Window):
         if self.player.left < 0:
             self.player.left = 0
 
+        # Get Rid Of The Fish If Off The Screen
         for fish in self.fish_list:
             if fish.top > self.height:
                 fish.remove_from_sprite_lists()
