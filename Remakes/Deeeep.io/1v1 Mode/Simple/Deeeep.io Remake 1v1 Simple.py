@@ -515,8 +515,8 @@ class Game(arcade.Window):
 
             "Attack player"
 
+            # Do This If Hp Higher Than 450
             if shark.cur_health > 450:
-                print(shark.cur_health, 'attack current health')
 
                 x_diff = player.center_x - shark.center_x
                 y_diff = player.center_y - shark.center_y
@@ -528,8 +528,8 @@ class Game(arcade.Window):
                 shark.change_x = math.cos(angle) * 4.5
                 shark.change_y = math.sin(angle) * 4.5
 
+            # Run Away
             else:
-                print(shark.cur_health, 'run away current health')
                 x_diff = player.center_x - shark.center_x
                 y_diff = player.center_y - shark.center_y
 
