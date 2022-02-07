@@ -489,18 +489,26 @@ class Game(arcade.Window):
         # The Range Were You Attack
         range_of_attack = 700
 
+        # Defines Where Do You Go
         if distance > range_of_attack:
             "Go in a random direction"
+
+            # Get The Change X And Y
             shark.change_x += random.randint(-1, 1)
             shark.change_y += random.randint(-1, 1)
 
+            # Where The Shark Is Going To Be In 500 Milliseconds
             center_x_in_future = shark.center_x + shark.change_x
             center_y_in_future = shark.center_y + shark.change_y
+
+            # Caculate X And Y Diff
             x_diff = center_x_in_future - shark.center_x
             y_diff = center_y_in_future - shark.center_y
 
+            # Angle
             angle = math.atan2(y_diff, x_diff)
 
+            # Get Angle
             shark.angle = math.degrees(angle) - 90
 
         else:
