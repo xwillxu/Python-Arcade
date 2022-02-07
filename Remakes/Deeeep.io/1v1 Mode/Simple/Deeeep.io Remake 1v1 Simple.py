@@ -452,6 +452,7 @@ class Game(arcade.Window):
                 self.AI_move(player=self.player, shark=shark,
                              delta_time=delta_time)
 
+        # Keep the ai in your view
         for shark in self.AI_list:
             if shark.top > self.height:
                 shark.top = self.height
@@ -462,10 +463,12 @@ class Game(arcade.Window):
             if shark.left < 0:
                 shark.left = 0
 
+        # Code For Sprite Following Another Sprite
         follow_sprite(self.player_weapon, self.player, offset=0)
         for ai in self.AI_list:
             follow_sprite(self.ai_weapon, ai, offset=0)
 
+        # Collision with player and ai
         collision(self.player, self.AI_list)
 
     def AI_move(self, player, shark, delta_time):
