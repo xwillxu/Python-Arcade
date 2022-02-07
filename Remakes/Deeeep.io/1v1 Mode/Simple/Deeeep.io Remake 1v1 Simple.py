@@ -478,11 +478,15 @@ class Game(arcade.Window):
         distance_to_player_x = abs(player.center_x - shark.center_x)
         distance_to_player_y = abs(player.center_y - shark.center_y)
 
+        # X And Y Diff
         x_diff = None
         y_diff = None
 
+        # Cauculate Distance To Player
         distance = math.sqrt(distance_to_player_x * distance_to_player_x +
                              distance_to_player_y * distance_to_player_y)
+
+        # The Range Were You Attack
         range_of_attack = 700
 
         if distance > range_of_attack:
