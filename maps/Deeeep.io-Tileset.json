@@ -1,11 +1,30 @@
 { "columns":0,
+ "grid":
+    {
+     "height":1,
+     "orientation":"orthogonal",
+     "width":1
+    },
  "margin":0,
  "name":"Deeeep.io-Tileset",
  "spacing":0,
- "tilecount":0,
+ "tilecount":2,
  "tiledversion":"1.7.2",
- "tileheight":1,
- "tilewidth":1,
+ "tileheight":401,
+ "tiles":[
+        {
+         "id":0,
+         "image":"..\/images\/Table_Coral.png",
+         "imageheight":258,
+         "imagewidth":400
+        }, 
+        {
+         "id":1,
+         "image":"..\/images\/Coral_Fan.png",
+         "imageheight":401,
+         "imagewidth":400
+        }],
+ "tilewidth":400,
  "type":"tileset",
  "version":"1.6"
 }
