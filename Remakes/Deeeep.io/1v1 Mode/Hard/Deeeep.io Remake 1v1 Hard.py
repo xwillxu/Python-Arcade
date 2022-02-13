@@ -34,6 +34,38 @@ HEALTHBAR_WIDTH = 50
 HEALTHBAR_HEIGHT = 10
 HEALTHBAR_OFFSET_Y = 50
 
+animal_name_list = [
+    "a",
+    "b",
+    'polar_bear',  # animal_name_list[0]
+    'blue_whale',  # animal_name_list[1]
+]
+animals = {
+    "a": {
+        'health': 1000,
+        'speed': 50,
+    },
+    'b': {
+        'health': 1000,
+        'speed': 50,
+    },
+    'polar_bear': {
+        'health': 1000,
+        'speed': 50,
+    },
+
+    'blue_whale': {
+        'health': 5000,
+        'speed': 10,
+        'damage': 140,
+        'start_position': {
+            "x": 20,
+            "y": 30,
+        },
+        'boost': "Suction",
+    }
+}
+
 
 class Health_Sprite(arcade.Sprite):
     '''Health Sprite'''
@@ -79,10 +111,18 @@ class Game(arcade.Window):
         """Setup"""
 
         # Fullscreen Control
-        self.set_fullscreen(not self.fullscreen)
+        #self.set_fullscreen(not self.fullscreen)
 
         # Add Backround Color
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
+
+        # Set Random Player Animal At The Start Of The Game
+        animal_index = random.randint(3, 4)
+        print(f"Animal index is {animal_index}")
+        animal_name = animal_name_list[animal_index - 1]
+        print(f"Animal name is {animal_name}")
+        animal_attributes = animals[animal_name]
+        print(animal_attributes)
 
         # Some Varibles Setup
         self.speed = 5
@@ -91,14 +131,14 @@ class Game(arcade.Window):
 
         # Players Weapon
         self.player_weapon = arcade.Sprite(
-            "images/Tiger_Shark_head.png", SCALE)
+            "images/Animal1_Head.png", SCALE)
 
         # AI's Weapon
-        self.ai_weapon = arcade.Sprite("images/Tiger_Shark_head.png", SCALE)
+        self.ai_weapon = arcade.Sprite("images/Animal1_Head.png", SCALE)
 
         # Player Setup
         self.player = Health_Sprite(
-            "images/Tiger_Shark.png", SCALE, max_health=900)
+            f"images/{animal_name}.png", SCALE, max_health=animal_attributes["health"])
         self.player.center_x = 600
         self.player.center_y = 400
         self.player.change_x = 0
