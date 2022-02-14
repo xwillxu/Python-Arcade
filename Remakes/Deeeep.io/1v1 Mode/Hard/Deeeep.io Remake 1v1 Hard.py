@@ -35,35 +35,45 @@ HEALTHBAR_HEIGHT = 10
 HEALTHBAR_OFFSET_Y = 50
 
 animal_name_list = [
-    "a",
-    "b",
-    'polar_bear',  # animal_name_list[0]
-    'blue_whale',  # animal_name_list[1]
-]
+    'Blue_Whale',
+    'Goblin_Shark',
+    'Leatherback_Turtle',
+    'Marlin',
+    'Polar_Bear',
+    "Tiger_Shark", ]
 animals = {
-    "a": {
-        'health': 1000,
-        'speed': 50,
+    'Blue_Whale': {
+        'health': 1500,
+        'speed': 100,
+        'damage': 140
     },
-    'b': {
-        'health': 1000,
-        'speed': 50,
+    'Goblin_Shark': {
+        'health': 750,
+        'speed': 100,
+        'damage': 140
     },
-    'polar_bear': {
-        'health': 1000,
-        'speed': 50,
+    'Leatherback_Turtle': {
+        'health': 900,
+        'speed': 95,
+        'damage': 130
+    },
+    'Marlin': {
+        'health': 700,
+        'speed': 125,
+        'damage': 100
+    },
+    'Polar_Bear': {
+        'health': 900,
+        'speed': 100,
+        'damage': 160
+    },
+    "Tiger_Shark": {
+        'health': 800,
+        'speed': 100,
+        'damage': 160
     },
 
-    'blue_whale': {
-        'health': 5000,
-        'speed': 10,
-        'damage': 140,
-        'start_position': {
-            "x": 20,
-            "y": 30,
-        },
-        'boost': "Suction",
-    }
+
 }
 
 
@@ -117,12 +127,12 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         # Set Random Player Animal At The Start Of The Game
-        animal_index = random.randint(3, 4)
-        print(f"Animal index is {animal_index}")
+        animal_index = random.randint(1, 5)
+        # print(f"Animal index is {animal_index}")
         animal_name = animal_name_list[animal_index - 1]
-        print(f"Animal name is {animal_name}")
+        # print(f"Animal name is {animal_name}")
         animal_attributes = animals[animal_name]
-        print(animal_attributes)
+        # print(animal_attributes)
 
         # Some Varibles Setup
         self.speed = 5
@@ -138,7 +148,7 @@ class Game(arcade.Window):
 
         # Player Setup
         self.player = Health_Sprite(
-            f"images/{animal_name}.png", SCALE, max_health=animal_attributes["health"])
+            f"images/Deeeep.io/{animal_name}.png", SCALE, max_health=animal_attributes["health"])
         self.player.center_x = 600
         self.player.center_y = 400
         self.player.change_x = 0
@@ -272,9 +282,15 @@ class Game(arcade.Window):
     def AI(self):
         """AI shark"""
 
+        animal_index = random.randint(1, 5)
+
+        animal_name = animal_name_list[animal_index - 1]
+
+        animal_attributes = animals[animal_name]
+
         # AI Setup
         AI_shark = Health_Sprite(
-            "images/Tiger_Shark.png", SCALE, max_health=900)
+            f"images/Deeeep.io/{animal_name}.png", SCALE, max_health=900)
 
         AI_shark.center_x = 1290
         AI_shark.center_y = 640
