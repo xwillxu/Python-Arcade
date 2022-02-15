@@ -182,6 +182,7 @@ class Game(arcade.Window):
         self.speed = animal_attributes['speed']
         self.score = 0
         self.ai_score = 0
+        self.animal_attributes = animal_attributes
 
         # Players Weapon
         self.player_weapon = arcade.Sprite(
@@ -427,9 +428,9 @@ class Game(arcade.Window):
         if self.frame_count % 5 == 0:
             for ai in self.AI_list:
                 if self.player_weapon.collides_with_sprite(ai):
-                    ai.cur_health -= 90
+                    ai.cur_health -= self.animal_attributes['damage']
                 if self.ai_weapon.collides_with_sprite(self.player):
-                    self.player.cur_health -= 90
+                    self.player.cur_health -= self.animal_attributes['damage']
 
                     print("player_hp", self.player.cur_health)
 
@@ -439,11 +440,11 @@ class Game(arcade.Window):
                     ai.remove_from_sprite_lists()
 
         for ai in self.AI_list:
-            if not ai.cur_health >= 900:
+            if not ai.cur_health >= ai.max_health:
                 if self.frame_count % 10 == 0:
                     ai.cur_health += 20
 
-        if not self.player.cur_health >= 900:
+        if not self.player.cur_health >= self.player.max_health:
             if self.frame_count % 10 == 0:
                 self.player.cur_health += 20
 
