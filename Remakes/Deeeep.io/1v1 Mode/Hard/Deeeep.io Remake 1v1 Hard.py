@@ -37,9 +37,13 @@ HEALTHBAR_OFFSET_Y = 50
 animal_name_list = [
     'Blue_Whale',
     'Goblin_Shark',
+    'Humpback_Whale',
     'Leatherback_Turtle',
     'Marlin',
+    'Orca',
     'Polar_Bear',
+    'Sleeper_Shark',
+    'Sperm_Whale',
     "Tiger_Shark", ]
 animals = {
     'Blue_Whale': {
