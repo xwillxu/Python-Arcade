@@ -135,7 +135,7 @@ class Game(arcade.Window):
         # print(animal_attributes)
 
         # Some Varibles Setup
-        self.speed = 5
+        self.speed = animal_attributes['speed']
         self.score = 0
         self.ai_score = 0
 
