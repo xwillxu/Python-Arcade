@@ -67,6 +67,11 @@ animals = {
         'speed': 125,
         'damage': 100
     },
+    'Orca': {
+        'health': 900,
+        'speed': 100,
+        'damage': 160
+    },
     'Polar_Bear': {
         'health': 900,
         'speed': 100,
