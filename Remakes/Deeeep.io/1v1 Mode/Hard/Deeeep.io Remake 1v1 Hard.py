@@ -171,7 +171,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         # Set Random Player Animal At The Start Of The Game
-        animal_index = random.randint(1, 5)
+        animal_index = random.randint(5, 5)
         # print(f"Animal index is {animal_index}")
         animal_name = animal_name_list[animal_index - 1]
         # print(f"Animal name is {animal_name}")
@@ -193,7 +193,7 @@ class Game(arcade.Window):
 
         # Player Setup
         self.player = Health_Sprite(
-            f"images/Deeeep.io/{animal_name}.png", SCALE, max_health=animal_attributes["health"])
+            f"images/Deeeep.io/{animal_name}.png", animal_attributes['scale'], max_health=animal_attributes["health"])
         self.player.center_x = 600
         self.player.center_y = 400
         self.player.change_x = 0
@@ -335,7 +335,7 @@ class Game(arcade.Window):
 
         # AI Setup
         AI_shark = Health_Sprite(
-            f"images/Deeeep.io/{animal_name}.png", SCALE, max_health=900)
+            f"images/Deeeep.io/{animal_name}.png", animal_attributes['scale'], max_health=900)
 
         AI_shark.center_x = 1290
         AI_shark.center_y = 640
