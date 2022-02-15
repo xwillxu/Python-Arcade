@@ -49,8 +49,8 @@ animals = {
     # 1
     'Blue_Whale': {
         'health': 1500,
-        'speed': 100,
-        'damage': 140,
+        'speed': 90,
+        'damage': 120,
         'scale': 0.5
     },
     # 2
@@ -136,7 +136,7 @@ class Health_Sprite(arcade.Sprite):
                                          center_y=self.center_y + HEALTHBAR_OFFSET_Y,
                                          width=HEALTHBAR_WIDTH,
                                          height=HEALTHBAR_HEIGHT,
-                                         color=arcade.color.RED)
+                                         color=arcade.color.BLACK)
 
         health_width = HEALTHBAR_WIDTH * (self.cur_health / self.max_health)
 
@@ -177,6 +177,8 @@ class Game(arcade.Window):
         # print(f"Animal name is {animal_name}")
         animal_attributes = animals[animal_name]
         # print(animal_attributes)
+
+        self.animal_name = animal_name
 
         # Some Varibles Setup
         self.speed = animal_attributes['speed']
@@ -429,10 +431,19 @@ class Game(arcade.Window):
             for ai in self.AI_list:
                 if self.player_weapon.collides_with_sprite(ai):
                     ai.cur_health -= self.animal_attributes['damage']
+                    if self.animal_name == "Marlin":
+                        if self.frame_count % 300 == 0:
+                            if self.frame_count % 30 == 0:
+                                ai.cur_health -= 20
                 if self.ai_weapon.collides_with_sprite(self.player):
                     self.player.cur_health -= self.animal_attributes['damage']
 
                     print("player_hp", self.player.cur_health)
+
+                    if self.animal_name == "Marlin":
+                        if self.frame_count % 300 == 0:
+                            if self.frame_count % 30 == 0:
+                                self.player.cur_health -= 20
 
                 if self.player.cur_health <= 0:
                     arcade.close_window()
