@@ -46,55 +46,75 @@ animal_name_list = [
     'Sperm_Whale',
     "Tiger_Shark", ]
 animals = {
+    # 1
     'Blue_Whale': {
         'health': 1500,
         'speed': 100,
-        'damage': 140
+        'damage': 140,
+        'scale': 0.5
     },
+    # 2
     'Goblin_Shark': {
         'health': 750,
         'speed': 100,
-        'damage': 140
+        'damage': 140,
+        'scale': 0.4
     },
+    # 3
     'Humpback_Whale': {
         'health': 1200,
         'speed': 100,
-        'damage': 100
+        'damage': 100,
+        'scale': 0.45
     },
+    # 4
     'Leatherback_Turtle': {
         'health': 900,
         'speed': 95,
-        'damage': 130
+        'damage': 130,
+        'scale': 0.4
     },
+    # 5
     'Marlin': {
         'health': 700,
         'speed': 125,
-        'damage': 100
+        'damage': 100,
+        'scale': 0.3
     },
+    # 6
     'Orca': {
         'health': 900,
         'speed': 100,
-        'damage': 160
+        'damage': 160,
+        'scale': 0.4
     },
+    # 7
     'Polar_Bear': {
         'health': 900,
         'speed': 100,
-        'damage': 160
+        'damage': 160,
+        'scale': 0.4
     },
+    # 8
     'Sleeper_Shark': {
         'health': 1000,
         'speed': 80,
-        'damage': 160
+        'damage': 160,
+        'scale': 0.4
     },
+    # 9
     'Sperm_Whale': {
         'health': 1200,
         'speed': 85,
-        'damage': 160
+        'damage': 160,
+        'scale': 0.45
     },
+    # 10
     "Tiger_Shark": {
         'health': 800,
         'speed': 100,
-        'damage': 160
+        'damage': 160,
+        'scale': 0.4
     },
 
 
@@ -605,9 +625,9 @@ class Game(arcade.Window):
                 x_diff = player.center_x - shark.center_x
                 y_diff = player.center_y - shark.center_y
 
-                angle = math.atan2(y_diff, x_diff)
+                angle = math.atan2(y_diff, x_diff) - 180
 
-                shark.angle = - math.degrees(angle) - 90
+                shark.angle = - math.degrees(angle)
 
                 shark.change_x = - math.cos(angle) * 4.5
                 shark.change_y = - math.sin(angle) * 4.5
