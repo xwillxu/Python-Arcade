@@ -52,6 +52,11 @@ animals = {
         'speed': 100,
         'damage': 140
     },
+    'Humpback_Whale': {
+        'health': 1200,
+        'speed': 100,
+        'damage': 100
+    },
     'Leatherback_Turtle': {
         'health': 900,
         'speed': 95,
