@@ -77,6 +77,16 @@ animals = {
         'speed': 100,
         'damage': 160
     },
+    'Sleeper_Shark': {
+        'health': 1000,
+        'speed': 80,
+        'damage': 160
+    },
+    'Sperm_Whale': {
+        'health': 1200,
+        'speed': 85,
+        'damage': 160
+    },
     "Tiger_Shark": {
         'health': 800,
         'speed': 100,
