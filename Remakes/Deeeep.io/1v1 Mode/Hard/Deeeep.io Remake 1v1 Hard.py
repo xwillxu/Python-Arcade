@@ -400,6 +400,8 @@ class Game(arcade.Window):
             sprite.draw_health_bar()
         self.player.draw_health_bar()
 
+        self.player_weapon.draw_hit_box()
+
     def player_move(self, x, y):
         """Player Move"""
 
