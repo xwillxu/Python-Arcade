@@ -85,9 +85,9 @@ animals = {
 
     # 6
     'Aura_Mantis_Shrimp': {
-        'health': 250,
+        'health': 500,
         'speed': 115,
-        'damage': 200,
+        'damage': 180,
         'scale': 0.25
     },
     # 7
@@ -399,8 +399,6 @@ class Game(arcade.Window):
         for sprite in self.AI_list:
             sprite.draw_health_bar()
         self.player.draw_health_bar()
-
-        self.player_weapon.draw()
 
     def player_move(self, x, y):
         """Player Move"""
