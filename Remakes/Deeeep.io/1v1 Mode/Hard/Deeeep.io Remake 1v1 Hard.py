@@ -40,6 +40,7 @@ animal_name_list = [
     'Humpback_Whale',
     'Leatherback_Turtle',
     'Marlin',
+    'Aura_Mantis_Shrimp',
     'Orca',
     'Polar_Bear',
     'Sleeper_Shark',
@@ -63,7 +64,7 @@ animals = {
     # 3
     'Humpback_Whale': {
         'health': 1200,
-        'speed': 100,
+        'speed': 90,
         'damage': 100,
         'scale': 0.45
     },
@@ -81,35 +82,43 @@ animals = {
         'damage': 100,
         'scale': 0.3
     },
+
     # 6
+    'Aura_Mantis_Shrimp': {
+        'health': 250,
+        'speed': 115,
+        'damage': 200,
+        'scale': 0.25
+    },
+    # 7
     'Orca': {
         'health': 900,
         'speed': 100,
         'damage': 160,
         'scale': 0.4
     },
-    # 7
+    # 8
     'Polar_Bear': {
         'health': 900,
         'speed': 100,
         'damage': 160,
         'scale': 0.4
     },
-    # 8
+    # 9
     'Sleeper_Shark': {
         'health': 1000,
         'speed': 80,
         'damage': 160,
         'scale': 0.4
     },
-    # 9
+    # 10
     'Sperm_Whale': {
         'health': 1200,
         'speed': 85,
         'damage': 160,
         'scale': 0.45
     },
-    # 10
+    # 11
     "Tiger_Shark": {
         'health': 800,
         'speed': 100,
@@ -171,7 +180,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         # Set Random Player Animal At The Start Of The Game
-        animal_index = random.randint(5, 5)
+        animal_index = random.randint(6, 6)
         # print(f"Animal index is {animal_index}")
         animal_name = animal_name_list[animal_index - 1]
         # print(f"Animal name is {animal_name}")
@@ -188,10 +197,11 @@ class Game(arcade.Window):
 
         # Players Weapon
         self.player_weapon = arcade.Sprite(
-            "images/Animal1_Head.png", SCALE)
+            "images/Animal1_Head.png", animal_attributes['scale'])
 
         # AI's Weapon
-        self.ai_weapon = arcade.Sprite("images/Animal1_Head.png", SCALE)
+        self.ai_weapon = arcade.Sprite(
+            "images/Animal1_Head.png", animal_attributes['scale'])
 
         # Player Setup
         self.player = Health_Sprite(
@@ -329,7 +339,7 @@ class Game(arcade.Window):
     def AI(self):
         """AI shark"""
 
-        animal_index = random.randint(1, 5)
+        animal_index = random.randint(1, 10)
 
         animal_name = animal_name_list[animal_index - 1]
 
@@ -390,6 +400,8 @@ class Game(arcade.Window):
             sprite.draw_health_bar()
         self.player.draw_health_bar()
 
+        self.player_weapon.draw()
+
     def player_move(self, x, y):
         """Player Move"""
 
@@ -433,7 +445,7 @@ class Game(arcade.Window):
                     ai.cur_health -= self.animal_attributes['damage']
                     if self.animal_name == "Marlin":
                         if self.frame_count % 300 == 0:
-                            if self.frame_count % 30 == 0:
+                            if self.frame_count % 10 == 0:
                                 ai.cur_health -= 20
                 if self.ai_weapon.collides_with_sprite(self.player):
                     self.player.cur_health -= self.animal_attributes['damage']
@@ -442,7 +454,7 @@ class Game(arcade.Window):
 
                     if self.animal_name == "Marlin":
                         if self.frame_count % 300 == 0:
-                            if self.frame_count % 30 == 0:
+                            if self.frame_count % 10 == 0:
                                 self.player.cur_health -= 20
 
                 if self.player.cur_health <= 0:
