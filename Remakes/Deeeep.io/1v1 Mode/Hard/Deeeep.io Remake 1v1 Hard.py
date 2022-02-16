@@ -85,9 +85,9 @@ animals = {
 
     # 6
     'Aura_Mantis_Shrimp': {
-        'health': 500,
-        'speed': 115,
-        'damage': 180,
+        'health': 250,
+        'speed': 150,
+        'damage': 150,
         'scale': 0.25
     },
     # 7
@@ -500,9 +500,9 @@ class Game(arcade.Window):
                 fish.change_y = - math.sin(angle) * 4.5
 
         if self.boost_timer > 0:
-            self.speed = 10
+            self.speed = self.animal_attributes['speed'] / 10 * 2
         else:
-            self.speed = 5
+            self.speed = self.animal_attributes['speed'] / 10
 
         for orb in self.orb_list:
             if self.player.collides_with_sprite(orb):
