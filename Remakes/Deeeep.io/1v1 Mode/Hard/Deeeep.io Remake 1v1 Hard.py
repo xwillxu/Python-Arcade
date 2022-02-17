@@ -195,6 +195,8 @@ class Game(arcade.Window):
         self.ai_score = 0
         self.animal_attributes = animal_attributes
 
+        self.AI_animal_attributes = None
+
         # Players Weapon
         self.player_weapon = arcade.Sprite(
             "images/Animal1_Head.png", animal_attributes['scale'])
@@ -344,6 +346,8 @@ class Game(arcade.Window):
         animal_name = animal_name_list[animal_index - 1]
 
         animal_attributes = animals[animal_name]
+
+        self.AI_animal_attributes = animal_attributes
 
         # AI Setup
         AI_shark = Health_Sprite(
