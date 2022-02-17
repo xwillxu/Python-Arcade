@@ -500,9 +500,9 @@ class Game(arcade.Window):
                 fish.change_y = - math.sin(angle) * 4.5
 
         if self.boost_timer > 0:
-            self.speed = self.animal_attributes['speed'] / 10 * 2
+            self.speed = self.animal_attributes['speed'] / 10 / 2 * 2
         else:
-            self.speed = self.animal_attributes['speed'] / 10
+            self.speed = self.animal_attributes['speed'] / 10 / 2
 
         for orb in self.orb_list:
             if self.player.collides_with_sprite(orb):
@@ -641,8 +641,10 @@ class Game(arcade.Window):
 
                 shark.angle = math.degrees(angle) - 90
 
-                shark.change_x = math.cos(angle) * 4.5
-                shark.change_y = math.sin(angle) * 4.5
+                shark.change_x = math.cos(
+                    angle) * self.animal_attributes['speed'] / 10 / 2
+                shark.change_y = math.sin(
+                    angle) * self.animal_attributes['speed'] / 10 / 2
 
             else:
                 print(shark.cur_health, 'run away current health')
@@ -653,8 +655,10 @@ class Game(arcade.Window):
 
                 shark.angle = - math.degrees(angle)
 
-                shark.change_x = - math.cos(angle) * 4.5
-                shark.change_y = - math.sin(angle) * 4.5
+                shark.change_x = - \
+                    math.cos(angle) * self.animal_attributes['speed'] / 10 / 2
+                shark.change_y = - \
+                    math.sin(angle) * self.animal_attributes['speed'] / 10 / 2
 
 
 if __name__ == "__main__":
