@@ -40,7 +40,6 @@ animal_name_list = [
     'Humpback_Whale',
     'Leatherback_Turtle',
     'Marlin',
-    'Aura_Mantis_Shrimp',
     'Orca',
     'Polar_Bear',
     'Sleeper_Shark',
@@ -83,13 +82,7 @@ animals = {
         'scale': 0.3
     },
 
-    # 6
-    'Aura_Mantis_Shrimp': {
-        'health': 250,
-        'speed': 150,
-        'damage': 150,
-        'scale': 0.25
-    },
+
     # 7
     'Orca': {
         'health': 900,
@@ -646,9 +639,9 @@ class Game(arcade.Window):
                 shark.angle = math.degrees(angle) - 90
 
                 shark.change_x = math.cos(
-                    angle) * self.animal_attributes['speed'] / 10 / 2
+                    angle) * self.AI_animal_attributes['speed'] / 10 / 2
                 shark.change_y = math.sin(
-                    angle) * self.animal_attributes['speed'] / 10 / 2
+                    angle) * self.AI_animal_attributes['speed'] / 10 / 2
 
             else:
                 print(shark.cur_health, 'run away current health')
@@ -660,9 +653,11 @@ class Game(arcade.Window):
                 shark.angle = - math.degrees(angle)
 
                 shark.change_x = - \
-                    math.cos(angle) * self.animal_attributes['speed'] / 10 / 2
+                    math.cos(angle) * \
+                    self.AI_animal_attributes['speed'] / 10 / 2
                 shark.change_y = - \
-                    math.sin(angle) * self.animal_attributes['speed'] / 10 / 2
+                    math.sin(angle) * \
+                    self.AI_animal_attributes['speed'] / 10 / 2
 
 
 if __name__ == "__main__":
