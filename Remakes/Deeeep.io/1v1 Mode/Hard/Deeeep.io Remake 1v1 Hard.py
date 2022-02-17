@@ -196,7 +196,7 @@ class Game(arcade.Window):
 
         # AI's Weapon
         self.ai_weapon = arcade.Sprite(
-            "images/Animal1_Head.png", animal_attributes['scale'])
+            "images/Animal1_Head.png", self.animal_attributes['scale'])
 
         # Player Setup
         self.player = Health_Sprite(
@@ -344,7 +344,7 @@ class Game(arcade.Window):
 
         # AI Setup
         AI_shark = Health_Sprite(
-            f"images/Deeeep.io/{animal_name}.png", animal_attributes['scale'], max_health=900)
+            f"images/Deeeep.io/{animal_name}.png", animal_attributes['scale'], max_health=animal_attributes['health'])
 
         AI_shark.center_x = 1290
         AI_shark.center_y = 640
@@ -398,6 +398,7 @@ class Game(arcade.Window):
         self.player.draw_health_bar()
 
         self.player_weapon.draw_hit_box()
+        self.ai_weapon.draw_hit_box()
 
     def player_move(self, x, y):
         """Player Move"""
@@ -438,13 +439,13 @@ class Game(arcade.Window):
 
         if self.frame_count % 5 == 0:
             for ai in self.AI_list:
-                if self.player_weapon.collides_with_sprite(ai):
+                if self.player_weapon.collides_with_sprite(self.ai_weapon):
                     ai.cur_health -= self.animal_attributes['damage']
                     if self.animal_name == "Marlin":
                         if self.frame_count % 300 == 0:
-                            if self.frame_count % 10 == 0:
+                            if self.frame_count % 5 == 0:
                                 ai.cur_health -= 20
-                if self.ai_weapon.collides_with_sprite(self.player):
+                if self.ai_weapon.collides_with_sprite(self.player_weapon):
                     self.player.cur_health -= self.animal_attributes['damage']
 
                     print("player_hp", self.player.cur_health)
@@ -505,27 +506,31 @@ class Game(arcade.Window):
             if self.player.collides_with_sprite(orb):
                 orb.remove_from_sprite_lists()
                 self.score += 1
-                self.player.cur_health += 10
+                if self.player.cur_health <= self.player.max_health:
+                    self.player.cur_health += 10
                 self.GreenOrb()
 
             for ai in self.AI_list:
                 if ai.collides_with_sprite(orb):
                     orb.remove_from_sprite_lists()
                     self.ai_score += 1
-                    ai.cur_health += 10
+                    if ai.cur_health <= ai.max_health:
+                        ai.cur_health += 10
                     self.GreenOrb()
 
         for orb in self.orb_list2:
             if self.player.collides_with_sprite(orb):
                 orb.remove_from_sprite_lists()
                 self.score += 1
-                self.player.cur_health += 10
+                if self.player.cur_health <= self.player.max_health:
+                    self.player.cur_health += 10
                 self.BlueOrb()
             for ai in self.AI_list:
                 if ai.collides_with_sprite(orb):
                     orb.remove_from_sprite_lists()
                     self.ai_score += 1
-                    ai.cur_health += 10
+                    if ai.cur_health <= ai.max_health:
+                        ai.cur_health += 10
                     self.BlueOrb()
 
         for fish in self.fish_list:
@@ -533,13 +538,15 @@ class Game(arcade.Window):
             if self.player.collides_with_sprite(fish):
                 fish.remove_from_sprite_lists()
                 self.score += 5
-                self.player.cur_health += 20
+                if self.player.cur_health <= self.player.max_health:
+                    self.player.cur_health += 20
                 self.fish()
             for ai in self.AI_list:
                 if ai.collides_with_sprite(fish):
                     fish.remove_from_sprite_lists()
                     self.ai_score += 5
-                    ai.cur_health += 20
+                    if ai.cur_health <= ai.max_health:
+                        ai.cur_health += 20
                     self.fish()
 
         for ai in self.AI_list:
@@ -596,9 +603,9 @@ class Game(arcade.Window):
             if shark.left < 0:
                 shark.left = 0
 
-        follow_sprite(self.player_weapon, self.player, offset=0)
+        follow_sprite(self.player_weapon, self.player, offset=-1)
         for ai in self.AI_list:
-            follow_sprite(self.ai_weapon, ai, offset=0)
+            follow_sprite(self.ai_weapon, ai, offset=-1)
 
         collision(self.player, self.AI_list)
 
