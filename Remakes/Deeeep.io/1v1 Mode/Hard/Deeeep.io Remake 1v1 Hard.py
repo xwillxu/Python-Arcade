@@ -194,10 +194,6 @@ class Game(arcade.Window):
         self.player_weapon = arcade.Sprite(
             "images/Animal1_Head.png", animal_attributes['scale'])
 
-        # AI's Weapon
-        self.ai_weapon = arcade.Sprite(
-            "images/Animal1_Head.png", self.animal_attributes['scale'])
-
         # Player Setup
         self.player = Health_Sprite(
             f"images/Deeeep.io/{animal_name}.png", animal_attributes['scale'], max_health=animal_attributes["health"])
@@ -334,13 +330,17 @@ class Game(arcade.Window):
     def AI(self):
         """AI shark"""
 
-        animal_index = random.randint(1, 10)
+        animal_index = random.randint(5, 5)
 
         animal_name = animal_name_list[animal_index - 1]
 
         animal_attributes = animals[animal_name]
 
         self.AI_animal_attributes = animal_attributes
+
+        # AI's Weapon
+        self.ai_weapon = arcade.Sprite(
+            "images/Animal1_Head.png", self.AI_animal_attributes['scale'])
 
         # AI Setup
         AI_shark = Health_Sprite(
@@ -605,7 +605,7 @@ class Game(arcade.Window):
 
         follow_sprite(self.player_weapon, self.player, offset=-1)
         for ai in self.AI_list:
-            follow_sprite(self.ai_weapon, ai, offset=-1)
+            follow_sprite(self.ai_weapon, ai, offset=30)
 
         collision(self.player, self.AI_list)
 
