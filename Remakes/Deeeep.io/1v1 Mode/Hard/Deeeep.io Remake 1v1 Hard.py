@@ -173,7 +173,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         # Set Random Player Animal At The Start Of The Game
-        animal_index = random.randint(6, 6)
+        animal_index = random.randint(1, 10)
         # print(f"Animal index is {animal_index}")
         animal_name = animal_name_list[animal_index - 1]
         # print(f"Animal name is {animal_name}")
@@ -497,31 +497,35 @@ class Game(arcade.Window):
                 fish.change_y = - math.sin(angle) * 4.5
 
         if self.boost_timer > 0:
-            self.speed = self.animal_attributes['speed'] / 10 / 2 * 2
+            self.speed = self.animal_attributes['speed'] / 9 / 2 * 2
         else:
-            self.speed = self.animal_attributes['speed'] / 10 / 2
+            self.speed = self.animal_attributes['speed'] / 9 / 2
 
         for orb in self.orb_list:
             if self.player.collides_with_sprite(orb):
                 orb.remove_from_sprite_lists()
                 self.score += 1
+                self.player.cur_health += 10
                 self.GreenOrb()
 
             for ai in self.AI_list:
                 if ai.collides_with_sprite(orb):
                     orb.remove_from_sprite_lists()
                     self.ai_score += 1
+                    ai.cur_health += 10
                     self.GreenOrb()
 
         for orb in self.orb_list2:
             if self.player.collides_with_sprite(orb):
                 orb.remove_from_sprite_lists()
                 self.score += 1
+                self.player.cur_health += 10
                 self.BlueOrb()
             for ai in self.AI_list:
                 if ai.collides_with_sprite(orb):
                     orb.remove_from_sprite_lists()
                     self.ai_score += 1
+                    ai.cur_health += 10
                     self.BlueOrb()
 
         for fish in self.fish_list:
@@ -529,11 +533,13 @@ class Game(arcade.Window):
             if self.player.collides_with_sprite(fish):
                 fish.remove_from_sprite_lists()
                 self.score += 5
+                self.player.cur_health += 20
                 self.fish()
             for ai in self.AI_list:
                 if ai.collides_with_sprite(fish):
                     fish.remove_from_sprite_lists()
                     self.ai_score += 5
+                    ai.cur_health += 20
                     self.fish()
 
         for ai in self.AI_list:
@@ -639,9 +645,9 @@ class Game(arcade.Window):
                 shark.angle = math.degrees(angle) - 90
 
                 shark.change_x = math.cos(
-                    angle) * self.AI_animal_attributes['speed'] / 10 / 2
+                    angle) * self.AI_animal_attributes['speed'] / 9 / 2
                 shark.change_y = math.sin(
-                    angle) * self.AI_animal_attributes['speed'] / 10 / 2
+                    angle) * self.AI_animal_attributes['speed'] / 9 / 2
 
             else:
                 print(shark.cur_health, 'run away current health')
@@ -654,10 +660,10 @@ class Game(arcade.Window):
 
                 shark.change_x = - \
                     math.cos(angle) * \
-                    self.AI_animal_attributes['speed'] / 10 / 2
+                    self.AI_animal_attributes['speed'] / 9 / 2
                 shark.change_y = - \
                     math.sin(angle) * \
-                    self.AI_animal_attributes['speed'] / 10 / 2
+                    self.AI_animal_attributes['speed'] / 9 / 2
 
 
 if __name__ == "__main__":
