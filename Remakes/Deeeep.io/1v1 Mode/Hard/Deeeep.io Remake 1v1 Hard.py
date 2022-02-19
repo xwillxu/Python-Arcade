@@ -492,10 +492,14 @@ class Game(arcade.Window):
                     self.player.remove_from_sprite_lists()
                     self.player_weapon.remove_from_sprite_lists()
                     self.Lose()
+                    if self.frame_count % 10 == 0:
+                        arcade.close_window()
 
                 if ai.cur_health <= 0:
                     ai.remove_from_sprite_lists()
                     self.Win()
+                    if self.frame_count % 10 == 0:
+                        arcade.close_window()
 
         for ai in self.AI_list:
             if not ai.cur_health >= ai.max_health:
