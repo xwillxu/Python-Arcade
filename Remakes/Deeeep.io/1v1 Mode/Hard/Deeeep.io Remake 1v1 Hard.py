@@ -167,7 +167,7 @@ class Game(arcade.Window):
         """Setup"""
 
         # Fullscreen Control
-        #self.set_fullscreen(not self.fullscreen)
+        self.set_fullscreen(not self.fullscreen)
 
         # Add Backround Color
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
