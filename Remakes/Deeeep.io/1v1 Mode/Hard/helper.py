@@ -21,3 +21,8 @@ def collision(player, ai_list):
         if player.collides_with_sprite(ai):
             ai.change_x = - max(player.change_x * 2, limit)
             ai.change_y = - max(player.change_y * 2, limit)
+
+    for ai in ai_list:
+        if ai.collides_with_sprite(player):
+            player.change_x = - max(ai.change_x * 2, limit)
+            player.change_y = - max(ai.change_y * 2, limit)

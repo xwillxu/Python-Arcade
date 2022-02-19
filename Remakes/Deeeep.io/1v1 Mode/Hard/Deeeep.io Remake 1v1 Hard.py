@@ -423,7 +423,7 @@ class Game(arcade.Window):
         # self.ai_weapon.draw_hit_box()
 
         if self.you_won == True:
-            arcade.draw_text(" YOU WON!😃 ", 500, 500,
+            arcade.draw_text(" YOU WON! ", 500, 500,
                              arcade.color.GREEN, 100)
 
         elif self.you_won == False:
