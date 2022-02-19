@@ -187,6 +187,7 @@ class Game(arcade.Window):
         self.score = 0
         self.ai_score = 0
         self.animal_attributes = animal_attributes
+        self.you_won = None
 
         self.AI_animal_attributes = None
 
@@ -359,6 +360,11 @@ class Game(arcade.Window):
         # Add to AI list
         self.AI_list.append(AI_shark)
 
+    def Win(self):
+        """You Won"""
+
+        self.you_won = True
+
     def on_key_press(self, symbol: int, modifiers: int):
         " Key Press"
         # Fullscreen Control
@@ -399,6 +405,10 @@ class Game(arcade.Window):
 
         self.player_weapon.draw_hit_box()
         self.ai_weapon.draw_hit_box()
+
+        if self.you_won == True:
+            arcade.draw_text(" YOU WON! ", 600, 500,
+                             arcade.color.GREEN, 100)
 
     def player_move(self, x, y):
         """Player Move"""
@@ -459,6 +469,7 @@ class Game(arcade.Window):
                     arcade.close_window()
                 if ai.cur_health <= 0:
                     ai.remove_from_sprite_lists()
+                    self.Win()
 
         for ai in self.AI_list:
             if not ai.cur_health >= ai.max_health:
@@ -603,9 +614,9 @@ class Game(arcade.Window):
             if shark.left < 0:
                 shark.left = 0
 
-        follow_sprite(self.player_weapon, self.player, offset=-1)
+        follow_sprite(self.player_weapon, self.player, offset=0)
         for ai in self.AI_list:
-            follow_sprite(self.ai_weapon, ai, offset=30)
+            follow_sprite(self.ai_weapon, ai, offset=0)
 
         collision(self.player, self.AI_list)
 
