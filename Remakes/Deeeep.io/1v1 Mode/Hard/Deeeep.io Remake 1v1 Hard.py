@@ -162,6 +162,7 @@ class Game(arcade.Window):
 
         # List Setup
         self.AI_list = arcade.SpriteList()
+        self.player_list = arcade.SpriteList()
 
     def setup(self):
         """Setup"""
@@ -202,6 +203,9 @@ class Game(arcade.Window):
         self.player.center_y = 400
         self.player.change_x = 0
         self.player.change_y = 0
+
+        self.player_list.append(self.player)
+        self.player_list.append(self.player_weapon)
 
         # Player Position Varibles
         self.shark_center_x = self.player.center_x
@@ -331,7 +335,7 @@ class Game(arcade.Window):
     def AI(self):
         """AI shark"""
 
-        animal_index = random.randint(6, 6)
+        animal_index = random.randint(1, 1)
 
         animal_name = animal_name_list[animal_index - 1]
 
@@ -383,7 +387,15 @@ class Game(arcade.Window):
         arcade.start_render()
 
         # Draw Player
-        self.player.draw()
+
+        self.player_list.draw()
+        for player in self.player_list:
+            try:
+                player.draw_health_bar()
+            except:
+                pass
+            finally:
+                pass
 
         # Draw Lists
         self.orb_list.draw()
@@ -406,7 +418,6 @@ class Game(arcade.Window):
         # Draw Health Bars
         for sprite in self.AI_list:
             sprite.draw_health_bar()
-        self.player.draw_health_bar()
 
         # self.player_weapon.draw_hit_box()
         # self.ai_weapon.draw_hit_box()
@@ -458,13 +469,16 @@ class Game(arcade.Window):
 
         if self.frame_count % 5 == 0:
             for ai in self.AI_list:
-                if self.player_weapon.collides_with_sprite(self.ai_weapon):
+                # If game is over, don't do any more collision
+                if self.you_won != None:
+                    continue
+                if self.player_weapon.collides_with_sprite(ai):
                     ai.cur_health -= self.animal_attributes['damage']
                     if self.animal_name == "Marlin":
                         if self.frame_count % 300 == 0:
                             if self.frame_count % 5 == 0:
                                 ai.cur_health -= 20
-                if self.ai_weapon.collides_with_sprite(self.player_weapon):
+                if self.ai_weapon.collides_with_sprite(self.player):
                     self.player.cur_health -= self.animal_attributes['damage']
 
                     print("player_hp", self.player.cur_health)
@@ -475,7 +489,10 @@ class Game(arcade.Window):
                                 self.player.cur_health -= 20
 
                 if self.player.cur_health <= 0:
+                    self.player.remove_from_sprite_lists()
+                    self.player_weapon.remove_from_sprite_lists()
                     self.Lose()
+
                 if ai.cur_health <= 0:
                     ai.remove_from_sprite_lists()
                     self.Win()
@@ -627,7 +644,8 @@ class Game(arcade.Window):
         for ai in self.AI_list:
             follow_sprite(self.ai_weapon, ai, offset=0)
 
-        collision(self.player, self.AI_list)
+        if self.you_won == None:
+            collision(self.player_weapon, self.AI_list)
 
     def AI_move(self, player, shark, delta_time):
         """AI Move Command"""

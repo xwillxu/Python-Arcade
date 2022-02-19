@@ -16,13 +16,8 @@ def follow_sprite(sprite, your_target_sprite, offset=50):
 
 
 def collision(player, ai_list):
+    limit = 5
     for ai in ai_list:
         if player.collides_with_sprite(ai):
-
-            ai.change_x = - player.change_x * 2
-            ai.change_y = - player.change_y * 2
-
-        if player.collides_with_sprite(ai):
-
-            player.change_x = - player.change_x * 2
-            player.change_y = - player.change_y * 2
+            ai.change_x = - max(player.change_x * 2, limit)
+            ai.change_y = - max(player.change_y * 2, limit)
