@@ -331,7 +331,7 @@ class Game(arcade.Window):
     def AI(self):
         """AI shark"""
 
-        animal_index = random.randint(5, 5)
+        animal_index = random.randint(6, 6)
 
         animal_name = animal_name_list[animal_index - 1]
 
@@ -364,6 +364,11 @@ class Game(arcade.Window):
         """You Won"""
 
         self.you_won = True
+
+    def Lose(self):
+        """You Lost"""
+
+        self.you_won = False
 
     def on_key_press(self, symbol: int, modifiers: int):
         " Key Press"
@@ -403,12 +408,16 @@ class Game(arcade.Window):
             sprite.draw_health_bar()
         self.player.draw_health_bar()
 
-        self.player_weapon.draw_hit_box()
-        self.ai_weapon.draw_hit_box()
+        # self.player_weapon.draw_hit_box()
+        # self.ai_weapon.draw_hit_box()
 
         if self.you_won == True:
-            arcade.draw_text(" YOU WON! ", 600, 500,
+            arcade.draw_text(" YOU WON!😃 ", 500, 500,
                              arcade.color.GREEN, 100)
+
+        elif self.you_won == False:
+            arcade.draw_text(" YOU LOST☹ ", 500, 500,
+                             arcade.color.RED, 100)
 
     def player_move(self, x, y):
         """Player Move"""
@@ -466,7 +475,7 @@ class Game(arcade.Window):
                                 self.player.cur_health -= 20
 
                 if self.player.cur_health <= 0:
-                    arcade.close_window()
+                    self.Lose()
                 if ai.cur_health <= 0:
                     ai.remove_from_sprite_lists()
                     self.Win()
