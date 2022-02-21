@@ -394,7 +394,9 @@ class Game(arcade.Window):
 
         # Draw Player
 
+        # Draw The Player List
         self.player_list.draw()
+        # Try To Draw The Health Bars If Not Skip To Next Object in Player List
         for player in self.player_list:
             try:
                 player.draw_health_bar()
