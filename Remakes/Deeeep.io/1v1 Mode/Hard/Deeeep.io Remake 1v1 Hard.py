@@ -35,6 +35,7 @@ HEALTHBAR_HEIGHT = 10
 HEALTHBAR_OFFSET_Y = 50
 
 animal_name_list = [
+    'Alligator_Snapping_Turtle',
     'Blue_Whale',
     'Goblin_Shark',
     'Humpback_Whale',
@@ -46,6 +47,13 @@ animal_name_list = [
     'Sperm_Whale',
     "Tiger_Shark", ]
 animals = {
+
+    'Alligator_Snapping_Turtle': {
+        'health': 1300,
+        'speed': 90,
+        'damage': 140,
+        'scale': 0.5
+    },
     # 1
     'Blue_Whale': {
         'health': 1500,
@@ -180,7 +188,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         # Set Random Player Animal At The Start Of The Game
-        animal_index = random.randint(1, 10)
+        animal_index = random.randint(1, 1)
         # print(f"Animal index is {animal_index}")
         animal_name = animal_name_list[animal_index - 1]
         # print(f"Animal name is {animal_name}")
@@ -341,7 +349,7 @@ class Game(arcade.Window):
     def AI(self):
         """AI shark"""
 
-        animal_index = random.randint(1, 1)
+        animal_index = random.randint(1, 11)
 
         animal_name = animal_name_list[animal_index - 1]
 
