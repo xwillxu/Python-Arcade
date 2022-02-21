@@ -687,7 +687,7 @@ class Game(arcade.Window):
 
             "Attack player"
 
-            if shark.cur_health > 450:
+            if shark.cur_health > shark.max_health / 2:
                 print(shark.cur_health, 'attack current health')
 
                 x_diff = player.center_x - shark.center_x
