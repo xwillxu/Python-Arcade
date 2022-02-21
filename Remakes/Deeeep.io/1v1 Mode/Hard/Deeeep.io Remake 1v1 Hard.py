@@ -171,7 +171,7 @@ class Game(arcade.Window):
     def setup(self):
         """Setup"""
 
-        arcade.schedule(self.check_win_lose, 10)
+        arcade.schedule(self.check_win_lose, 15)
 
         # Fullscreen Control
         self.set_fullscreen(not self.fullscreen)
@@ -499,15 +499,11 @@ class Game(arcade.Window):
                     self.player_weapon.remove_from_sprite_lists()
                     self.Lose()
                     print("Lose")
-                    if self.frame_count % 30 == 0:
-                        arcade.close_window()
 
                 if ai.cur_health <= 0:
                     ai.remove_from_sprite_lists()
                     self.Win()
                     print("Win")
-                    if self.frame_count % 30 == 0:
-                        arcade.close_window()
 
         for ai in self.AI_list:
             if not ai.cur_health >= ai.max_health:
