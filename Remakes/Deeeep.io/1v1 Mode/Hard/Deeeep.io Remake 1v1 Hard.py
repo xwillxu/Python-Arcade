@@ -15,6 +15,7 @@ will not heal.)
 
 
 import arcade
+import pymunk
 import math
 import random
 from helper import follow_sprite, collision
@@ -46,6 +47,7 @@ animal_name_list = [
     'Sleeper_Shark',
     'Sperm_Whale',
     "Tiger_Shark", ]
+
 animals = {
 
     'Alligator_Snapping_Turtle': {
@@ -188,7 +190,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         # Set Random Player Animal At The Start Of The Game
-        animal_index = random.randint(6, 6)
+        animal_index = random.randint(1, 11)
         # print(f"Animal index is {animal_index}")
         animal_name = animal_name_list[animal_index - 1]
         # print(f"Animal name is {animal_name}")
