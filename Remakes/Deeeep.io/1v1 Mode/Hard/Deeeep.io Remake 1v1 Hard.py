@@ -59,7 +59,7 @@ animals = {
         'health': 1500,
         'speed': 90,
         'damage': 120,
-        'scale': 0.5
+        'scale': 0.7
     },
     # 2
     'Goblin_Shark': {
@@ -73,7 +73,7 @@ animals = {
         'health': 1200,
         'speed': 90,
         'damage': 100,
-        'scale': 0.45
+        'scale': 0.55
     },
     # 4
     'Leatherback_Turtle': {
@@ -117,7 +117,7 @@ animals = {
         'health': 1200,
         'speed': 85,
         'damage': 160,
-        'scale': 0.45
+        'scale': 0.55
     },
     # 11
     "Tiger_Shark": {
@@ -188,7 +188,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         # Set Random Player Animal At The Start Of The Game
-        animal_index = random.randint(1, 1)
+        animal_index = random.randint(6, 6)
         # print(f"Animal index is {animal_index}")
         animal_name = animal_name_list[animal_index - 1]
         # print(f"Animal name is {animal_name}")
@@ -491,7 +491,7 @@ class Game(arcade.Window):
                 if self.player_weapon.collides_with_sprite(ai):
                     ai.cur_health -= self.animal_attributes['damage']
                     if self.animal_name == "Marlin":
-                        if self.frame_count % 300 == 0:
+                        if not self.frame_count % 300 == 0:
                             if self.frame_count % 5 == 0:
                                 ai.cur_health -= 20
                 if self.ai_weapon.collides_with_sprite(self.player):
@@ -500,7 +500,7 @@ class Game(arcade.Window):
                     print("player_hp", self.player.cur_health)
 
                     if self.animal_name == "Marlin":
-                        if self.frame_count % 300 == 0:
+                        if not self.frame_count % 300 == 0:
                             if self.frame_count % 10 == 0:
                                 self.player.cur_health -= 20
 
