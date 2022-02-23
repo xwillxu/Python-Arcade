@@ -38,6 +38,7 @@ HEALTHBAR_OFFSET_Y = 50
 animal_name_list = [
     'Alligator_Snapping_Turtle',
     'Blue_Whale',
+    'Elephant_Seal',
     'Goblin_Shark',
     'Humpback_Whale',
     'Leatherback_Turtle',
@@ -46,7 +47,8 @@ animal_name_list = [
     'Polar_Bear',
     'Sleeper_Shark',
     'Sperm_Whale',
-    "Tiger_Shark", ]
+    'Tiger_Shark',
+    'Walrus', ]
 
 animals = {
 
@@ -93,7 +95,15 @@ animals = {
         'damage': 130,
         'scale': 0.4
     },
+
     # 7
+    'Manta_Ray': {
+        'health': 1000,
+        'speed': 100,
+        'damage': 120,
+        'scale': 0.4
+    },
+    # 8
     'Marlin': {
         'health': 700,
         'speed': 125,
