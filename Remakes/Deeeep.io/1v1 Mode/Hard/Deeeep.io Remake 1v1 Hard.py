@@ -50,41 +50,50 @@ animal_name_list = [
 
 animals = {
 
+    # 1
     'Alligator_Snapping_Turtle': {
-        'health': 1300,
+        'health': 800,
         'speed': 90,
         'damage': 140,
         'scale': 0.5
     },
-    # 1
+    # 2
     'Blue_Whale': {
         'health': 1500,
         'speed': 90,
         'damage': 120,
         'scale': 0.7
     },
-    # 2
+
+    # 3
+    "Elephant_Seal": {
+        'health': 1000,
+        'speed': 90,
+        'damage': 120,
+        'scale': 0.4
+    },
+    # 4
     'Goblin_Shark': {
         'health': 750,
         'speed': 100,
         'damage': 140,
         'scale': 0.4
     },
-    # 3
+    # 5
     'Humpback_Whale': {
         'health': 1200,
         'speed': 90,
         'damage': 100,
         'scale': 0.55
     },
-    # 4
+    # 6
     'Leatherback_Turtle': {
         'health': 900,
         'speed': 95,
         'damage': 130,
         'scale': 0.4
     },
-    # 5
+    # 7
     'Marlin': {
         'health': 700,
         'speed': 125,
@@ -126,6 +135,14 @@ animals = {
         'health': 800,
         'speed': 100,
         'damage': 160,
+        'scale': 0.4
+    },
+
+    # 12
+    "Walrus": {
+        'health': 900,
+        'speed': 90,
+        'damage': 140,
         'scale': 0.4
     },
 
