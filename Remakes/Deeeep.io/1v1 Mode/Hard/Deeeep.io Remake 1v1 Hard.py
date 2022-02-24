@@ -42,11 +42,13 @@ animal_name_list = [
     'Goblin_Shark',
     'Humpback_Whale',
     'Leatherback_Turtle',
+    'Manta_ray',
     'Marlin',
     'Orca',
     'Polar_Bear',
     'Sleeper_Shark',
     'Sperm_Whale',
+    'Sunfish',
     'Tiger_Shark',
     'Walrus', ]
 
@@ -140,8 +142,16 @@ animals = {
         'damage': 160,
         'scale': 0.55
     },
+
+    'Sunfish': {
+        'health': 900,
+        'speed': 100,
+        'damage': 140,
+        'scale': 0.4
+    },
+
     # 11
-    "Tiger_Shark": {
+    'Tiger_Shark': {
         'health': 800,
         'speed': 100,
         'damage': 160,
@@ -149,7 +159,7 @@ animals = {
     },
 
     # 12
-    "Walrus": {
+    'Walrus': {
         'health': 900,
         'speed': 90,
         'damage': 140,
@@ -217,7 +227,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         # Set Random Player Animal At The Start Of The Game
-        animal_index = random.randint(1, 11)
+        animal_index = random.randint(13, 13)
         # print(f"Animal index is {animal_index}")
         animal_name = animal_name_list[animal_index - 1]
         # print(f"Animal name is {animal_name}")
