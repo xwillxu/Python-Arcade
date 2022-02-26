@@ -227,7 +227,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         # Set Random Player Animal At The Start Of The Game
-        animal_index = random.randint(13, 13)
+        animal_index = random.randint(3, 3)
         # print(f"Animal index is {animal_index}")
         animal_name = animal_name_list[animal_index - 1]
         # print(f"Animal name is {animal_name}")
@@ -256,6 +256,8 @@ class Game(arcade.Window):
         self.player.center_y = 400
         self.player.change_x = 0
         self.player.change_y = 0
+        self.player_name = animal_name
+        self.player_speed = self.speed
 
         self.player_list.append(self.player)
         self.player_list.append(self.player_weapon)
@@ -521,6 +523,49 @@ class Game(arcade.Window):
 
         self.shark_center_x = self.player.center_x
         self.shark_center_y = self.player.center_y
+
+        if self.player_name == "Elephant_Seal":
+            if self.player.cur_health < 800:
+                self.animal_attributes["damage"] += 9
+            else:
+                self.animal_attributes["damage"] == 120
+            if self.player.cur_health < 700:
+                self.speed == 5.5
+            else:
+                self.speed == 5
+            if self.player.cur_health < 700:
+                self.animal_attributes["damage"] += 18
+            else:
+                self.animal_attributes["damage"] == 120
+
+            if self.player.cur_health < 600:
+                self.animal_attributes["damage"] += 27
+            else:
+                self.animal_attributes["damage"] == 120
+            if self.player.cur_health < 500:
+                self.speed == 6
+            else:
+                self.speed == 5
+            if self.player.cur_health < 500:
+                self.animal_attributes["damage"] += 36
+            else:
+                self.animal_attributes["damage"] == 120
+            if self.player.cur_health < 400:
+                self.animal_attributes["damage"] += 45
+            else:
+                self.animal_attributes["damage"] == 120
+            if self.player.cur_health < 300:
+                self.animal_attributes["damage"] += 54
+            else:
+                self.animal_attributes["damage"] == 120
+            if self.player.cur_health < 200:
+                self.animal_attributes["damage"] += 63
+            else:
+                self.animal_attributes["damage"] == 120
+            if self.player.cur_health < 100:
+                self.animal_attributes["damage"] += 72
+            else:
+                self.animal_attributes["damage"] == 120
 
         if self.frame_count % 5 == 0:
             for ai in self.AI_list:
