@@ -42,7 +42,7 @@ animal_name_list = [
     'Goblin_Shark',
     'Humpback_Whale',
     'Leatherback_Turtle',
-    'Manta_ray',
+    'Manta_Ray',
     'Marlin',
     'Orca',
     'Polar_Bear',
@@ -74,7 +74,7 @@ animals = {
         'health': 1000,
         'speed': 90,
         'damage': 120,
-        'scale': 0.4
+        'scale': 0.5
     },
     # 4
     'Goblin_Shark': {
@@ -163,7 +163,7 @@ animals = {
         'health': 900,
         'speed': 90,
         'damage': 140,
-        'scale': 0.4
+        'scale': 0.3
     },
 
 
@@ -227,7 +227,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         # Set Random Player Animal At The Start Of The Game
-        animal_index = random.randint(3, 3)
+        animal_index = random.randint(14, 14)
         # print(f"Animal index is {animal_index}")
         animal_name = animal_name_list[animal_index - 1]
         # print(f"Animal name is {animal_name}")
@@ -390,7 +390,7 @@ class Game(arcade.Window):
     def AI(self):
         """AI shark"""
 
-        animal_index = random.randint(1, 11)
+        animal_index = random.randint(1, 15)
 
         animal_name = animal_name_list[animal_index - 1]
 
@@ -524,6 +524,11 @@ class Game(arcade.Window):
         self.shark_center_x = self.player.center_x
         self.shark_center_y = self.player.center_y
 
+        if self.player_name == "Tiger_Shark":
+            if self.player.center_y <= 300:
+                self.speed == 6.6
+            else:
+                self.speed == 6
         if self.player_name == "Elephant_Seal":
             if self.player.cur_health < 800:
                 self.animal_attributes["damage"] += 9
