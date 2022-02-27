@@ -231,7 +231,12 @@ class Game(arcade.Window):
         animal_attributes = animals[animal_name]
 
         # Player
-        self.player = arcade.Sprite(f"images/Deeeep.io/{animal_name}")
+        self.player = Health_Sprite(
+            f"images/Deeeep.io/{animal_name}.png", animal_attributes["scale"], max_health=animal_attributes["health"])
+        self.player.center_x = random.randint(10, 1190)
+        self.player.center_y = random.randint(10, 790)
+        self.player.change_x = 0
+        self.player.change_y = 0
 
         # Pymunk Setup
         self.space = pymunk.Space()
@@ -246,6 +251,68 @@ class Game(arcade.Window):
         shape.friction = 10
         self.space.add(shape, body)
         self.static_lines.append(shape)
+
+    def player_movement(self, x, y):
+        """Player Movement"""
+
+        # Position the bullet at the player's current location
+        start_x = self.player.center_x
+        start_y = self.player.center_y
+
+        # Get from the mouse the destination location for the bullet
+        # IMPORTANT! If you have a scrolling screen, you will also need
+        # to add in self.view_bottom and self.view_left.
+        dest_x = x
+        dest_y = y
+
+        # Do math to calculate how to get the bullet to the destination.
+        # Calculation the angle in radians between the start points
+        # and end points. This is the angle the bullet will travel.
+        x_diff = dest_x - start_x
+        y_diff = dest_y - start_y
+        angle = math.atan2(y_diff, x_diff)
+
+        # By calculating the distance between mouse click and the player sprite
+        velocity = (x_diff * x_diff + y_diff * y_diff) / 100
+
+        # you can only have 1000 max
+        if velocity > 400:
+            velocity = 400
+
+        velocity_x = math.cos(angle) * velocity
+        velocity_y = math.sin(angle) * velocity
+
+        # With right mouse button, shoot a heavy coin fast.
+        mass = 0.5
+        radius = 20
+        inertia = pymunk.moment_for_circle(mass, 0, radius, (0, 0))
+        body = pymunk.Body(mass, inertia)
+
+        # set the physics object starting place
+        body.position = start_x, start_y  # the same as set a spirte center_x and center_y
+
+        # set the physics object staring speed, just like you setting change_x and change_y
+        body.velocity = velocity_x, velocity_y
+
+        shape = pymunk.Circle(body, radius, pymunk.Vec2d(0, 0))
+        shape.friction = 0.3
+        self.space.add(body, shape)
+
+        # Set Random Player Animal At The Start Of The Game
+        animal_index = random.randint(1, 15)
+        animal_name = animal_name_list[animal_index - 1]
+        animal_attributes = animals[animal_name]
+
+        # Player
+        self.player = BoxSprite(
+            f"images/Deeeep.io/{animal_name}", animal_attributes["scale"])
+        self.player.center_x = random.randint(10, 1190)
+        self.player.center_y = random.randint(10, 790)
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        """Mouse Motion"""
+
+        self.player_movement(x, y)
 
     def on_key_press(self, key, modifiers):
         """Key Press"""
@@ -262,7 +329,7 @@ class Game(arcade.Window):
 
         arcade.start_render()
 
-        pass
+        self.player.draw()
 
     def on_update(self, delta_time):
         """Update"""
