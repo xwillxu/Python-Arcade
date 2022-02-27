@@ -15,7 +15,6 @@ will not heal.)
 
 
 import arcade
-import pymunk
 import math
 import random
 from helper import follow_sprite, collision
