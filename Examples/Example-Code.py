@@ -5,7 +5,7 @@ import arcade
 # Screen Properties
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
-SCREEN_TITLE = "Deeeep.io(Remake) Using Pymunk"
+SCREEN_TITLE = "Arcade Game"
 
 
 class Game(arcade.Window):
