@@ -10,6 +10,7 @@ import arcade
 import pymunk
 import random
 import math
+from Pymunk_Helping_Code import follow_sprite
 
 # Screen Properties
 SCREEN_WIDTH = 1200
@@ -238,6 +239,9 @@ class Game(arcade.Window):
         self.player.change_x = 0
         self.player.change_y = 0
 
+        # The Player's Hitbox
+        self.player_hitbox = None
+
         # Pymunk Setup
         self.space = pymunk.Space()
         self.space.iterations = 35
@@ -304,7 +308,7 @@ class Game(arcade.Window):
         animal_attributes = animals[animal_name]
 
         # Player
-        self.player = BoxSprite(
+        self.player_hitbox = BoxSprite(
             f"images/Deeeep.io/{animal_name}", animal_attributes["scale"])
         self.player.center_x = random.randint(10, 1190)
         self.player.center_y = random.randint(10, 790)
@@ -334,7 +338,7 @@ class Game(arcade.Window):
     def on_update(self, delta_time):
         """Update"""
 
-        pass
+        follow_sprite(self.player, self.player_hitbox, offset=0)
 
 
 if __name__ == "__main__":
