@@ -16,6 +16,142 @@ SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Deeeep.io(Remake) Using Pymunk"
 
+# Animal Dictionary
+animal_name_list = [
+    'Alligator_Snapping_Turtle',
+    'Blue_Whale',
+    'Elephant_Seal',
+    'Goblin_Shark',
+    'Humpback_Whale',
+    'Leatherback_Turtle',
+    'Manta_Ray',
+    'Marlin',
+    'Orca',
+    'Polar_Bear',
+    'Sleeper_Shark',
+    'Sperm_Whale',
+    'Sunfish',
+    'Tiger_Shark',
+    'Walrus', ]
+
+animals = {
+
+    # 1
+    'Alligator_Snapping_Turtle': {
+        'health': 800,
+        'speed': 90,
+        'damage': 140,
+        'scale': 0.5
+    },
+    # 2
+    'Blue_Whale': {
+        'health': 1500,
+        'speed': 90,
+        'damage': 120,
+        'scale': 0.7
+    },
+
+    # 3
+    "Elephant_Seal": {
+        'health': 1000,
+        'speed': 90,
+        'damage': 120,
+        'scale': 0.5
+    },
+    # 4
+    'Goblin_Shark': {
+        'health': 750,
+        'speed': 100,
+        'damage': 140,
+        'scale': 0.4
+    },
+    # 5
+    'Humpback_Whale': {
+        'health': 1200,
+        'speed': 90,
+        'damage': 100,
+        'scale': 0.55
+    },
+    # 6
+    'Leatherback_Turtle': {
+        'health': 900,
+        'speed': 95,
+        'damage': 130,
+        'scale': 0.4
+    },
+
+    # 7
+    'Manta_Ray': {
+        'health': 1000,
+        'speed': 100,
+        'damage': 120,
+        'scale': 0.4
+    },
+    # 8
+    'Marlin': {
+        'health': 700,
+        'speed': 125,
+        'damage': 100,
+        'scale': 0.3
+    },
+
+
+    # 9
+    'Orca': {
+        'health': 900,
+        'speed': 100,
+        'damage': 160,
+        'scale': 0.4
+    },
+    # 10
+    'Polar_Bear': {
+        'health': 900,
+        'speed': 100,
+        'damage': 160,
+        'scale': 0.4
+    },
+    # 11
+    'Sleeper_Shark': {
+        'health': 1000,
+        'speed': 80,
+        'damage': 160,
+        'scale': 0.4
+    },
+    # 12
+    'Sperm_Whale': {
+        'health': 1200,
+        'speed': 85,
+        'damage': 160,
+        'scale': 0.55
+    },
+
+    # 13
+    'Sunfish': {
+        'health': 900,
+        'speed': 100,
+        'damage': 140,
+        'scale': 0.4
+    },
+
+    # 14
+    'Tiger_Shark': {
+        'health': 800,
+        'speed': 100,
+        'damage': 160,
+        'scale': 0.4
+    },
+
+    # 15
+    'Walrus': {
+        'health': 900,
+        'speed': 90,
+        'damage': 140,
+        'scale': 0.3
+    },
+
+
+}
+
 # Classes
 
 
@@ -59,7 +195,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         # Set Random Player Animal At The Start Of The Game
-        animal_index = random.randint(14, 14)
+        animal_index = random.randint(1, 15)
         animal_name = animal_name_list[animal_index - 1]
         animal_attributes = animals[animal_name]
 
