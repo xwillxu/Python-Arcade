@@ -161,11 +161,21 @@ animals = {
 # Classes
 
 
-class Health_Sprite(arcade.Sprite):
+class PhysicsSprite(arcade.Sprite):
+    def __init__(self, pymunk_shape, filename, scale):
+        super().__init__(filename, center_x=pymunk_shape.body.position.x,
+                         center_y=pymunk_shape.body.position.y, scale=scale)
+        self.pymunk_shape = pymunk_shape
+
+
+class Health_Sprite(PhysicsSprite):
     '''Health Sprite'''
 
-    def __init__(self, image, scale, max_health):
-        super().__init__(image, scale)
+    def __init__(self, pymunk_shape, filename, width, height, scale, max_health):
+        super().__init__(pymunk_shape, filename, scale)
+
+        self.width = width
+        self.height = height
 
         self.max_health = max_health
         self.cur_health = max_health
@@ -185,13 +195,6 @@ class Health_Sprite(arcade.Sprite):
                                      width=health_width,
                                      height=HEALTHBAR_HEIGHT,
                                      color=arcade.color.GREEN)
-
-
-class PhysicsSprite(arcade.Sprite):
-    def __init__(self, pymunk_shape, filename):
-        super().__init__(filename, center_x=pymunk_shape.body.position.x,
-                         center_y=pymunk_shape.body.position.y)
-        self.pymunk_shape = pymunk_shape
 
 
 class CircleSprite(PhysicsSprite):
@@ -239,13 +242,16 @@ class Game(arcade.Window):
         self.player.change_x = 0
         self.player.change_y = 0
 
+        # Speed
+        self.speed = animal_attributes['speed'] / 9 / 2
+
         # The Player's Hitbox
         self.player_hitbox = None
 
         # Pymunk Setup
         self.space = pymunk.Space()
         self.space.iterations = 35
-        self.space.gravity = (0.0, -900.0)
+        self.space.gravity = (0.0, 0.0)
 
         # Create Floor
         floor_height = 80
@@ -256,12 +262,28 @@ class Game(arcade.Window):
         self.space.add(shape, body)
         self.static_lines.append(shape)
 
+        self.setup_player()
+
+    def setup_player(self):
+
+        # With right mouse button, shoot a heavy coin fast.
+        mass = 0.5
+        size = 32
+        moment = pymunk.moment_for_box(mass, (size, size))
+        body = pymunk.Body(mass, moment)
+
+        # set the physics object starting place
+        body.position = self.player.center_x, self.player.center_y
+
+        # set the physics object staring speed, just like you setting change_x and change_y
+        body.velocity = 0, 0
+
+        shape = pymunk.Poly.create_box(body, (size, size))
+        shape.friction = 0.3
+        self.space.add(body, shape)
+
     def player_movement(self, x, y):
         """Player Movement"""
-
-        # Position the bullet at the player's current location
-        start_x = self.player.center_x
-        start_y = self.player.center_y
 
         # Get from the mouse the destination location for the bullet
         # IMPORTANT! If you have a scrolling screen, you will also need
@@ -272,46 +294,41 @@ class Game(arcade.Window):
         # Do math to calculate how to get the bullet to the destination.
         # Calculation the angle in radians between the start points
         # and end points. This is the angle the bullet will travel.
-        x_diff = dest_x - start_x
-        y_diff = dest_y - start_y
+        x_diff = dest_x - self.player.center_x
+        y_diff = dest_y - self.player.center_y
         angle = math.atan2(y_diff, x_diff)
 
-        # By calculating the distance between mouse click and the player sprite
-        velocity = (x_diff * x_diff + y_diff * y_diff) / 100
-
-        # you can only have 1000 max
-        if velocity > 400:
-            velocity = 400
-
-        velocity_x = math.cos(angle) * velocity
-        velocity_y = math.sin(angle) * velocity
+        # Taking into account the angle, calculate our change_x
+        # and change_y. Velocity is how fast the bullet travels.
+        velocity_x = math.cos(angle) * self.speed
+        velocity_y = math.sin(angle) * self.speed
 
         # With right mouse button, shoot a heavy coin fast.
         mass = 0.5
-        radius = 20
-        inertia = pymunk.moment_for_circle(mass, 0, radius, (0, 0))
-        body = pymunk.Body(mass, inertia)
+        size = 32
+        moment = pymunk.moment_for_box(mass, (size, size))
+        body = pymunk.Body(mass, moment)
 
         # set the physics object starting place
-        body.position = start_x, start_y  # the same as set a spirte center_x and center_y
+        body.position = self.player.center_x, self.player.center_y
 
         # set the physics object staring speed, just like you setting change_x and change_y
         body.velocity = velocity_x, velocity_y
 
-        shape = pymunk.Circle(body, radius, pymunk.Vec2d(0, 0))
+        shape = pymunk.Poly.create_box(body, (size, size))
         shape.friction = 0.3
         self.space.add(body, shape)
 
-        # Set Random Player Animal At The Start Of The Game
-        animal_index = random.randint(1, 15)
-        animal_name = animal_name_list[animal_index - 1]
-        animal_attributes = animals[animal_name]
+        # # Set Random Player Animal At The Start Of The Game
+        # animal_index = random.randint(1, 15)
+        # animal_name = animal_name_list[animal_index - 1]
+        # animal_attributes = animals[animal_name]
 
-        # Player
-        self.player_hitbox = BoxSprite(
-            f"images/Deeeep.io/{animal_name}", animal_attributes["scale"])
-        self.player.center_x = random.randint(10, 1190)
-        self.player.center_y = random.randint(10, 790)
+        # # Player
+        # self.player_hitbox = BoxSprite(
+        #     f"images/Deeeep.io/{animal_name}", animal_attributes["scale"])
+        # self.player.center_x = random.randint(10, 1190)
+        # self.player.center_y = random.randint(10, 790)
 
     def on_mouse_motion(self, x, y, dx, dy):
         """Mouse Motion"""
@@ -338,7 +355,9 @@ class Game(arcade.Window):
     def on_update(self, delta_time):
         """Update"""
 
-        follow_sprite(self.player, self.player_hitbox, offset=0)
+        self.player.update()
+
+        #follow_sprite(self.player, self.player_hitbox, offset=0)
 
 
 if __name__ == "__main__":
