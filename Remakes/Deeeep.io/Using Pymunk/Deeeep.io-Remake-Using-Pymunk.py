@@ -8,6 +8,7 @@ So That The Collision And Stuff Like That Is Not Crappy.
 # Import Librarys And Modules
 import arcade
 import pymunk
+import random
 import math
 
 # Screen Properties
@@ -56,6 +57,14 @@ class Game(arcade.Window):
         """Setup"""
 
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
+
+        # Set Random Player Animal At The Start Of The Game
+        animal_index = random.randint(14, 14)
+        animal_name = animal_name_list[animal_index - 1]
+        animal_attributes = animals[animal_name]
+
+        # Player
+        self.player = arcade.Sprite(f"images/Deeeep.io/{animal_name}")
 
         # Pymunk Setup
         self.space = pymunk.Space()
