@@ -200,6 +200,11 @@ class Game(arcade.Window):
 
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
+        # Add Lists
+        self.orb_list = None
+        self.orb_list2 = None
+        self.fish_list = None
+
     def setup(self):
         """Setup"""
 
@@ -220,6 +225,19 @@ class Game(arcade.Window):
 
         # Speed
         self.speed = animal_attributes['speed'] / 9 / 2
+
+        # Food Setup
+        self.orb_list = arcade.SpriteList()
+        self.orb_list2 = arcade.SpriteList()
+        self.fish_list = arcade.SpriteList()
+
+        # Spawn Food
+        for i in range(50):
+            self.GreenOrb()
+        for i in range(50):
+            self.BlueOrb()
+        for i in range(5):
+            self.fish()
 
     def player_movement(self, x, y):
         """Player Movement"""
@@ -312,21 +330,6 @@ class Game(arcade.Window):
         # Add the bullet to the appropriate lists
         self.fish_list.append(fish)
 
-        if fish.center_x >= self.shark_center_x or fish.center_x <= self.shark_center_x or fish.center_y >= self.shark_center_y or fish.center_y <= self.shark_center_y:
-            x_diff = self.shark_center_x + fish.center_x
-            y_diff = self.shark_center_y + fish.center_y
-
-            angle = math.atan2(y_diff, x_diff)
-
-            # Angle the bullet sprite so it doesn't look like it is flying
-            # sideways.
-            fish.angle = math.degrees(angle) - 90
-
-            # Taking into account the angle, calculate our change_x
-            # and change_y. Velocity is how fast the bullet travels.
-            fish.change_x = math.cos(angle) * 4.5
-            fish.change_y = math.sin(angle) * 4.5
-
     def on_mouse_motion(self, x, y, dx, dy):
         """Mouse Motion"""
 
@@ -337,23 +340,27 @@ class Game(arcade.Window):
 
         pass
 
-    def on_key_release(self, key, modifiers):
-        """Key Press"""
-
-        pass
-
     def on_draw(self):
         """Draw"""
 
         arcade.start_render()
 
+        # Draw The Player
         self.player.draw()
+
+        # Draw Lists
+        self.orb_list.draw()
+        self.orb_list2.draw()
+        self.fish_list.draw()
 
     def on_update(self, delta_time):
         """Update"""
 
         # Update Everything
         self.player.update()
+        self.orb_list.update()
+        self.orb_list2.update()
+        self.fish_list.update()
 
         # Keep The Player From Going Off The Screen
         if self.player.top > self.height:
