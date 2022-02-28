@@ -364,8 +364,8 @@ class Game(arcade.Window):
 
         for fish in self.fish_list:
             # Distance X and Y
-            distancex = abs(fish.center_x - self.shark_center_x)
-            distancey = abs(fish.center_y - self.shark_center_y)
+            distancex = abs(fish.center_x - self.player.center_x)
+            distancey = abs(fish.center_y - self.player.center_y)
             distance = math.sqrt(distancex * distancex + distancey * distancey)
             if distance < 300:
                 # X diff And Y diff
