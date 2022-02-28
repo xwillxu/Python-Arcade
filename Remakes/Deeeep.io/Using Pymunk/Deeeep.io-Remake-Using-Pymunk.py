@@ -7,9 +7,9 @@ So That The Collision And Stuff Like That Is Not Crappy.
 
 # Import Librarys And Modules
 import arcade
-import pymunk
 import random
 import math
+from arcade.pymunk_physics_engine import PymunkPhysicsEngine
 from Pymunk_Helping_Code import follow_sprite
 
 # Screen Properties
@@ -17,10 +17,15 @@ SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Deeeep.io(Remake) Using Pymunk"
 
-# HealthBar Setup
+# Healthbar Setup
 HEALTHBAR_WIDTH = 50
 HEALTHBAR_HEIGHT = 10
 HEALTHBAR_OFFSET_Y = 50
+
+# Different Scales
+TINY_SCALE = 0.7
+SCALE = 0.4
+SUPER_SCALE = 0.2
 
 # Animal Dictionary
 animal_name_list = [
@@ -161,21 +166,11 @@ animals = {
 # Classes
 
 
-class PhysicsSprite(arcade.Sprite):
-    def __init__(self, pymunk_shape, filename, scale):
-        super().__init__(filename, center_x=pymunk_shape.body.position.x,
-                         center_y=pymunk_shape.body.position.y, scale=scale)
-        self.pymunk_shape = pymunk_shape
-
-
-class Health_Sprite(PhysicsSprite):
+class Health_Sprite(arcade.Sprite):
     '''Health Sprite'''
 
-    def __init__(self, pymunk_shape, filename, width, height, scale, max_health):
-        super().__init__(pymunk_shape, filename, scale)
-
-        self.width = width
-        self.height = height
+    def __init__(self, image, scale, max_health):
+        super().__init__(image, scale)
 
         self.max_health = max_health
         self.cur_health = max_health
@@ -197,20 +192,6 @@ class Health_Sprite(PhysicsSprite):
                                      color=arcade.color.GREEN)
 
 
-class CircleSprite(PhysicsSprite):
-    def __init__(self, pymunk_shape, filename):
-        super().__init__(pymunk_shape, filename)
-        self.width = pymunk_shape.radius * 2
-        self.height = pymunk_shape.radius * 2
-
-
-class BoxSprite(PhysicsSprite):
-    def __init__(self, pymunk_shape, filename, width, height):
-        super().__init__(pymunk_shape, filename)
-        self.width = width
-        self.height = height
-
-
 class Game(arcade.Window):
     """Game"""
 
@@ -218,11 +199,6 @@ class Game(arcade.Window):
         """Init"""
 
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-
-        # Add Lists
-
-        self.box_list: arcade.SpriteList[PhysicsSprite] = arcade.SpriteList()
-        self.static_lines = []
 
     def setup(self):
         """Setup"""
@@ -245,43 +221,6 @@ class Game(arcade.Window):
         # Speed
         self.speed = animal_attributes['speed'] / 9 / 2
 
-        # The Player's Hitbox
-        self.player_hitbox = None
-
-        # Pymunk Setup
-        self.space = pymunk.Space()
-        self.space.iterations = 35
-        self.space.gravity = (0.0, 0.0)
-
-        # Create Floor
-        floor_height = 80
-        body = pymunk.Body(body_type=pymunk.Body.STATIC)
-        shape = pymunk.Segment(body, [0, floor_height], [
-                               SCREEN_WIDTH, floor_height], 0.0)
-        shape.friction = 10
-        self.space.add(shape, body)
-        self.static_lines.append(shape)
-
-        self.setup_player()
-
-    def setup_player(self):
-
-        # With right mouse button, shoot a heavy coin fast.
-        mass = 0.5
-        size = 32
-        moment = pymunk.moment_for_box(mass, (size, size))
-        body = pymunk.Body(mass, moment)
-
-        # set the physics object starting place
-        body.position = self.player.center_x, self.player.center_y
-
-        # set the physics object staring speed, just like you setting change_x and change_y
-        body.velocity = 0, 0
-
-        shape = pymunk.Poly.create_box(body, (size, size))
-        shape.friction = 0.3
-        self.space.add(body, shape)
-
     def player_movement(self, x, y):
         """Player Movement"""
 
@@ -298,37 +237,95 @@ class Game(arcade.Window):
         y_diff = dest_y - self.player.center_y
         angle = math.atan2(y_diff, x_diff)
 
+        # Angle the bullet sprite so it doesn't look like it is flying
+        # sideways.
+        self.player.angle = math.degrees(angle) - 90
+
         # Taking into account the angle, calculate our change_x
         # and change_y. Velocity is how fast the bullet travels.
-        velocity_x = math.cos(angle) * self.speed
-        velocity_y = math.sin(angle) * self.speed
+        self.player.change_x = math.cos(angle) * self.speed
+        self.player.change_y = math.sin(angle) * self.speed
 
-        # With right mouse button, shoot a heavy coin fast.
-        mass = 0.5
-        size = 32
-        moment = pymunk.moment_for_box(mass, (size, size))
-        body = pymunk.Body(mass, moment)
+    def GreenOrb(self):
+        """Orb"""
 
-        # set the physics object starting place
-        body.position = self.player.center_x, self.player.center_y
+        # Green Orb Random Spawn Position
+        center_x = random.randint(10, 1890)
+        center_y = random.randint(10, 1040)
 
-        # set the physics object staring speed, just like you setting change_x and change_y
-        body.velocity = velocity_x, velocity_y
+        # Green Orb Setup
+        orb = arcade.Sprite("images/Orb.png", SCALE / 4)
 
-        shape = pymunk.Poly.create_box(body, (size, size))
-        shape.friction = 0.3
-        self.space.add(body, shape)
+        orb.center_x = center_x
+        orb.center_y = center_y
 
-        # # Set Random Player Animal At The Start Of The Game
-        # animal_index = random.randint(1, 15)
-        # animal_name = animal_name_list[animal_index - 1]
-        # animal_attributes = animals[animal_name]
+        # Add To List To Draw
+        self.orb_list.append(orb)
 
-        # # Player
-        # self.player_hitbox = BoxSprite(
-        #     f"images/Deeeep.io/{animal_name}", animal_attributes["scale"])
-        # self.player.center_x = random.randint(10, 1190)
-        # self.player.center_y = random.randint(10, 790)
+    def BlueOrb(self):
+        """Orb"""
+
+        # Blue Orb Random Spawn Position
+        center_x = random.randint(10, 1890)
+        center_y = random.randint(10, 1040)
+
+        # Blue Orb Setup
+        orb = arcade.Sprite("images/Orb2.png", SCALE / 4)
+
+        orb.center_x = center_x
+        orb.center_y = center_y
+
+        # Add To List To Draw
+        self.orb_list2.append(orb)
+
+    def fish(self):
+        """fish"""
+
+        # Fish Setup
+        fish = arcade.Sprite("images/Sardine.png", SUPER_SCALE/4)
+
+        fish.center_x = random.randint(10, 1890)
+        fish.center_y = random.randint(10, 1040)
+
+        # Get from the mouse the destination location for the bullet
+        # IMPORTANT! If you have a scrolling screen, you will also need
+        # to add in self.view_bottom and self.view_left.
+        dest_x = random.randint(10, 1890)
+        dest_y = random.randint(10, 1040)
+
+        # Do math to calculate how to get the bullet to the destination.
+        # Calculation the angle in radians between the start points
+        # and end points. This is the angle the bullet will travel.
+        x_diff = dest_x - fish.center_x
+        y_diff = dest_y - fish.center_y
+        angle = math.atan2(y_diff, x_diff)
+
+        # Angle the bullet sprite so it doesn't look like it is flying
+        # sideways.
+        fish.angle = math.degrees(angle) - 90
+
+        # Taking into account the angle, calculate our change_x
+        # and change_y. Velocity is how fast the bullet travels.
+        fish.change_x = math.cos(angle) * 4.5
+        fish.change_y = math.sin(angle) * 4.5
+
+        # Add the bullet to the appropriate lists
+        self.fish_list.append(fish)
+
+        if fish.center_x >= self.shark_center_x or fish.center_x <= self.shark_center_x or fish.center_y >= self.shark_center_y or fish.center_y <= self.shark_center_y:
+            x_diff = self.shark_center_x + fish.center_x
+            y_diff = self.shark_center_y + fish.center_y
+
+            angle = math.atan2(y_diff, x_diff)
+
+            # Angle the bullet sprite so it doesn't look like it is flying
+            # sideways.
+            fish.angle = math.degrees(angle) - 90
+
+            # Taking into account the angle, calculate our change_x
+            # and change_y. Velocity is how fast the bullet travels.
+            fish.change_x = math.cos(angle) * 4.5
+            fish.change_y = math.sin(angle) * 4.5
 
     def on_mouse_motion(self, x, y, dx, dy):
         """Mouse Motion"""
@@ -355,9 +352,18 @@ class Game(arcade.Window):
     def on_update(self, delta_time):
         """Update"""
 
+        # Update Everything
         self.player.update()
 
-        #follow_sprite(self.player, self.player_hitbox, offset=0)
+        # Keep The Player From Going Off The Screen
+        if self.player.top > self.height:
+            self.player.top = self.height
+        if self.player.right > self.width:
+            self.player.right = self.width
+        if self.player.bottom < 0:
+            self.player.bottom = 0
+        if self.player.left < 0:
+            self.player.left = 0
 
 
 if __name__ == "__main__":
