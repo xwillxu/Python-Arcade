@@ -362,6 +362,27 @@ class Game(arcade.Window):
         self.orb_list2.update()
         self.fish_list.update()
 
+        for fish in self.fish_list:
+            # Distance X and Y
+            distancex = abs(fish.center_x - self.shark_center_x)
+            distancey = abs(fish.center_y - self.shark_center_y)
+            distance = math.sqrt(distancex * distancex + distancey * distancey)
+            if distance < 300:
+                # X diff And Y diff
+                x_diff = self.player.center_x - fish.center_x
+                y_diff = self.player.center_y - fish.center_y
+
+                angle = math.atan2(y_diff, x_diff)
+
+                # Angle the bullet sprite so it doesn't look like it is flying
+                # sideways.
+                fish.angle = math.degrees(angle) + 90
+
+                # Taking into account the angle, calculate our change_x
+                # and change_y. Velocity is how fast the bullet travels.
+                fish.change_x = - math.cos(angle) * 4.5
+                fish.change_y = - math.sin(angle) * 4.5
+
         # Keep The Player From Going Off The Screen
         if self.player.top > self.height:
             self.player.top = self.height
