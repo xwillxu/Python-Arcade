@@ -204,6 +204,7 @@ class Game(arcade.Window):
         self.orb_list = None
         self.orb_list2 = None
         self.fish_list = None
+        self.AI_list = None
 
     def setup(self):
         """Setup"""
@@ -214,6 +215,10 @@ class Game(arcade.Window):
         animal_index = random.randint(1, 15)
         animal_name = animal_name_list[animal_index - 1]
         animal_attributes = animals[animal_name]
+
+        # Use Animal Attributes For Self Not Just For Setup
+        self.animal_name = animal_name
+        self.animal_attributes = animal_attributes
 
         # Player
         self.player = Health_Sprite(
@@ -226,10 +231,11 @@ class Game(arcade.Window):
         # Speed
         self.speed = animal_attributes['speed'] / 9 / 2
 
-        # Food Setup
+        # Food Setup / Activate Lists
         self.orb_list = arcade.SpriteList()
         self.orb_list2 = arcade.SpriteList()
         self.fish_list = arcade.SpriteList()
+        self.AI_list = arcade.SpriteList()
 
         # Spawn Food
         for i in range(50):
@@ -238,6 +244,29 @@ class Game(arcade.Window):
             self.BlueOrb()
         for i in range(5):
             self.fish()
+
+    def AI(self):
+        """AI Shark"""
+        # Index, Name, And Attributes
+        animal_index = random.randint(1, 15)
+        animal_name = animal_name_list[animal_index - 1]
+        animal_attributes = animals[animal_name]
+
+        AI = Health_Sprite(
+            f"images/Deeeep.io/{animal_name}", animal_attributes["scale"], animal_attributes["health"])
+
+        AI.center_x = 1290
+        AI.center_y = 640
+
+        AI.change_x = 0
+        AI.change_y = 0
+
+        # Place AI's center x and y in varibles
+        self.ai_center_x = AI.center_x
+        self.ai_center_y = AI.center_y
+
+        # Add to AI list
+        self.AI_list.append(AI)
 
     def player_movement(self, x, y):
         """Player Movement"""
@@ -338,7 +367,11 @@ class Game(arcade.Window):
     def on_key_press(self, key, modifiers):
         """Key Press"""
 
-        pass
+        # Controls
+        if arcade.key.SPACE:
+            self.set_fullscreen(not self.fullscreen)
+        if arcade.key.C or arcade.key.W or arcade.key.D:
+            arcade.close_window()
 
     def on_draw(self):
         """Draw"""
@@ -352,6 +385,7 @@ class Game(arcade.Window):
         self.orb_list.draw()
         self.orb_list2.draw()
         self.fish_list.draw()
+        self.AI_list.draw()
 
     def on_update(self, delta_time):
         """Update"""
