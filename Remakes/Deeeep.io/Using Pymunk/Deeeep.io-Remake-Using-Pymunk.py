@@ -255,8 +255,8 @@ class Game(arcade.Window):
         AI = Health_Sprite(
             f"images/Deeeep.io/{animal_name}", animal_attributes["scale"], animal_attributes["health"])
 
-        AI.center_x = 1290
-        AI.center_y = 640
+        AI.center_x = random.randint(10, 1190)
+        AI.center_y = random.randint(10, 790)
 
         AI.change_x = 0
         AI.change_y = 0
@@ -370,8 +370,6 @@ class Game(arcade.Window):
         # Controls
         if arcade.key.SPACE:
             self.set_fullscreen(not self.fullscreen)
-        if arcade.key.C or arcade.key.W or arcade.key.D:
-            arcade.close_window()
 
     def on_draw(self):
         """Draw"""
@@ -395,6 +393,7 @@ class Game(arcade.Window):
         self.orb_list.update()
         self.orb_list2.update()
         self.fish_list.update()
+        self.AI_list.update()
 
         for fish in self.fish_list:
             # Distance X and Y
