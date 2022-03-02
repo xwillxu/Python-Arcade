@@ -426,6 +426,27 @@ class Game(arcade.Window):
         if self.player.left < 0:
             self.player.left = 0
 
+        # Green Orb Collision
+        for orb in self.orb_list:
+            if self.player.collides_with_sprite(orb):
+                orb.remove_from_sprite_lists()
+                self.score += 1
+                self.GreenOrb()
+
+        # Blue Orb Collision
+        for orb in self.orb_list2:
+            if self.player.collides_with_sprite(orb):
+                orb.remove_from_sprite_lists()
+                self.score += 1
+                self.BlueOrb()
+
+        # Fish Collision
+        for fish in self.fish_list:
+            if self.player.collides_with_sprite(fish):
+                fish.remove_from_sprite_lists()
+                self.score += 5
+                self.fish()
+
 
 if __name__ == "__main__":
     window = Game()
