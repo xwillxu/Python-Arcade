@@ -245,6 +245,9 @@ class Game(arcade.Window):
         for i in range(5):
             self.fish()
 
+        # Score
+        self.score = 0
+
     def AI(self):
         """AI Shark"""
         # Index, Name, And Attributes
@@ -384,6 +387,10 @@ class Game(arcade.Window):
         self.orb_list2.draw()
         self.fish_list.draw()
         self.AI_list.draw()
+
+        # Draw Your Score
+        output = f"Your Score: {self.score}"
+        arcade.draw_text(output, 10, 1000, arcade.color.SUNSET, 19)
 
     def on_update(self, delta_time):
         """Update"""
