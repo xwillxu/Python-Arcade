@@ -58,7 +58,7 @@ animals = {
         'health': 1500,
         'speed': 90,
         'damage': 120,
-        'scale': 0.7
+        'scale': 0.56
     },
 
     # 3
@@ -95,7 +95,7 @@ animals = {
         'health': 1000,
         'speed': 100,
         'damage': 120,
-        'scale': 0.4
+        'scale': 0.5
     },
     # 8
     'Marlin': {
@@ -132,7 +132,7 @@ animals = {
         'health': 1200,
         'speed': 85,
         'damage': 160,
-        'scale': 0.55
+        'scale': 0.53
     },
 
     # 13
@@ -156,7 +156,7 @@ animals = {
         'health': 900,
         'speed': 90,
         'damage': 140,
-        'scale': 0.3
+        'scale': 0.35
     },
 
 
@@ -211,7 +211,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         # Set Random Player Animal At The Start Of The Game
-        animal_index = random.randint(1, 15)
+        animal_index = random.randint(12, 12)
         animal_name = animal_name_list[animal_index - 1]
         animal_attributes = animals[animal_name]
 
