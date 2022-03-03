@@ -421,16 +421,29 @@ class Game(arcade.Window):
                 x_diff = self.player.center_x - fish.center_x
                 y_diff = self.player.center_y - fish.center_y
 
+                # Angle
                 angle = math.atan2(y_diff, x_diff)
 
-                # Angle the bullet sprite so it doesn't look like it is flying
-                # sideways.
+                # Angle the sprite so it doesn't look like it is flying sideways.
                 fish.angle = math.degrees(angle) + 90
 
-                # Taking into account the angle, calculate our change_x
-                # and change_y. Velocity is how fast the bullet travels.
+                # Taking into account the angle, calculate our change_x and change_y. Velocity is how fast the sprite travels.
                 fish.change_x = - math.cos(angle) * 4.5
                 fish.change_y = - math.sin(angle) * 4.5
+
+        for fish in self.fish_list:
+            if fish.top > self.height:
+                fish.remove_from_sprite_lists()
+                self.fish()
+            if fish.right > self.width:
+                fish.remove_from_sprite_lists()
+                self.fish()
+            if fish.bottom < 0:
+                fish.remove_from_sprite_lists()
+                self.fish()
+            if fish.left < 0:
+                fish.remove_from_sprite_lists()
+                self.fish()
 
         # Boost Code
         if self.boost_timer_start == True:
