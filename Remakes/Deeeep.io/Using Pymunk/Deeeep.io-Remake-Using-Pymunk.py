@@ -368,6 +368,8 @@ class Game(arcade.Window):
     def on_mouse_press(self, x, y, button, modifiers):
         """Mouse Press"""
 
+        self.boost_timer_start = True
+
     def on_mouse_motion(self, x, y, dx, dy):
         """Mouse Motion"""
 
@@ -432,14 +434,14 @@ class Game(arcade.Window):
 
         # Boost Code
         if self.boost_timer_start == True:
-            self.boost_timer += 0.06
+            self.boost_timer += 0.3
 
-        if self.boost_timer >= 10:
+        if self.boost_timer >= 6:
             self.boost_timer_start = False
             self.boost_timer = 0
 
         if self.boost_timer > 0:
-            self.speed = self.animal_attributes['speed'] / 9 / 2 * 2
+            self.speed = self.animal_attributes['speed'] / 9 / 2 * 3
         else:
             self.speed = self.animal_attributes['speed'] / 9 / 2
 
