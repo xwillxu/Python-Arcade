@@ -219,6 +219,10 @@ class Game(arcade.Window):
         self.animal_name = animal_name
         self.animal_attributes = animal_attributes
 
+        # Boost Varibles
+        self.boost_timer = 0
+        self.boost_timer_start = False
+
         # Player
         self.player = Health_Sprite(
             f"images/Deeeep.io/{animal_name}.png", animal_attributes["scale"], max_health=animal_attributes["health"])
@@ -254,21 +258,21 @@ class Game(arcade.Window):
         animal_name = animal_name_list[animal_index - 1]
         animal_attributes = animals[animal_name]
 
-        AI = Health_Sprite(
+        AI_Shark = Health_Sprite(
             f"images/Deeeep.io/{animal_name}", animal_attributes["scale"], animal_attributes["health"])
 
-        AI.center_x = random.randint(10, 1190)
-        AI.center_y = random.randint(10, 790)
+        AI_Shark.center_x = random.randint(10, 1190)
+        AI_Shark.center_y = random.randint(10, 790)
 
-        AI.change_x = 0
-        AI.change_y = 0
+        AI_Shark.change_x = 0
+        AI_Shark.change_y = 0
 
         # Place AI's center x and y in varibles
-        self.ai_center_x = AI.center_x
-        self.ai_center_y = AI.center_y
+        self.ai_center_x = AI_Shark.center_x
+        self.ai_center_y = AI_Shark.center_y
 
         # Add to AI list
-        self.AI_list.append(AI)
+        self.AI_list.append(AI_Shark)
 
     def player_movement(self, x, y):
         """Player Movement"""
@@ -404,6 +408,7 @@ class Game(arcade.Window):
         self.fish_list.update()
         self.AI_list.update()
 
+        # Make The Fish Run Away From Player In Certian Distance
         for fish in self.fish_list:
             # Distance X and Y
             distancex = abs(fish.center_x - self.player.center_x)
@@ -424,6 +429,19 @@ class Game(arcade.Window):
                 # and change_y. Velocity is how fast the bullet travels.
                 fish.change_x = - math.cos(angle) * 4.5
                 fish.change_y = - math.sin(angle) * 4.5
+
+        # Boost Code
+        if self.boost_timer_start == True:
+            self.boost_timer += 0.06
+
+        if self.boost_timer >= 10:
+            self.boost_timer_start = False
+            self.boost_timer = 0
+
+        if self.boost_timer > 0:
+            self.speed = self.animal_attributes['speed'] / 9 / 2 * 2
+        else:
+            self.speed = self.animal_attributes['speed'] / 9 / 2
 
         # Keep The Player From Going Off The Screen
         if self.player.top > self.height:
