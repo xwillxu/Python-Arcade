@@ -436,10 +436,12 @@ class Game(arcade.Window):
         if self.boost_timer_start == True:
             self.boost_timer += 0.3
 
-        if self.boost_timer >= 6:
+        # Timer
+        if self.boost_timer >= 5.5:
             self.boost_timer_start = False
             self.boost_timer = 0
 
+        #  Actual Boosting
         if self.boost_timer > 0:
             self.speed = self.animal_attributes['speed'] / 9 / 2 * 3
         else:
