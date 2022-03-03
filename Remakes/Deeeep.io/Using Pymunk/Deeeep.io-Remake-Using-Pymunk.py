@@ -10,7 +10,6 @@ import arcade
 import random
 import math
 from arcade.pymunk_physics_engine import PymunkPhysicsEngine
-from Pymunk_Helping_Code import follow_sprite
 
 # Screen Properties
 SCREEN_WIDTH = 1200
@@ -361,6 +360,9 @@ class Game(arcade.Window):
 
         # Add the bullet to the appropriate lists
         self.fish_list.append(fish)
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        """Mouse Press"""
 
     def on_mouse_motion(self, x, y, dx, dy):
         """Mouse Motion"""
