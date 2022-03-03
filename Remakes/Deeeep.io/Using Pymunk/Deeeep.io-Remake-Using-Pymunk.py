@@ -211,7 +211,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         # Set Random Player Animal At The Start Of The Game
-        animal_index = random.randint(12, 12)
+        animal_index = random.randint(1, 15)
         animal_name = animal_name_list[animal_index - 1]
         animal_attributes = animals[animal_name]
 
