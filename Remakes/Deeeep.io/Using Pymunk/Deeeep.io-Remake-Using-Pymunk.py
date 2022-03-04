@@ -248,6 +248,9 @@ class Game(arcade.Window):
         for i in range(5):
             self.fish()
 
+        # Spawn AI
+        self.AI()
+
         # Score
         self.score = 0
 
@@ -259,7 +262,7 @@ class Game(arcade.Window):
         animal_attributes = animals[animal_name]
 
         AI_Shark = Health_Sprite(
-            f"images/Deeeep.io/{animal_name}", animal_attributes["scale"], animal_attributes["health"])
+            f"images/Deeeep.io/{animal_name}.png", animal_attributes["scale"], animal_attributes["health"])
 
         AI_Shark.center_x = random.randint(10, 1190)
         AI_Shark.center_y = random.randint(10, 790)
@@ -490,6 +493,71 @@ class Game(arcade.Window):
                 fish.remove_from_sprite_lists()
                 self.score += 5
                 self.fish()
+
+    def AI_move(self, player, shark, delta_time):
+        """AI Move Command"""
+
+        # Random Movement
+        distance_to_player_x = abs(player.center_x - shark.center_x)
+        distance_to_player_y = abs(player.center_y - shark.center_y)
+
+        # X and Y Diff
+        x_diff = None
+        y_diff = None
+
+        # Distance
+        distance = math.sqrt(distance_to_player_x * distance_to_player_x +
+                             distance_to_player_y * distance_to_player_y)
+        range_of_attack = 700
+
+        if distance > range_of_attack:
+            "Go in a random direction"
+            shark.change_x += random.randint(-1, 1)
+            shark.change_y += random.randint(-1, 1)
+
+            center_x_in_future = shark.center_x + shark.change_x
+            center_y_in_future = shark.center_y + shark.change_y
+            x_diff = center_x_in_future - shark.center_x
+            y_diff = center_y_in_future - shark.center_y
+
+            angle = math.atan2(y_diff, x_diff)
+
+            shark.angle = math.degrees(angle) - 90
+
+        else:
+
+            "Attack player"
+
+            if shark.cur_health > shark.max_health / 2:
+                print(shark.cur_health, 'attack current health')
+
+                x_diff = player.center_x - shark.center_x
+                y_diff = player.center_y - shark.center_y
+
+                angle = math.atan2(y_diff, x_diff)
+
+                shark.angle = math.degrees(angle) - 90
+
+                shark.change_x = math.cos(
+                    angle) * self.AI_animal_attributes['speed'] / 9 / 2
+                shark.change_y = math.sin(
+                    angle) * self.AI_animal_attributes['speed'] / 9 / 2
+
+            else:
+                print(shark.cur_health, 'run away current health')
+                x_diff = player.center_x - shark.center_x
+                y_diff = player.center_y - shark.center_y
+
+                angle = math.atan2(y_diff, x_diff) - 180
+
+                shark.angle = - math.degrees(angle)
+
+                shark.change_x = - \
+                    math.cos(angle) * \
+                    self.AI_animal_attributes['speed'] / 9 / 2
+                shark.change_y = - \
+                    math.sin(angle) * \
+                    self.AI_animal_attributes['speed'] / 9 / 2
 
 
 if __name__ == "__main__":
