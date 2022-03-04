@@ -508,15 +508,23 @@ class Game(arcade.Window):
         # Distance
         distance = math.sqrt(distance_to_player_x * distance_to_player_x +
                              distance_to_player_y * distance_to_player_y)
+
+        # The Range Where The AI See's The Player
         range_of_attack = 700
 
+        # Real Movement Code
         if distance > range_of_attack:
             "Go in a random direction"
+
+            # Chnage x and Change y
             shark.change_x += random.randint(-1, 1)
             shark.change_y += random.randint(-1, 1)
 
+            # Center X And Y In The Future
             center_x_in_future = shark.center_x + shark.change_x
             center_y_in_future = shark.center_y + shark.change_y
+
+            # X And Y Diff Activated
             x_diff = center_x_in_future - shark.center_x
             y_diff = center_y_in_future - shark.center_y
 
