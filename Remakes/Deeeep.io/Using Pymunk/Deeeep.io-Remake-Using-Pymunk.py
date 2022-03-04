@@ -528,24 +528,31 @@ class Game(arcade.Window):
             x_diff = center_x_in_future - shark.center_x
             y_diff = center_y_in_future - shark.center_y
 
+            # Angle
             angle = math.atan2(y_diff, x_diff)
 
+            # Change Angle
             shark.angle = math.degrees(angle) - 90
 
         else:
-
             "Attack player"
 
+            # Another If And Else
+            # If AI's Health Is Larger Than 1/2 Of It's Max Health Attack
             if shark.cur_health > shark.max_health / 2:
                 print(shark.cur_health, 'attack current health')
 
+                # X And Y Diff Activated
                 x_diff = player.center_x - shark.center_x
                 y_diff = player.center_y - shark.center_y
 
+                # Angle
                 angle = math.atan2(y_diff, x_diff)
 
+                # Change Angle
                 shark.angle = math.degrees(angle) - 90
 
+                # Shark Speed X And Y
                 shark.change_x = math.cos(
                     angle) * self.AI_animal_attributes['speed'] / 9 / 2
                 shark.change_y = math.sin(
