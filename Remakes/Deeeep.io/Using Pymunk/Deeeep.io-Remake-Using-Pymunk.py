@@ -28,8 +28,8 @@ SCALE = 0.4
 SUPER_SCALE = 0.2
 
 # Movement Forces For Different Sprites In The Physic Engine
-PLAYER_MOVEMENT_FORCE = 4000
-AI_MOVEMENT_FORCE = 4000
+PLAYER_MOVE_FORCE = 4000
+AI_MOVE_FORCE = 4000
 
 # Animal Dictionary
 animal_name_list = [
@@ -293,25 +293,26 @@ class Game(arcade.Window):
         # Friction is between two objects in contact. It is important to remember
         # in top-down games that friction moving along the 'floor' is controlled
         # by damping.
-        self.physics_engine.add_sprite(self.player,
-                                       friction=0.6,
-                                       moment_of_inertia=PymunkPhysicsEngine.MOMENT_INF,
-                                       damping=0.01,
+        self.physics_engine.add_sprite(self.player, mass=10,
+                                       friction=0.01,
+                                       damping=0.5,
+                                       elasticity=0.8,
                                        collision_type="player",
                                        max_velocity=400)
 
         # Create some boxes to push around.
         # Mass controls, well, the mass of an object. Defaults to 1.
         self.physics_engine.add_sprite_list(self.AI_list,
-                                            mass=0.5,
-                                            friction=0.8,
-                                            damping=0.4,
+                                            mass=10,
+                                            friction=0.01,
+                                            elasticity=0.8,
+                                            damping=1,
                                             collision_type="rock")
 
     def AI(self):
         """AI Shark"""
         # Index, Name, And Attributes
-        animal_index = random.randint(1, 15)
+        animal_index = random.randint(10, 10)
         animal_name = animal_name_list[animal_index - 1]
         animal_attributes = animals[animal_name]
 
@@ -336,7 +337,6 @@ class Game(arcade.Window):
 
     def player_movement(self, x, y):
         """Player Movement"""
-
         # Get from the mouse the destination location for the bullet
         # IMPORTANT! If you have a scrolling screen, you will also need
         # to add in self.view_bottom and self.view_left.
@@ -352,12 +352,21 @@ class Game(arcade.Window):
 
         # Angle the bullet sprite so it doesn't look like it is flying
         # sideways.
+
         self.player.angle = math.degrees(angle) - 90
+        print('set angle', self.player.angle)
 
         # Taking into account the angle, calculate our change_x
         # and change_y. Velocity is how fast the bullet travels.
-        self.player.change_x = math.cos(angle) * self.speed
-        self.player.change_y = math.sin(angle) * self.speed
+        # self.player.change_x = math.cos(angle) * self.speed
+        # self.player.change_y = math.sin(angle) * self.speed
+        self.physics_engine.set_velocity(self.player,
+                                         (math.cos(angle) * self.speed * 100, math.sin(angle) * self.speed * 100))
+        #forceX = math.cos(angle) * PLAYER_MOVE_FORCE
+        #forceY = math.sin(angle) * PLAYER_MOVE_FORCE
+        #force = (forceX, forceY)
+        #print('apply force', force)
+        #self.physics_engine.apply_force(self.player, force)
 
     def GreenOrb(self):
         """Orb"""
@@ -469,6 +478,9 @@ class Game(arcade.Window):
         self.orb_list2.update()
         self.fish_list.update()
         self.AI_list.update()
+
+        # --- Move items in the physics engine
+        self.physics_engine.step()
 
         # Change Frame Count By 1
         self.frame_count += 1
@@ -618,10 +630,13 @@ class Game(arcade.Window):
                 shark.angle = math.degrees(angle) - 90
 
                 # Shark Speed X And Y
-                shark.change_x = math.cos(
+                change_x = math.cos(
                     angle) * self.AI_animal_attributes['speed'] / 9 / 2
-                shark.change_y = math.sin(
+                change_y = math.sin(
                     angle) * self.AI_animal_attributes['speed'] / 9 / 2
+
+                self.physics_engine.set_velocity(shark,
+                                                 (change_x * 50, change_y * 50))
 
             else:
                 # Run Away
