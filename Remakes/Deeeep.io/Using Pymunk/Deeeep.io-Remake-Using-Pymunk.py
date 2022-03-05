@@ -219,9 +219,15 @@ class Game(arcade.Window):
         self.animal_name = animal_name
         self.animal_attributes = animal_attributes
 
+        # AI Animal Attributes
+        self.AI_animal_attributes = None
+
         # Boost Varibles
         self.boost_timer = 0
         self.boost_timer_start = False
+
+        # Frame Count
+        self.frame_count = 0
 
         # Player
         self.player = Health_Sprite(
@@ -260,6 +266,9 @@ class Game(arcade.Window):
         animal_index = random.randint(1, 15)
         animal_name = animal_name_list[animal_index - 1]
         animal_attributes = animals[animal_name]
+
+        # Set AI Attributes
+        self.AI_animal_attributes = animal_attributes
 
         AI_Shark = Health_Sprite(
             f"images/Deeeep.io/{animal_name}.png", animal_attributes["scale"], animal_attributes["health"])
@@ -413,6 +422,9 @@ class Game(arcade.Window):
         self.fish_list.update()
         self.AI_list.update()
 
+        # Change Frame Count By 1
+        self.frame_count += 1
+
         # Make The Fish Run Away From Player In Certian Distance
         for fish in self.fish_list:
             # Distance X and Y
@@ -472,6 +484,12 @@ class Game(arcade.Window):
             self.player.bottom = 0
         if self.player.left < 0:
             self.player.left = 0
+
+        # Call AI Movement
+        for shark in self.AI_list:
+            if self.frame_count % 30 == 0:
+                self.AI_move(player=self.player, shark=shark,
+                             delta_time=delta_time)
 
         # Green Orb Collision
         for orb in self.orb_list:
