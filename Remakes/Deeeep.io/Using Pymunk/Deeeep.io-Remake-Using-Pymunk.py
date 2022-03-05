@@ -9,6 +9,7 @@ So That The Collision And Stuff Like That Is Not Crappy.
 import arcade
 import random
 import math
+from typing import Optional
 from arcade.pymunk_physics_engine import PymunkPhysicsEngine
 
 # Screen Properties
@@ -205,6 +206,9 @@ class Game(arcade.Window):
         self.fish_list = None
         self.AI_list = None
 
+        # Physic Engine
+        self.physic_engine: Optional[PymunkPhysicsEngine] = None
+
     def setup(self):
         """Setup"""
 
@@ -234,8 +238,6 @@ class Game(arcade.Window):
             f"images/Deeeep.io/{animal_name}.png", animal_attributes["scale"], max_health=animal_attributes["health"])
         self.player.center_x = random.randint(10, 1190)
         self.player.center_y = random.randint(10, 790)
-        self.player.change_x = 0
-        self.player.change_y = 0
 
         # Speed
         self.speed = animal_attributes['speed'] / 9 / 2
@@ -259,6 +261,48 @@ class Game(arcade.Window):
 
         # Score
         self.score = 0
+
+        # --- Pymunk Physics Engine Setup ---
+
+        # The default damping for every object controls the percent of velocity
+        # the object will keep each second. A value of 1.0 is no speed loss,
+        # 0.9 is 10% per second, 0.1 is 90% per second.
+        # For top-down games, this is basically the friction for moving objects.
+        # For platformers with gravity, this should probably be set to 1.0.
+        # Default value is 1.0 if not specified.
+        damping = 0.7
+
+        # Set the gravity. (0, 0) is good for outer space and top-down.
+        gravity = (0, 0)
+
+        # Create the physics engine
+        self.physics_engine = PymunkPhysicsEngine(damping=damping,
+                                                  gravity=gravity)
+
+        # Add the player.
+        # For the player, we set the damping to a lower value, which increases
+        # the damping rate. This prevents the character from traveling too far
+        # after the player lets off the movement keys.
+        # Setting the moment to PymunkPhysicsEngine.MOMENT_INF prevents it from
+        # rotating.
+        # Friction normally goes between 0 (no friction) and 1.0 (high friction)
+        # Friction is between two objects in contact. It is important to remember
+        # in top-down games that friction moving along the 'floor' is controlled
+        # by damping.
+        self.physics_engine.add_sprite(self.player,
+                                       friction=0.6,
+                                       moment_of_inertia=PymunkPhysicsEngine.MOMENT_INF,
+                                       damping=0.01,
+                                       collision_type="player",
+                                       max_velocity=400)
+
+        # Create some boxes to push around.
+        # Mass controls, well, the mass of an object. Defaults to 1.
+        self.physics_engine.add_sprite_list(self.AI_list,
+                                            mass=0.5,
+                                            friction=0.8,
+                                            damping=0.4,
+                                            collision_type="rock")
 
     def AI(self):
         """AI Shark"""

@@ -255,7 +255,7 @@ class MyWindow(arcade.Window):
             bullet.center_x += 30
             self.bullet_list.append(bullet)
             self.physics_engine.add_sprite(bullet,
-                                           mass=0.2,
+                                           mass=1,
                                            damping=1.0,
                                            friction=0.6,
                                            collision_type="bullet")
