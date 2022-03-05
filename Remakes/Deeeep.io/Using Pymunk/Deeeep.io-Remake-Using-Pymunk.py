@@ -27,6 +27,10 @@ TINY_SCALE = 0.7
 SCALE = 0.4
 SUPER_SCALE = 0.2
 
+# Movement Forces For Different Sprites In The Physic Engine
+PLAYER_MOVEMENT_FORCE = 4000
+AI_MOVEMENT_FORCE = 4000
+
 # Animal Dictionary
 animal_name_list = [
     'Alligator_Snapping_Turtle',
@@ -59,7 +63,7 @@ animals = {
         'health': 1500,
         'speed': 90,
         'damage': 120,
-        'scale': 0.56
+        'scale': 0.6
     },
 
     # 3
@@ -67,7 +71,7 @@ animals = {
         'health': 1000,
         'speed': 90,
         'damage': 120,
-        'scale': 0.5
+        'scale': 0.45
     },
     # 4
     'Goblin_Shark': {
@@ -157,7 +161,7 @@ animals = {
         'health': 900,
         'speed': 90,
         'damage': 140,
-        'scale': 0.35
+        'scale': 0.32
     },
 
 
@@ -207,7 +211,7 @@ class Game(arcade.Window):
         self.AI_list = None
 
         # Physic Engine
-        self.physic_engine: Optional[PymunkPhysicsEngine] = None
+        self.physics_engine: Optional[PymunkPhysicsEngine] = None
 
     def setup(self):
         """Setup"""
