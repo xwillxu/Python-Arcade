@@ -293,21 +293,21 @@ class Game(arcade.Window):
         # Friction is between two objects in contact. It is important to remember
         # in top-down games that friction moving along the 'floor' is controlled
         # by damping.
-        self.physics_engine.add_sprite(self.player, mass=10,
+        self.physics_engine.add_sprite(self.player, mass=0.1,
                                        friction=0.01,
-                                       damping=0.5,
-                                       elasticity=0.8,
+                                       elasticity=1,
+                                       damping=1,
                                        collision_type="player",
                                        max_velocity=400)
 
         # Create some boxes to push around.
         # Mass controls, well, the mass of an object. Defaults to 1.
         self.physics_engine.add_sprite_list(self.AI_list,
-                                            mass=10,
+                                            mass=0.1,
                                             friction=0.01,
-                                            elasticity=0.8,
+                                            elasticity=1,
                                             damping=1,
-                                            collision_type="rock")
+                                            collision_type="player")
 
     def AI(self):
         """AI Shark"""
@@ -363,14 +363,8 @@ class Game(arcade.Window):
         spriteAngle = math.degrees(angle) - 90
         # Sync up the angle in the physics world too!!!!
         self.player.angle = spriteAngle
-        self.physics_engine.get_physics_object(
-            self.player).body.angle = math.radians(spriteAngle)
-
-        #forceX = math.cos(angle) * PLAYER_MOVE_FORCE
-        #forceY = math.sin(angle) * PLAYER_MOVE_FORCE
-        #force = (forceX, forceY)
-        #print('apply force', force)
-        #self.physics_engine.apply_force(self.player, force)
+        physicsBody = self.physics_engine.get_physics_object(self.player).body
+        physicsBody.angle = math.radians(spriteAngle)
 
     def GreenOrb(self):
         """Orb"""
@@ -598,10 +592,6 @@ class Game(arcade.Window):
         if distance > range_of_attack:
             "Go in a random direction"
 
-            # Chnage x and Change y
-            shark.change_x += random.randint(-1, 1)
-            shark.change_y += random.randint(-1, 1)
-
             # Center X And Y In The Future
             center_x_in_future = shark.center_x + shark.change_x
             center_y_in_future = shark.center_y + shark.change_y
@@ -613,8 +603,19 @@ class Game(arcade.Window):
             # Angle
             angle = math.atan2(y_diff, x_diff)
 
-            # Change Angle
-            shark.angle = math.degrees(angle) - 90
+            self.physics_engine.set_velocity(
+                shark,
+                (math.cos(angle) * self.speed * 50,
+                 math.sin(angle) * self.speed * 50)
+            )
+
+            # Angle the bullet sprite so it doesn't look like it is flying
+            # sideways.
+            spriteAngle = math.degrees(angle) - 90
+            # Sync up the angle in the physics world too!!!!
+            shark.angle = spriteAngle
+            self.physics_engine.get_physics_object(
+                shark).body.angle = math.radians(spriteAngle)
 
         else:
             "Attack player"
@@ -630,19 +631,22 @@ class Game(arcade.Window):
                 # Angle
                 angle = math.atan2(y_diff, x_diff)
 
-                # Change Angle
-                shark.angle = math.degrees(angle) - 90
-
                 # Shark Speed X And Y
-                change_x = math.cos(
-                    angle) * self.AI_animal_attributes['speed'] / 9 / 2
-                change_y = math.sin(
-                    angle) * self.AI_animal_attributes['speed'] / 9 / 2
-
+                # Taking into account the angle, calculate our change_x
+                # and change_y. Velocity is how fast the bullet travels.
                 self.physics_engine.set_velocity(
                     shark,
-                    (change_x * 50, change_y * 50)
+                    (math.cos(angle) * self.speed * 50,
+                     math.sin(angle) * self.speed * 50)
                 )
+
+                # Angle the bullet sprite so it doesn't look like it is flying
+                # sideways.
+                spriteAngle = math.degrees(angle) - 90
+                # Sync up the angle in the physics world too!!!!
+                shark.angle = spriteAngle
+                self.physics_engine.get_physics_object(
+                    shark).body.angle = math.radians(spriteAngle)
 
             else:
                 # Run Away
@@ -657,12 +661,21 @@ class Game(arcade.Window):
                 shark.angle = - math.degrees(angle)
 
                 # Shark Speed X And Y
-                shark.change_x = - \
-                    math.cos(angle) * \
-                    self.AI_animal_attributes['speed'] / 9 / 2
-                shark.change_y = - \
-                    math.sin(angle) * \
-                    self.AI_animal_attributes['speed'] / 9 / 2
+                # Taking into account the angle, calculate our change_x
+                # and change_y. Velocity is how fast the bullet travels.
+                self.physics_engine.set_velocity(
+                    shark,
+                    (math.cos(angle) * self.speed * 50,
+                     math.sin(angle) * self.speed * 50)
+                )
+
+                # Angle the bullet sprite so it doesn't look like it is flying
+                # sideways.
+                spriteAngle = math.degrees(angle) - 90
+                # Sync up the angle in the physics world too!!!!
+                shark.angle = spriteAngle
+                self.physics_engine.get_physics_object(
+                    shark).body.angle = math.radians(spriteAngle)
 
 
 if __name__ == "__main__":
