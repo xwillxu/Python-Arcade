@@ -545,7 +545,7 @@ class Game(arcade.Window):
 
         # Call AI Movement
         for shark in self.AI_list:
-            if self.frame_count % 30 == 0:
+            if self.frame_count % 1 == 0:
                 self.AI_move(player=self.player, shark=shark,
                              delta_time=delta_time)
 
@@ -623,6 +623,7 @@ class Game(arcade.Window):
             # Another If And Else
             # If AI's Health Is Larger Than 1/2 Of It's Max Health Attack
             if shark.cur_health > shark.max_health / 2:
+                print("Attack")
 
                 # X And Y Diff Activated
                 x_diff = player.center_x - shark.center_x
@@ -636,8 +637,8 @@ class Game(arcade.Window):
                 # and change_y. Velocity is how fast the bullet travels.
                 self.physics_engine.set_velocity(
                     shark,
-                    (math.cos(angle) * self.speed * 50,
-                     math.sin(angle) * self.speed * 50)
+                    (math.cos(angle) * self.AI_animal_attributes["speed"],
+                     math.sin(angle) * self.AI_animal_attributes["speed"])
                 )
 
                 # Angle the bullet sprite so it doesn't look like it is flying
@@ -649,7 +650,7 @@ class Game(arcade.Window):
                     shark).body.angle = math.radians(spriteAngle)
 
             else:
-                # Run Away
+                """Run Away"""
                 # X And Y Diff Activated
                 x_diff = player.center_x - shark.center_x
                 y_diff = player.center_y - shark.center_y
@@ -665,8 +666,8 @@ class Game(arcade.Window):
                 # and change_y. Velocity is how fast the bullet travels.
                 self.physics_engine.set_velocity(
                     shark,
-                    (math.cos(angle) * self.speed * 50,
-                     math.sin(angle) * self.speed * 50)
+                    (math.cos(angle) * self.AI_animal_attributes["speed"] * 50,
+                     math.sin(angle) * self.AI_animal_attributes["speed"] * 50)
                 )
 
                 # Angle the bullet sprite so it doesn't look like it is flying
