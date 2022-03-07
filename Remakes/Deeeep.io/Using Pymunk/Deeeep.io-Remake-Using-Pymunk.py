@@ -282,6 +282,7 @@ class Game(arcade.Window):
         # Create the physics engine
         self.physics_engine = PymunkPhysicsEngine(damping=damping,
                                                   gravity=gravity)
+        self.physics_engine.space.collision_bias = 0
 
         # Add the player.
         # For the player, we set the damping to a lower value, which increases
@@ -293,7 +294,7 @@ class Game(arcade.Window):
         # Friction is between two objects in contact. It is important to remember
         # in top-down games that friction moving along the 'floor' is controlled
         # by damping.
-        self.physics_engine.add_sprite(self.player, mass=0.1,
+        self.physics_engine.add_sprite(self.player, mass=2,
                                        friction=0.01,
                                        elasticity=1,
                                        damping=1,
@@ -303,7 +304,7 @@ class Game(arcade.Window):
         # Create some boxes to push around.
         # Mass controls, well, the mass of an object. Defaults to 1.
         self.physics_engine.add_sprite_list(self.AI_list,
-                                            mass=0.1,
+                                            mass=0.01,
                                             friction=0.01,
                                             elasticity=1,
                                             damping=1,
