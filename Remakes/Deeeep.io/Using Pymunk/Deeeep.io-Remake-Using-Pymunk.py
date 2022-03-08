@@ -219,7 +219,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         # Set Random Player Animal At The Start Of The Game
-        animal_index = random.randint(10, 10)
+        animal_index = random.randint(1, 15)
         animal_name = animal_name_list[animal_index - 1]
         animal_attributes = animals[animal_name]
 
@@ -457,6 +457,12 @@ class Game(arcade.Window):
 
         # Draw The Player
         self.player.draw()
+
+        # Draw The Health Bars
+        self.player.draw_health_bar()
+
+        for AI_Shark in self.AI_list:
+            AI_Shark.draw_health_bar()
 
         # Draw Lists
         self.orb_list.draw()
