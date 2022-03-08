@@ -313,7 +313,7 @@ class Game(arcade.Window):
     def AI(self):
         """AI Shark"""
         # Index, Name, And Attributes
-        animal_index = random.randint(10, 10)
+        animal_index = random.randint(1, 15)
         animal_name = animal_name_list[animal_index - 1]
         animal_attributes = animals[animal_name]
 
