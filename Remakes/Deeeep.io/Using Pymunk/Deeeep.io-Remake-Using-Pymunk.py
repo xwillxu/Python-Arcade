@@ -219,7 +219,7 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
         # Set Random Player Animal At The Start Of The Game
-        animal_index = random.randint(1, 15)
+        animal_index = random.randint(10, 10)
         animal_name = animal_name_list[animal_index - 1]
         animal_attributes = animals[animal_name]
 
@@ -638,8 +638,8 @@ class Game(arcade.Window):
                 # and change_y. Velocity is how fast the bullet travels.
                 self.physics_engine.set_velocity(
                     shark,
-                    (math.cos(angle) * self.AI_animal_attributes["speed"],
-                     math.sin(angle) * self.AI_animal_attributes["speed"])
+                    (math.cos(angle) * self.AI_animal_attributes["speed"] * 2.75,
+                     math.sin(angle) * self.AI_animal_attributes["speed"] * 2.75)
                 )
 
                 # Angle the bullet sprite so it doesn't look like it is flying
@@ -667,8 +667,8 @@ class Game(arcade.Window):
                 # and change_y. Velocity is how fast the bullet travels.
                 self.physics_engine.set_velocity(
                     shark,
-                    (math.cos(angle) * self.AI_animal_attributes["speed"] * 50,
-                     math.sin(angle) * self.AI_animal_attributes["speed"] * 50)
+                    (math.cos(angle) * self.AI_animal_attributes["speed"] * 2.75,
+                     math.sin(angle) * self.AI_animal_attributes["speed"] * 2.75)
                 )
 
                 # Angle the bullet sprite so it doesn't look like it is flying
