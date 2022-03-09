@@ -10,6 +10,7 @@ import arcade
 import random
 import math
 from typing import Optional
+from Pymunk_Helping_Code import follow_sprite
 from arcade.pymunk_physics_engine import PymunkPhysicsEngine
 
 # Screen Properties
@@ -243,6 +244,10 @@ class Game(arcade.Window):
         self.player.center_x = random.randint(10, 1190)
         self.player.center_y = random.randint(10, 790)
 
+        # Add The Player Weapon
+        self.player_weapon = arcade.Sprite(
+            "images/Deeeep.io/Weapon.png", animal_attributes['scale'])
+
         # Speed
         self.speed = animal_attributes['speed'] / 9 / 2
 
@@ -461,6 +466,10 @@ class Game(arcade.Window):
         # Draw The Health Bars
         self.player.draw_health_bar()
 
+        # Draw The Weapon
+        self.player_weapon.draw()
+        self.player_weapon.draw_hit_box()
+
         for AI_Shark in self.AI_list:
             AI_Shark.draw_health_bar()
 
@@ -490,7 +499,15 @@ class Game(arcade.Window):
         # Change Frame Count By 1
         self.frame_count += 1
 
-        # Make The Fish Run Away From Player In Certian Distance
+        # Player And AI Collision
+        # Remember To Give Some Frame Count
+        if self.frame_count % 10 == 0:
+            # Make Sure That The AI List Is Part Of This
+            for AI_Shark in self.AI_list:
+                # What Happens If THe Player Weapon Hits The AI
+                self.player_weapon
+
+        # Make The Fish Run Away From Player In Certain Distance
         for fish in self.fish_list:
             # Distance X and Y
             distancex = abs(fish.center_x - self.player.center_x)
@@ -577,6 +594,9 @@ class Game(arcade.Window):
                 self.score += 5
                 self.fish()
 
+        # Follow Sprite
+        follow_sprite(self.player_weapon, self.player, offset=0)
+
     def AI_move(self, player, shark, delta_time):
         """AI Move Command"""
 
@@ -612,8 +632,8 @@ class Game(arcade.Window):
 
             self.physics_engine.set_velocity(
                 shark,
-                (math.cos(angle) * self.speed * 50,
-                 math.sin(angle) * self.speed * 50)
+                (math.cos(angle) * self.speed * self.AI_animal_attributes["speed"] * 2.76,
+                 math.sin(angle) * self.speed * self.AI_animal_attributes["speed"] * 2.76)
             )
 
             # Angle the bullet sprite so it doesn't look like it is flying
@@ -644,8 +664,8 @@ class Game(arcade.Window):
                 # and change_y. Velocity is how fast the bullet travels.
                 self.physics_engine.set_velocity(
                     shark,
-                    (math.cos(angle) * self.AI_animal_attributes["speed"] * 2.75,
-                     math.sin(angle) * self.AI_animal_attributes["speed"] * 2.75)
+                    (math.cos(angle) * self.AI_animal_attributes["speed"] * 2.76,
+                     math.sin(angle) * self.AI_animal_attributes["speed"] * 2.76)
                 )
 
                 # Angle the bullet sprite so it doesn't look like it is flying
@@ -673,8 +693,8 @@ class Game(arcade.Window):
                 # and change_y. Velocity is how fast the bullet travels.
                 self.physics_engine.set_velocity(
                     shark,
-                    (math.cos(angle) * self.AI_animal_attributes["speed"] * 2.75,
-                     math.sin(angle) * self.AI_animal_attributes["speed"] * 2.75)
+                    (math.cos(angle) * self.AI_animal_attributes["speed"] * 2.76,
+                     math.sin(angle) * self.AI_animal_attributes["speed"] * 2.76)
                 )
 
                 # Angle the bullet sprite so it doesn't look like it is flying
