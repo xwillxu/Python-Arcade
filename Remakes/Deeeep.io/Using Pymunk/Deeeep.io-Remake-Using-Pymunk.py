@@ -211,6 +211,7 @@ class Game(arcade.Window):
         self.orb_list2 = None
         self.fish_list = None
         self.AI_list = None
+        self.static_lines = []
 
         # Physic Engine
         self.physics_engine: Optional[PymunkPhysicsEngine] = None
@@ -325,6 +326,15 @@ class Game(arcade.Window):
         shape = pymunk.Segment(body, [0, floor_height], [
                                SCREEN_WIDTH, floor_height], 0.0)
         shape.friction = 10
+        self.static_lines.append(shape)
+        self.physics_engine.space.add(shape, body)
+
+        # Add top floor
+        body = pymunk.Body(body_type=pymunk.Body.STATIC)
+        shape = pymunk.Segment(body, [0, SCREEN_HEIGHT - floor_height], [
+                               SCREEN_WIDTH, SCREEN_HEIGHT - floor_height], 0.0)
+        shape.friction = 10
+        self.static_lines.append(shape)
         self.physics_engine.space.add(shape, body)
 
     def AI(self):
@@ -490,6 +500,15 @@ class Game(arcade.Window):
         # Draw Your Score
         output = f"Your Score: {self.score}"
         arcade.draw_text(output, 10, 1000, arcade.color.SUNSET, 19)
+
+        # Draw Boundarys
+        # Draw the lines that aren't sprites
+        for line in self.static_lines:
+            body = line.body
+
+            pv1 = body.position + line.a.rotated(body.angle)
+            pv2 = body.position + line.b.rotated(body.angle)
+            arcade.draw_line(pv1.x, pv1.y, pv2.x, pv2.y, arcade.color.WHITE, 2)
 
     def on_update(self, delta_time):
         """Update"""
