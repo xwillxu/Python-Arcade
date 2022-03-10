@@ -545,6 +545,17 @@ class Game(arcade.Window):
                 fish.remove_from_sprite_lists()
                 self.fish()
 
+        # Healing Code
+        # AI
+        for ai in self.AI_list:
+            if not ai.cur_health >= ai.max_health:
+                if self.frame_count % 10 == 0:
+                    ai.cur_health += 20
+
+        if not self.player.cur_health >= self.player.max_health:
+            if self.frame_count % 10 == 0:
+                self.player.cur_health += 20
+
         # Boost Code
         if self.boost_timer_start == True:
             self.boost_timer += 0.3
