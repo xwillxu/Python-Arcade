@@ -569,6 +569,8 @@ class Game(arcade.Window):
             self.player.bottom = 0
         if self.player.left < 0:
             self.player.left = 0
+
+        # Keep The AI From Going Off The Screen
         for AI_Shark in self.AI_list:
             if AI_Shark.top > self.height:
                 AI_Shark.top = self.height
