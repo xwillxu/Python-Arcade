@@ -470,10 +470,6 @@ class Game(arcade.Window):
         # Draw The Health Bars
         self.player.draw_health_bar()
 
-        # Draw The Weapon
-        self.player_weapon.draw()
-        self.player_weapon.draw_hit_box()
-
         for AI_Shark in self.AI_list:
             AI_Shark.draw_health_bar()
 
@@ -573,6 +569,15 @@ class Game(arcade.Window):
             self.player.bottom = 0
         if self.player.left < 0:
             self.player.left = 0
+        for AI_Shark in self.AI_list:
+            if AI_Shark.top > self.height:
+                AI_Shark.top = self.height
+            if AI_Shark.right > self.width:
+                AI_Shark.right = self.width
+            if AI_Shark.bottom < 0:
+                AI_Shark.bottom = 0
+            if AI_Shark.left < 0:
+                AI_Shark.left = 0
 
         # Call AI Movement
         for shark in self.AI_list:
