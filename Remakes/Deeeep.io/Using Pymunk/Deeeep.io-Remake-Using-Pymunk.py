@@ -9,6 +9,7 @@ So That The Collision And Stuff Like That Is Not Crappy.
 import arcade
 import random
 import math
+import pymunk
 from typing import Optional
 from Pymunk_Helping_Code import follow_sprite
 from arcade.pymunk_physics_engine import PymunkPhysicsEngine
@@ -318,6 +319,13 @@ class Game(arcade.Window):
                                             elasticity=1,
                                             damping=1,
                                             collision_type="player")
+        # Add bottom floor
+        floor_height = 20
+        body = pymunk.Body(body_type=pymunk.Body.STATIC)
+        shape = pymunk.Segment(body, [0, floor_height], [
+                               SCREEN_WIDTH, floor_height], 0.0)
+        shape.friction = 10
+        self.physics_engine.space.add(shape, body)
 
     def AI(self):
         """AI Shark"""
@@ -570,27 +578,6 @@ class Game(arcade.Window):
             self.speed = self.animal_attributes['speed'] / 9 / 2 * 3
         else:
             self.speed = self.animal_attributes['speed'] / 9 / 2
-
-        # Keep The Player From Going Off The Screen
-        if self.player.top > self.height:
-            self.player.top = self.height
-        if self.player.right > self.width:
-            self.player.right = self.width
-        if self.player.bottom < 0:
-            self.player.bottom = 0
-        if self.player.left < 0:
-            self.player.left = 0
-
-        # Keep The AI From Going Off The Screen
-        for AI_Shark in self.AI_list:
-            if AI_Shark.top > self.height:
-                AI_Shark.top = self.height
-            if AI_Shark.right > self.width:
-                AI_Shark.right = self.width
-            if AI_Shark.bottom < 0:
-                AI_Shark.bottom = 0
-            if AI_Shark.left < 0:
-                AI_Shark.left = 0
 
         # Call AI Movement
         for shark in self.AI_list:
