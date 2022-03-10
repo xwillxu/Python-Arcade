@@ -547,10 +547,10 @@ class Game(arcade.Window):
 
         # Healing Code
         # AI
-        for ai in self.AI_list:
-            if not ai.cur_health >= ai.max_health:
+        for AI_Shark in self.AI_list:
+            if not AI_Shark.cur_health >= AI_Shark.max_health:
                 if self.frame_count % 10 == 0:
-                    ai.cur_health += 20
+                    AI_Shark.cur_health += 20
         # Player
         if not self.player.cur_health >= self.player.max_health:
             if self.frame_count % 10 == 0:
