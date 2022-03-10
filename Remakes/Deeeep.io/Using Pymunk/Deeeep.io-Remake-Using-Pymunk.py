@@ -551,7 +551,7 @@ class Game(arcade.Window):
             if not ai.cur_health >= ai.max_health:
                 if self.frame_count % 10 == 0:
                     ai.cur_health += 20
-
+        # Player
         if not self.player.cur_health >= self.player.max_health:
             if self.frame_count % 10 == 0:
                 self.player.cur_health += 20
