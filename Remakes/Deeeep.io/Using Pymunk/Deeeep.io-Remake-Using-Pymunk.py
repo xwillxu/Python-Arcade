@@ -248,6 +248,10 @@ class Game(arcade.Window):
         self.player_weapon = arcade.Sprite(
             "images/Deeeep.io/Weapon.png", animal_attributes['scale'])
 
+        # Add The AI Weapon
+        self.AI_weapon = arcade.Sprite(
+            "images/Deeeep.io/Weapon.png", animal_attributes['scale'])
+
         # Speed
         self.speed = animal_attributes['speed'] / 9 / 2
 
@@ -504,8 +508,11 @@ class Game(arcade.Window):
         if self.frame_count % 10 == 0:
             # Make Sure That The AI List Is Part Of This
             for AI_Shark in self.AI_list:
-                # What Happens If THe Player Weapon Hits The AI
-                self.player_weapon
+                # What Happens If The Player Weapon Hits The AI
+                if self.player_weapon.collides_with_sprite(AI_Shark):
+                    AI_Shark.cur_health -= self.animal_attributes["damage"]
+                if self.AI_weapon.collides_with_sprite(self.player):
+                    self.player.cur_health -= self.animal_attributes["damage"]
 
         # Make The Fish Run Away From Player In Certain Distance
         for fish in self.fish_list:
@@ -594,8 +601,9 @@ class Game(arcade.Window):
                 self.score += 5
                 self.fish()
 
-        # Follow Sprite
-        follow_sprite(self.player_weapon, self.player, offset=0)
+        # Follow Sprite Code
+        # The Player
+        follow_sprite(self.player_weapon, self.player, offset=10)
 
     def AI_move(self, player, shark, delta_time):
         """AI Move Command"""
