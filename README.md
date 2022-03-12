@@ -25,8 +25,9 @@ A angry bird remake made with python.
 Animations that are inspired by real holidays.
 ![2022_Animation](https://raw.githubusercontent.com/xwillxu/python_arcade/main/images/Animation_New_Year_read_me.PNG)
 
-### Deeeep.io(3 Games)
+### Deeeep.io(6 Games)
 (Currently Working On)
+(No Image Yet)
 
 
 ## That's what I made so far
