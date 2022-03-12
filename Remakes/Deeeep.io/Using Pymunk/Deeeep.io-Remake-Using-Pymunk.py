@@ -683,6 +683,7 @@ class Game(arcade.Window):
         # Follow Sprite Code
         # The Player
         follow_sprite(self.player_weapon, self.player, offset=10)
+
         # The AI
         # In The List
         for AI_Shark in self.AI_list:
