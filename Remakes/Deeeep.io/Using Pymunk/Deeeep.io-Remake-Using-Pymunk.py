@@ -297,7 +297,8 @@ class Game(arcade.Window):
         self.player_list.append(self.player_weapon)
 
         # NEW UPDATE: VIDEOS
-        # Sorry That The Update Is Unavailible
+        # Sorry That The Update Is Unavailible (IT IS GOING TO TAKE SO LONG)
+        # By The Way THis Will Need A Server For THis Update(But It Is To Hard)
         #
         #
         #
