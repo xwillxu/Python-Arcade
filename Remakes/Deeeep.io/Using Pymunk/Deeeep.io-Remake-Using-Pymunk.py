@@ -211,6 +211,7 @@ class Game(arcade.Window):
         self.orb_list2 = None
         self.fish_list = None
         self.AI_list = None
+        self.player_list = None
         self.static_lines = []
 
         # Physic Engine
@@ -262,6 +263,7 @@ class Game(arcade.Window):
         self.orb_list2 = arcade.SpriteList()
         self.fish_list = arcade.SpriteList()
         self.AI_list = arcade.SpriteList()
+        self.player_list = arcade.SpriteList()
 
         # Spawn Food
         for i in range(50):
@@ -279,6 +281,48 @@ class Game(arcade.Window):
 
         # Score
         self.score = 0
+
+        # Schedule Stuff
+        arcade.schedule(self.check_win_lose, 15)
+
+        # Append Everything That Needs To Be In The Player List This Includes The Following
+        # - The Player
+        # - The Player Weapon
+        # That is Everything
+
+        # Player
+        self.player_list.append(self.player)
+
+        # Player Weapon
+        self.player_list.append(self.player_weapon)
+
+        # NEW UPDATE: VIDEOS
+        # Sorry That The Update Is Unavailible
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
+        #
 
         # --- Pymunk Physics Engine Setup ---
 
@@ -344,7 +388,7 @@ class Game(arcade.Window):
         self.static_lines.append(shape)
         self.physics_engine.space.add(shape, body)
 
-        # Add top floor
+        # Add left floor
         body = pymunk.Body(body_type=pymunk.Body.STATIC)
         shape = pymunk.Segment(
             body,
@@ -378,6 +422,7 @@ class Game(arcade.Window):
         # Set AI Attributes
         self.AI_animal_attributes = animal_attributes
 
+        # AI Setup
         AI_Shark = Health_Sprite(
             f"images/Deeeep.io/{animal_name}.png", animal_attributes["scale"], animal_attributes["health"])
 
