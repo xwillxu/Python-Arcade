@@ -634,24 +634,50 @@ class Game(arcade.Window):
 
         # Green Orb Collision
         for orb in self.orb_list:
+            # Player
             if self.player.collides_with_sprite(orb):
                 orb.remove_from_sprite_lists()
                 self.score += 1
+                self.player.cur_health += 10
+                self.GreenOrb()
+
+            # AI
+            for AI_Shark in self.AI_list:
+                orb.remove_from_sprite_lists()
+                AI_Shark.cur_health += 10
                 self.GreenOrb()
 
         # Blue Orb Collision
         for orb in self.orb_list2:
+            # Player
             if self.player.collides_with_sprite(orb):
                 orb.remove_from_sprite_lists()
                 self.score += 1
+                self.player.cur_health += 10
                 self.BlueOrb()
+
+            # AI
+            for AI_Shark in self.AI_list:
+                if AI_Shark.collides_with_sprite(orb):
+                    orb.remove_from_sprite_lists()
+                    AI_Shark.cur_health += 10
+                    self.BlueOrb()
 
         # Fish Collision
         for fish in self.fish_list:
+            # Player
             if self.player.collides_with_sprite(fish):
                 fish.remove_from_sprite_lists()
-                self.score += 5
+                self.score += 10
+                self.player.cur_health += 10
                 self.fish()
+
+            # AI
+            for AI_Shark in self.AI_list:
+                if AI_Shark.collides_with_sprite(fish):
+                    fish.remove_from_sprite_lists()
+                    AI_Shark.cur_health += 10
+                    self.fish()
 
         # Follow Sprite Code
         # The Player
