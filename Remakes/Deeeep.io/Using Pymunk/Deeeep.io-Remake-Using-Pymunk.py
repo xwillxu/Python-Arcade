@@ -451,13 +451,13 @@ class Game(arcade.Window):
         # Do math to calculate how to get the bullet to the destination.
         # Calculation the angle in radians between the start points
         # and end points. This is the angle the bullet will travel.
+
         x_diff = dest_x - self.player.center_x
         y_diff = dest_y - self.player.center_y
         angle = math.atan2(y_diff, x_diff)
+
         # Taking into account the angle, calculate our change_x
         # and change_y. Velocity is how fast the bullet travels.
-        # self.player.change_x = math.cos(angle) * self.speed
-        # self.player.change_y = math.sin(angle) * self.speed
         self.physics_engine.set_velocity(
             self.player,
             (math.cos(angle) * self.speed * 50, math.sin(angle) * self.speed * 50)
@@ -466,6 +466,7 @@ class Game(arcade.Window):
         # Angle the bullet sprite so it doesn't look like it is flying
         # sideways.
         spriteAngle = math.degrees(angle) - 90
+
         # Sync up the angle in the physics world too!!!!
         self.player.angle = spriteAngle
         physicsBody = self.physics_engine.get_physics_object(self.player).body
