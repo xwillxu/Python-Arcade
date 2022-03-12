@@ -578,8 +578,14 @@ class Game(arcade.Window):
         # Draw The Player
         self.player.draw()
 
-        # Draw The Health Bars
-        self.player.draw_health_bar()
+        # Try To Draw The Health Bars If Not Skip To Next Object in Player List
+        for player in self.player_list:
+            try:
+                player.draw_health_bar()
+            except:
+                pass
+            finally:
+                pass
 
         for AI_Shark in self.AI_list:
             AI_Shark.draw_health_bar()
