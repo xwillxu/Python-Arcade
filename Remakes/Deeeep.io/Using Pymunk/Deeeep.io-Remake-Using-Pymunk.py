@@ -643,9 +643,10 @@ class Game(arcade.Window):
 
             # AI
             for AI_Shark in self.AI_list:
-                orb.remove_from_sprite_lists()
-                AI_Shark.cur_health += 10
-                self.GreenOrb()
+                if AI_Shark.collides_with_sprite(orb):
+                    orb.remove_from_sprite_lists()
+                    AI_Shark.cur_health += 10
+                    self.GreenOrb()
 
         # Blue Orb Collision
         for orb in self.orb_list2:
