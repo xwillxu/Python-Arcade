@@ -494,16 +494,16 @@ class Game(arcade.Window):
     def Win(self):
         """If You Won"""
 
-        self.you_won = True
+        self.You_Won = True
 
     def Lose(self):
         """If You Lost"""
 
-        self.you_won = False
+        self.You_Won = False
 
     def check_win_lose(self, delta_time):
         """ Close The Window If You Win Or Lose"""
-        if self.you_won != None:
+        if self.You_Won != None:
             arcade.close_window()
 
     def on_mouse_press(self, x, y, button, modifiers):
@@ -547,12 +547,14 @@ class Game(arcade.Window):
         output = f"Your Score: {self.score}"
         arcade.draw_text(output, 10, 1000, arcade.color.SUNSET, 19)
 
-        # You Won And Lost Functions
-        if self.you_won == True:
+        # You Won And Lost Functions Drawn
+        # You Won
+        if self.You_Won == True:
             arcade.draw_text(" YOU WON! ", 500, 500,
                              arcade.color.GREEN, 100)
 
-        elif self.you_won == False:
+        # You Lost
+        elif self.You_Won == False:
             arcade.draw_text(" YOU LOST☹ ", 500, 500,
                              arcade.color.RED, 100)
 
