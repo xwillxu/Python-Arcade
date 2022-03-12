@@ -659,7 +659,7 @@ class Game(arcade.Window):
         # The AI
         # In The List
         for AI_Shark in self.AI_list:
-            follow_sprite(self.AI_weapon, AI_Shark)
+            follow_sprite(self.AI_weapon, AI_Shark, offset=10)
 
     def AI_move(self, player, shark, delta_time):
         """AI Move Command"""
