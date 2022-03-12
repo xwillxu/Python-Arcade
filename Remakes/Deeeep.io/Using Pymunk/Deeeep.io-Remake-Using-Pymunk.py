@@ -324,7 +324,7 @@ class Game(arcade.Window):
         floor_height = 20
         body = pymunk.Body(body_type=pymunk.Body.STATIC)
         shape = pymunk.Segment(body, [0, floor_height], [
-                               SCREEN_WIDTH, floor_height], 0.0)
+                               1900, floor_height], 0.0)
         shape.friction = 10
         self.static_lines.append(shape)
         self.physics_engine.space.add(shape, body)
@@ -333,8 +333,8 @@ class Game(arcade.Window):
         body = pymunk.Body(body_type=pymunk.Body.STATIC)
         shape = pymunk.Segment(
             body,
-            [0, SCREEN_HEIGHT - floor_height],  # [x1, y1] starting point
-            [SCREEN_WIDTH, SCREEN_HEIGHT - floor_height],  # [x2, y2], ending point
+            [0, 1080 - floor_height],  # [x1, y1] starting point
+            [1900, 1080 - floor_height],  # [x2, y2], ending point
             0.0
         )
         shape.friction = 10
@@ -346,7 +346,7 @@ class Game(arcade.Window):
         shape = pymunk.Segment(
             body,
             [floor_height, 0],
-            [floor_height, SCREEN_HEIGHT],
+            [floor_height, 1500],
             0.0
         )
         shape.friction = 10
@@ -357,8 +357,8 @@ class Game(arcade.Window):
         body = pymunk.Body(body_type=pymunk.Body.STATIC)
         shape = pymunk.Segment(
             body,
-            [SCREEN_WIDTH - floor_height, 0],  # [x1, y1] starting point
-            [SCREEN_WIDTH - floor_height, SCREEN_HEIGHT],  # [x2, y2], ending point
+            [1900 - floor_height, 0],  # [x1, y1] starting point
+            [1900 - floor_height, 1500],  # [x2, y2], ending point
             0.0
         )
         shape.friction = 10
