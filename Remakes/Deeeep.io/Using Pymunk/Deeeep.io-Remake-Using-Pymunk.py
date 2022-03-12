@@ -488,6 +488,12 @@ class Game(arcade.Window):
         # Add the bullet to the appropriate lists
         self.fish_list.append(fish)
 
+    def Win(self):
+        """If You Won"""
+
+    def Lose(self):
+        """If You Lost"""
+
     def on_mouse_press(self, x, y, button, modifiers):
         """Mouse Press"""
 
