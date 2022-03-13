@@ -655,7 +655,7 @@ class Game(arcade.Window):
                     AI_Shark.remove_from_sprite_lists()
                     self.Win()
 
-                # If You Lose
+                # If You Lose(AI Beat You)
                 if self.player.cur_health <= 0:
                     self.player.remove_from_sprite_lists()
                     self.player_weapon.remove_from_sprite_lists()
