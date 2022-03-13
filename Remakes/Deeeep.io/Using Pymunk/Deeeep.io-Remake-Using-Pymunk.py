@@ -650,12 +650,12 @@ class Game(arcade.Window):
                 if self.AI_weapon.collides_with_sprite(self.player):
                     self.player.cur_health -= self.animal_attributes["damage"]
 
-                # If You Win(AI Lost)
+                # If You Win(You Beat The AI)
                 if AI_Shark.cur_health <= 0:
                     AI_Shark.remove_from_sprite_lists()
                     self.Win()
 
-                # If You Lose(AI Beat You)
+                # If You Lose(The AI Beat You)
                 if self.player.cur_health <= 0:
                     self.player.remove_from_sprite_lists()
                     self.player_weapon.remove_from_sprite_lists()
