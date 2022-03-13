@@ -650,7 +650,7 @@ class Game(arcade.Window):
                 if self.AI_weapon.collides_with_sprite(self.player):
                     self.player.cur_health -= self.animal_attributes["damage"]
 
-                # If You Win
+                # If You Win(AI Lost)
                 if AI_Shark.cur_health <= 0:
                     AI_Shark.remove_from_sprite_lists()
                     self.Win()
@@ -659,7 +659,6 @@ class Game(arcade.Window):
                 if self.player.cur_health <= 0:
                     self.player.remove_from_sprite_lists()
                     self.player_weapon.remove_from_sprite_lists()
-
                     self.Lose()
 
         # Make The Fish Run Away From Player In Certain Distance
