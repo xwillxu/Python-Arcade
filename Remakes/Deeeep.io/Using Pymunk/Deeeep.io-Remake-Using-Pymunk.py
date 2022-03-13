@@ -639,6 +639,9 @@ class Game(arcade.Window):
         # Player And AI Collision
         # Remember To Give Some Frame Count
         if self.frame_count % 10 == 0:
+            # If game is over, don't do any more collision
+            if self.You_Won != None:
+                return
             # Make Sure That The AI List Is Part Of This
             for AI_Shark in self.AI_list:
                 # What Happens If The Player Weapon Hits The AI
@@ -646,6 +649,17 @@ class Game(arcade.Window):
                     AI_Shark.cur_health -= self.animal_attributes["damage"]
                 if self.AI_weapon.collides_with_sprite(self.player):
                     self.player.cur_health -= self.animal_attributes["damage"]
+
+                # If You Win
+                if AI_Shark.cur_health <= 0:
+                    AI_Shark.remove_from_sprite_lists()
+                    self.Win()
+
+                # If You Lose
+                if self.player.cur_health <= 0:
+                    self.player.remove_from_sprite_lists()
+                    self.player_weapon.remove_from_sprite_lists()
+                    self.Lose()
 
         # Make The Fish Run Away From Player In Certain Distance
         for fish in self.fish_list:

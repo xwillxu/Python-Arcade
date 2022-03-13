@@ -525,7 +525,7 @@ class Game(arcade.Window):
 
         if self.player_name == "Tiger_Shark":
             if self.player.center_y <= 300:
-                self.speed == 6.6
+                self.speed == 7
             else:
                 self.speed == 6
         if self.player_name == "Elephant_Seal":
