@@ -244,8 +244,8 @@ class Game(arcade.Window):
         # Player
         self.player = Health_Sprite(
             f"images/Deeeep.io/{animal_name}.png", animal_attributes["scale"], max_health=animal_attributes["health"])
-        self.player.center_x = random.randint(10, 1190)
-        self.player.center_y = random.randint(10, 790)
+        self.player.center_x = random.randint(100, 1790)
+        self.player.center_y = random.randint(100, 790)
 
         # Add The Player Weapon
         self.player_weapon = arcade.Sprite(
@@ -510,8 +510,8 @@ class Game(arcade.Window):
         # Fish Setup
         fish = arcade.Sprite("images/Sardine.png", SUPER_SCALE/4)
 
-        fish.center_x = random.randint(10, 1890)
-        fish.center_y = random.randint(10, 1040)
+        fish.center_x = random.randint(100, 1790)
+        fish.center_y = random.randint(100, 940)
 
         # Get from the mouse the destination location for the bullet
         # IMPORTANT! If you have a scrolling screen, you will also need
@@ -567,7 +567,7 @@ class Game(arcade.Window):
         """Key Press"""
 
         # Controls
-        if arcade.key.SPACE:
+        if arcade.key.A:
             self.set_fullscreen(not self.fullscreen)
 
     def on_draw(self):
