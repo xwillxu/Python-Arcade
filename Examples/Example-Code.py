@@ -7,6 +7,8 @@ SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Arcade Game"
 
+# The Game Class
+
 
 class Game(arcade.Window):
     """Game"""
