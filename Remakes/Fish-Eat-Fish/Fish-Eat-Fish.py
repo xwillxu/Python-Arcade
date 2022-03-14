@@ -4,7 +4,7 @@ import arcade
 # Screen Properties
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
-SCREEN_TITLE = "Arcade Game"
+SCREEN_TITLE = "Fish Eat Fish"
 
 # The Game Class
 
