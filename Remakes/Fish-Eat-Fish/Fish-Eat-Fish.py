@@ -24,7 +24,7 @@ class Game(arcade.Window):
 
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
-        self.player = arcade.Sprite("")
+        self.player = arcade.Sprite("images")
 
     def on_key_press(self, key, modifiers):
         """Key Press"""
