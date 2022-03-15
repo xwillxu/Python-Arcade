@@ -24,7 +24,10 @@ class Game(arcade.Window):
 
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
-        self.player = arcade.Sprite("images")
+        self.player = arcade.Sprite(
+            "images/Fish Eat Fish/Atlantic_Torpedo.webp", 0.5)
+        self.player.center_x = 600
+        self.player.center_y = 400
 
     def on_key_press(self, key, modifiers):
         """Key Press"""
@@ -41,7 +44,7 @@ class Game(arcade.Window):
 
         arcade.start_render()
 
-        pass
+        self.player.draw()
 
     def on_update(self, delta_time):
         """Update"""
