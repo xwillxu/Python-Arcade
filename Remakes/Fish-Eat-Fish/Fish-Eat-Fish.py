@@ -35,9 +35,9 @@ class Game(arcade.Window):
         """Key Press"""
 
         if key == arcade.key.UP:
-            self.player.change_y += -5
-        elif key == arcade.key.DOWN:
             self.player.change_y += 5
+        elif key == arcade.key.DOWN:
+            self.player.change_y += -5
         elif key == arcade.key.LEFT:
             self.player.change_x += -5
         elif key == arcade.key.RIGHT:
@@ -47,13 +47,13 @@ class Game(arcade.Window):
         """Key Press"""
 
         if key == arcade.key.UP:
-            self.player.change_y == 0
+            self.player.change_y = 0
         elif key == arcade.key.DOWN:
-            self.player.change_y == 0
+            self.player.change_y = 0
         elif key == arcade.key.LEFT:
-            self.player.change_x == 0
+            self.player.change_x = 0
         elif key == arcade.key.RIGHT:
-            self.player.change_x == 0
+            self.player.change_x = 0
 
     def on_draw(self):
         """Draw"""
@@ -66,6 +66,10 @@ class Game(arcade.Window):
         """Update"""
 
         self.player.update()
+
+        if self.player.change_x > 0:
+            self.player.angle -= 180
+            self.player._set_angle = 180
 
 
 if __name__ == "__main__":
