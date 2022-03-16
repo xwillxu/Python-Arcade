@@ -58,33 +58,44 @@ class Game(arcade.Window):
 
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
+        # Setup Player
         self.player = Player()
+        # X
         self.player.center_x = 600
-        self.player.center_y = 400
         self.player.change_x = 0
+        # Y
+        self.player.center_y = 400
         self.player.change_y = 0
 
     def on_key_press(self, key, modifiers):
         """Key Press"""
 
+        # Up
         if key == arcade.key.UP:
             self.player.change_y += 5
+        # Down
         elif key == arcade.key.DOWN:
             self.player.change_y += -5
+        # Left
         elif key == arcade.key.LEFT:
             self.player.change_x += -5
+        # Right
         elif key == arcade.key.RIGHT:
             self.player.change_x += 5
 
     def on_key_release(self, key, modifiers):
         """Key Press"""
 
+        # Up
         if key == arcade.key.UP:
             self.player.change_y = 0
+        # Down
         elif key == arcade.key.DOWN:
             self.player.change_y = 0
+        # Left
         elif key == arcade.key.LEFT:
             self.player.change_x = 0
+        # Right
         elif key == arcade.key.RIGHT:
             self.player.change_x = 0
 
@@ -100,17 +111,15 @@ class Game(arcade.Window):
 
         self.player.update()
 
-        # if self.player.change_x > 0:
-        #     self.player = arcade.Sprite(
-        #         "images/Fish Eat Fish/You.png", 0.2, 0, 0, 0, 0, 0, 0, 1, 1, True)
-        #     self.player.center_x = 600
-        #     self.player.center_y = 400
-
-        # else:
-        #     self.player = arcade.Sprite(
-        #         "images/Fish Eat Fish/You.png", 0.2, 0, 0, 0, 0, 0, 0, 1, 1, False)
-        #     self.player.center_x = 600
-        #     self.player.center_y = 400
+        # Keep The Player From Going Off The Screen
+        if self.player.top > self.height:
+            self.player.top = self.height
+        if self.player.right > self.width:
+            self.player.right = self.width
+        if self.player.bottom < 0:
+            self.player.bottom = 0
+        if self.player.left < 0:
+            self.player.left = 0
 
 
 if __name__ == "__main__":
