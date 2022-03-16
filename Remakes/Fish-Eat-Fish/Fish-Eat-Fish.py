@@ -6,6 +6,40 @@ SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 800
 SCREEN_TITLE = "Fish Eat Fish"
 
+# Index of textures, first element faces left, second faces right
+TEXTURE_LEFT = 0
+TEXTURE_RIGHT = 1
+
+
+class Player(arcade.Sprite):
+
+    def __init__(self):
+        super().__init__()
+
+        self.scale = 0.15
+        self.textures = []
+
+        # Load a left facing texture and a right facing texture.
+        # flipped_horizontally=True will mirror the image we load.
+        texture = arcade.load_texture("images/Fish Eat Fish/You.png")
+        self.textures.append(texture)
+        texture = arcade.load_texture("images/Fish Eat Fish/You.png",
+                                      flipped_horizontally=True)
+        self.textures.append(texture)
+
+        # By default, face right.
+        self.texture = texture
+
+    def update(self):
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+
+        # Figure out if we should face left or right
+        if self.change_x < 0:
+            self.texture = self.textures[TEXTURE_LEFT]
+        elif self.change_x > 0:
+            self.texture = self.textures[TEXTURE_RIGHT]
+
 # The Game Class
 
 
@@ -24,8 +58,7 @@ class Game(arcade.Window):
 
         arcade.set_background_color(arcade.color.OCEAN_BOAT_BLUE)
 
-        self.player = arcade.Sprite(
-            "images/Fish Eat Fish/You.png", 0.15)
+        self.player = Player()
         self.player.center_x = 600
         self.player.center_y = 400
         self.player.change_x = 0
