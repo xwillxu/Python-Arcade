@@ -67,9 +67,17 @@ class Game(arcade.Window):
 
         self.player.update()
 
-        if self.player.change_x > 0:
-            self.player.angle -= 180
-            self.player._set_angle = 180
+        # if self.player.change_x > 0:
+        #     self.player = arcade.Sprite(
+        #         "images/Fish Eat Fish/You.png", 0.2, 0, 0, 0, 0, 0, 0, 1, 1, True)
+        #     self.player.center_x = 600
+        #     self.player.center_y = 400
+
+        # else:
+        #     self.player = arcade.Sprite(
+        #         "images/Fish Eat Fish/You.png", 0.2, 0, 0, 0, 0, 0, 0, 1, 1, False)
+        #     self.player.center_x = 600
+        #     self.player.center_y = 400
 
 
 if __name__ == "__main__":
