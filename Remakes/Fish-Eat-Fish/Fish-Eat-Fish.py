@@ -18,8 +18,8 @@ enemy_name_list = [
     "Clownfish",
     "Jellyfish",
     "Sunfish",
-    "",
-    "",
+    "Anglerfish",
+    "Atlantic_Torpedo",
     "",
 ]
 
