@@ -1,5 +1,6 @@
 # Import Librarys And Modules
 import arcade
+import random
 
 # Screen Properties
 SCREEN_WIDTH = 1200
@@ -9,6 +10,22 @@ SCREEN_TITLE = "Fish Eat Fish"
 # Index of textures, first element faces left, second faces right
 TEXTURE_LEFT = 0
 TEXTURE_RIGHT = 1
+
+enemy_name_list = [
+    "Piranha",
+    "Ray",
+    "Bobbit_Worm",
+    "Clownfish",
+    "Jellyfish",
+    "Sunfish",
+    "",
+    "",
+    "",
+]
+
+enemys = {
+
+}
 
 
 class Player(arcade.Sprite):
@@ -66,6 +83,17 @@ class Game(arcade.Window):
         # Y
         self.player.center_y = 400
         self.player.change_y = 0
+
+    def Enemys(self):
+        """Enemys"""
+
+        enemy_id = random.randint(4, 17) * 100
+
+        animal_name = enemy_name_list[enemy_id - 1]
+
+        enemy_attributes = enemys[animal_name]
+
+        enemy = arcade.Sprite("images/Fish Eat Fish/")
 
     def on_key_press(self, key, modifiers):
         """Key Press"""
