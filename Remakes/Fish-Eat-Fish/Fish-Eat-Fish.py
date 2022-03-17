@@ -93,7 +93,7 @@ class Game(arcade.Window):
 
         enemy_attributes = enemys[animal_name]
 
-        enemy = arcade.Sprite("images/Fish Eat Fish/")
+        enemy = arcade.Sprite(f"images/Fish Eat Fish/{animal_name}{}")
 
     def on_key_press(self, key, modifiers):
         """Key Press"""
