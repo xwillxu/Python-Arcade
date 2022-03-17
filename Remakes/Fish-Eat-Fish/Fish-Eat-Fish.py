@@ -68,7 +68,8 @@ class Game(arcade.Window):
 
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
-        pass
+        # Lists
+        self.enemy_list = arcade.SpriteList()
 
     def setup(self):
         """Setup"""
@@ -84,16 +85,21 @@ class Game(arcade.Window):
         self.player.center_y = 400
         self.player.change_y = 0
 
+        self.Enemys()
+
     def Enemys(self):
         """Enemys"""
 
         enemy_id = random.randint(4, 17) * 100
 
-        animal_name = enemy_name_list[enemy_id - 1]
+        animal_name = enemy_name_list[enemy_id - 100]
 
-        enemy_attributes = enemys[animal_name]
+        enemy = arcade.Sprite(f"images/Fish Eat Fish/{animal_name}_{enemy_id}")
 
-        enemy = arcade.Sprite(f"images/Fish Eat Fish/{animal_name}{}")
+        enemy.center_x = 600
+        enemy.center_y = 400
+
+        self.enemy_list.append(enemy)
 
     def on_key_press(self, key, modifiers):
         """Key Press"""
@@ -133,6 +139,7 @@ class Game(arcade.Window):
         arcade.start_render()
 
         self.player.draw()
+        self.enemy_list.draw()
 
     def on_update(self, delta_time):
         """Update"""
