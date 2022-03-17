@@ -92,7 +92,7 @@ class Game(arcade.Window):
 
         enemy_id = random.randint(4, 17) * 100
 
-        animal_name = enemy_name_list[enemy_id - 100]
+        animal_name = enemy_name_list[enemy_id - 1 * 100]
 
         enemy = arcade.Sprite(f"images/Fish Eat Fish/{animal_name}_{enemy_id}")
 
