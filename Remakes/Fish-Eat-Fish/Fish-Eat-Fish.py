@@ -20,7 +20,17 @@ enemy_name_list = [
     "Sunfish",
     "Anglerfish",
     "Atlantic_Torpedo",
-    "",
+    "Penguin",
+    "Giant_Squid",
+    "Moray_Eel",
+    "Cuddlefish",
+    "Marlin",
+    "Walrus",
+    "Orca",
+    "Crocodile",
+    "Sawfish",
+    "Shark",
+    "Giant_Pacific_Octopus",
 ]
 
 enemys = {
@@ -90,12 +100,12 @@ class Game(arcade.Window):
     def Enemys(self):
         """Enemys"""
 
-        enemy_id = random.randint(0, 1)
+        enemy_id = random.randint(0, 18)
 
         animal_name = enemy_name_list[enemy_id]
 
         enemy = arcade.Sprite(
-            f"images/Fish Eat Fish/{enemy_id}_{animal_name}.webp")
+            f"images/Fish Eat Fish/{enemy_id}_{animal_name}.webp", 0.5)
 
         enemy.center_x = 600
         enemy.center_y = 400
