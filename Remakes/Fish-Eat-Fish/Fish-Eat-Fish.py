@@ -90,11 +90,12 @@ class Game(arcade.Window):
     def Enemys(self):
         """Enemys"""
 
-        enemy_id = random.randint(4, 17) * 100
+        enemy_id = random.randint(0, 1)
 
-        animal_name = enemy_name_list[enemy_id - 1 * 100]
+        animal_name = enemy_name_list[enemy_id]
 
-        enemy = arcade.Sprite(f"images/Fish Eat Fish/{animal_name}_{enemy_id}")
+        enemy = arcade.Sprite(
+            f"images/Fish Eat Fish/{enemy_id}_{animal_name}.webp")
 
         enemy.center_x = 600
         enemy.center_y = 400
