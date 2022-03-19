@@ -95,9 +95,9 @@ class Game(arcade.Window):
         self.player.center_y = 400
         self.player.change_y = 0
 
-        arcade.schedule(self.Enemys, random.randint(1, 2))
+        arcade.schedule(self.Enemys_Right, random.randint(1, 2))
 
-    def Enemys(self, delta_time):
+    def Enemys_Right(self, delta_time):
         """Enemys"""
 
         enemy_id = random.randint(0, 18)
@@ -108,6 +108,22 @@ class Game(arcade.Window):
             f"images/Fish Eat Fish/{enemy_id}_{animal_name}.webp", 0.3, flipped_diagonally=True)
 
         enemy.center_x = 1200
+        enemy.center_y = random.randint(100, 1000)
+        enemy.change_x = -2
+
+        self.enemy_list.append(enemy)
+
+    def Enemys_Right(self, delta_time):
+        """Enemys"""
+
+        enemy_id = random.randint(0, 18)
+
+        animal_name = enemy_name_list[enemy_id]
+
+        enemy = arcade.Sprite(
+            f"images/Fish Eat Fish/{enemy_id}_{animal_name}.webp", 0.3, flipped_diagonally=True)
+
+        enemy.center_x = 0
         enemy.center_y = random.randint(100, 1000)
         enemy.change_x = -2
 
