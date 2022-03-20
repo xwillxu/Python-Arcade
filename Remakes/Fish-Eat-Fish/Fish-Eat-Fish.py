@@ -175,6 +175,8 @@ class Game(arcade.Window):
         self.player.update()
         self.enemy_list.update()
 
+        self.player.scale += 000000000000000.1
+
         # Keep The Player From Going Off The Screen
         if self.player.top > self.height:
             self.player.top = self.height
