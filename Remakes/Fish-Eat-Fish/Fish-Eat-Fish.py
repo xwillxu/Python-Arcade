@@ -95,8 +95,8 @@ class Game(arcade.Window):
         self.player.center_y = 400
         self.player.change_y = 0
 
-        arcade.schedule(self.Enemys_Right, random.randint(1, 2))
-        arcade.schedule(self.Enemys_Left, random.randint(1, 2))
+        arcade.schedule(self.Enemys_Right, random.randint(5, 25) / 10)
+        arcade.schedule(self.Enemys_Left, random.randint(5, 25) / 10)
 
     def Enemys_Right(self, delta_time):
         """Enemys"""
@@ -110,8 +110,7 @@ class Game(arcade.Window):
 
         enemy.center_x = 1200
         enemy.center_y = random.randint(100, 1000)
-        enemy.change_x = -2
-
+        enemy.change_x = -random.randint(7, 25) / 10
         self.enemy_list.append(enemy)
 
     def Enemys_Left(self, delta_time):
@@ -126,7 +125,7 @@ class Game(arcade.Window):
 
         enemy.center_x = 0
         enemy.center_y = random.randint(100, 1000)
-        enemy.change_x = 2
+        enemy.change_x = random.randint(7, 20) / 10
 
         self.enemy_list.append(enemy)
 
