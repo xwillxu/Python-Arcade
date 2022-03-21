@@ -117,10 +117,8 @@ class Game(arcade.Window):
 
         # Center X
         enemy.center_x = 1200
-
         # Center Y
         enemy.center_y = random.randint(100, 1000)
-
         # Change X
         enemy.change_x = -random.randint(7, 25) / 10
 
@@ -146,6 +144,7 @@ class Game(arcade.Window):
         enemy.center_y = random.randint(100, 1000)
         # Change X
         enemy.change_x = random.randint(7, 25) / 10
+
         # Add To List
         self.enemy_list.append(enemy)
 
