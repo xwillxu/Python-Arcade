@@ -191,6 +191,7 @@ class Game(arcade.Window):
     def on_update(self, delta_time):
         """Update"""
 
+        # Update Everything
         self.player.update()
         self.enemy_list.update()
 
@@ -199,9 +200,9 @@ class Game(arcade.Window):
             if self.player.collides_with_sprite(enemy):
                 enemy.remove_from_sprite_lists()
                 # Scaling
-                self.scale_plus_count += 1
-                if self.scale_plus_count % 10 == 0:
-                    self.player.scale += 0.1
+                # self.scale_plus_count += 1
+                # if self.scale_plus_count % 10 == 0:
+                self.player.scale += 0.005
 
         # Keep The Player From Going Off The Screen
         if self.player.top > self.height:
