@@ -107,6 +107,7 @@ class Game(arcade.Window):
 
         # Enemy Id
         enemy_id = random.randint(0, 18)
+
         # Enemy Name
         enemy_name = enemy_name_list[enemy_id]
 
