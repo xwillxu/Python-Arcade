@@ -107,7 +107,6 @@ class Game(arcade.Window):
 
         # Enemy Id
         enemy_id = random.randint(0, 18)
-
         # Enemy Name
         enemy_name = enemy_name_list[enemy_id]
 
@@ -120,7 +119,11 @@ class Game(arcade.Window):
 
         # Center Y
         enemy.center_y = random.randint(100, 1000)
+
+        # Change X
         enemy.change_x = -random.randint(7, 25) / 10
+
+        # Add To List
         self.enemy_list.append(enemy)
 
     def Enemys_Left(self, delta_time):
