@@ -95,20 +95,30 @@ class Game(arcade.Window):
         self.player.center_y = 400
         self.player.change_y = 0
 
+        # Schedule The Enemys:
+        # Coming From The Right Side
         arcade.schedule(self.Enemys_Right, random.randint(5, 25) / 10)
+
+        # Coming From The Left Side
         arcade.schedule(self.Enemys_Left, random.randint(5, 25) / 10)
 
     def Enemys_Right(self, delta_time):
         """Enemys"""
 
+        # Enemy Id
         enemy_id = random.randint(0, 18)
 
-        animal_name = enemy_name_list[enemy_id]
+        # Enemy Name
+        enemy_name = enemy_name_list[enemy_id]
 
+        # The Enemy
         enemy = arcade.Sprite(
-            f"images/Fish Eat Fish/{enemy_id}_{animal_name}.webp", 0.3, flipped_diagonally=True)
+            f"images/Fish Eat Fish/{enemy_id}_{enemy_name}.webp", 0.3, flipped_diagonally=True)
 
+        # Center X
         enemy.center_x = 1200
+
+        # Center Y
         enemy.center_y = random.randint(100, 1000)
         enemy.change_x = -random.randint(7, 25) / 10
         self.enemy_list.append(enemy)
@@ -175,10 +185,14 @@ class Game(arcade.Window):
         self.player.update()
         self.enemy_list.update()
 
+        # If The PLayer Collides With The Enemy
         for enemy in self.enemy_list:
             if self.player.collides_with_sprite(enemy):
                 enemy.remove_from_sprite_lists()
-                self.player.scale += 0.1
+                # Scaling
+                self.scale_plus_count += 1
+                if self.scale_plus_count % 10 == 0:
+                    self.player.scale += 0.1
 
         # Keep The Player From Going Off The Screen
         if self.player.top > self.height:
