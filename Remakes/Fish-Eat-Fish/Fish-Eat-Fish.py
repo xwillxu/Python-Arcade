@@ -95,6 +95,9 @@ class Game(arcade.Window):
         self.player.center_y = 400
         self.player.change_y = 0
 
+        # Score
+        self.score = 0
+
         # Schedule The Enemys:
         # Coming From The Right Side
         arcade.schedule(self.Enemys_Right, random.randint(5, 25) / 10)
@@ -188,6 +191,10 @@ class Game(arcade.Window):
         self.player.draw()
         self.enemy_list.draw()
 
+        # Draw Your Score
+        output = f"Your Score: {self.score}"
+        arcade.draw_text(output, 10, 770, arcade.color.SUNSET, 19)
+
     def on_update(self, delta_time):
         """Update"""
 
@@ -203,6 +210,7 @@ class Game(arcade.Window):
                 # self.scale_plus_count += 1
                 # if self.scale_plus_count % 10 == 0:
                 self.player.scale += 0.005
+                self.score += 1
 
         # Keep The Player From Going Off The Screen
         if self.player.top > self.height:
