@@ -130,17 +130,23 @@ class Game(arcade.Window):
     def Enemys_Left(self, delta_time):
         """Enemys"""
 
+        # Enemy Id
         enemy_id = random.randint(0, 18)
 
+        # Enemy Name
         animal_name = enemy_name_list[enemy_id]
 
+        # The Enemy
         enemy = arcade.Sprite(
             f"images/Fish Eat Fish/{enemy_id}_{animal_name}.webp", 0.3, flipped_diagonally=True, flipped_horizontally=True)
 
+        # Center X
         enemy.center_x = 0
+        # Center Y
         enemy.center_y = random.randint(100, 1000)
-        enemy.change_x = random.randint(7, 20) / 10
-
+        # Change X
+        enemy.change_x = random.randint(7, 25) / 10
+        # Add To List
         self.enemy_list.append(enemy)
 
     def on_key_press(self, key, modifiers):
