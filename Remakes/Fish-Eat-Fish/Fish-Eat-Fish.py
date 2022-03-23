@@ -43,11 +43,11 @@ enemy_list_new = [
     },
     {
         "name": "Atlantic_Torpedo",
-        "scale": 0.45,
+        "scale": 0.35,
     },
     {
         "name": "Penguin",
-        "scale": 0.3,
+        "scale": 0.4,
     },
     {
         "name": "Giant_Squid",
@@ -91,7 +91,7 @@ class Player(arcade.Sprite):
     def __init__(self):
         super().__init__()
 
-        self.scale = 0.2
+        self.scale = 0.0475
         self.textures = []
 
         # Load a left facing texture and a right facing texture.
@@ -266,10 +266,10 @@ class Game(arcade.Window):
         self.frame_count += 1
 
         # When The Game Starts For The First Five Seconds The Score Will Go Up To One Hundred
-        # if not self.score >= 400:
-        #     if self.frame_count % 5 == 0:
-        #         self.score += 1
-        #         self.player.scale += 0.0005
+        if not self.score >= 400:
+            if self.frame_count % 5 == 0:
+                self.score += 1
+                self.player.scale += 0.0005
 
         # If The Player Collides With The Enemy
         for enemy in self.enemy_list:
