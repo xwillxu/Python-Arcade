@@ -13,16 +13,13 @@ TEXTURE_RIGHT = 1
 
 enemy_list_new = [
     {
-        'Piranha': {
-            "scale": 0.2,
-        }
+        'name': "Piranha",
+        'scale': 0.2,
     },
-
     {
-        'Piranha': {
-            "scale": 0.2,
-        }
-    }
+        "name": "Ray",
+        "scale": 0.2,
+    },
 ]
 
 enemy_name_list = [
@@ -46,7 +43,6 @@ enemy_name_list = [
     "Shark",
     "Giant_Pacific_Octopus",
 ]
-
 enemys = {
 
 }
@@ -126,14 +122,14 @@ class Game(arcade.Window):
         """Enemys"""
 
         # Enemy Id
-        enemy_id = random.randint(0, 18)
+        enemy_id = random.randint(0, 1)
 
         # Enemy Name
         enemy_object = enemy_list_new[enemy_id]
 
         # The Enemy
         enemy = arcade.Sprite(
-            f"images/Fish Eat Fish/{enemy_id}_{enemy_object["name"]}.webp", enemy_object["scale"], flipped_diagonally=True)
+            f"images/Fish Eat Fish/{enemy_id}_{enemy_object['name']}.webp", enemy_object['scale'], flipped_diagonally=True)
 
         # Center X
         enemy.center_x = 1200
@@ -149,16 +145,16 @@ class Game(arcade.Window):
         """Enemys"""
 
         # Enemy Id
-        enemy_id = random.randint(0, 18)
+        enemy_id = random.randint(0, 1)
 
         # Enemy Name
-        enemy_name = enemy_name_list[enemy_id]
+        enemy_object = enemy_list_new[enemy_id]
 
         self.enemy_name = enemy_id
 
         # The Enemy
         enemy = arcade.Sprite(
-            f"images/Fish Eat Fish/{enemy_id}_{enemy_name}.webp", 0.3, flipped_diagonally=True, flipped_horizontally=True)
+            f"images/Fish Eat Fish/{enemy_id}_{enemy_object['name']}.webp", enemy_object['scale'], flipped_diagonally=True, flipped_horizontally=True)
 
         # Center X
         enemy.center_x = 0
@@ -232,9 +228,13 @@ class Game(arcade.Window):
         # If The Player Collides With The Enemy
         for enemy in self.enemy_list:
             if self.player.collides_with_sprite(enemy):
-                # For Every Animal Number Check If You Can Eat It Or Not
-                if self.score <= 400 and self.enemy_name == 0 - 4:
-                    self.score += 1
+                # For Every Animal Check If You Can Eat It Or Not
+                player_size = self.player.width * self.player.height
+                enemy_size = enemy.width * enemy.height
+                if player_size > enemy_size:
+                    print("You can eat the enemy")
+                else:
+                    print("You got eaten")
 
                 # Scaling
                 self.player.scale += 0.001
