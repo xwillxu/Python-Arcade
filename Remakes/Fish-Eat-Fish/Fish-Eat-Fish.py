@@ -172,6 +172,14 @@ class Game(arcade.Window):
         enemy = arcade.Sprite(
             f"images/Fish Eat Fish/{enemy_id}_{enemy_object['name']}.webp", enemy_object['scale'], flipped_diagonally=True)
 
+        # Enemy Size
+        enemy_size = enemy.width * enemy.height
+        # Player Size
+        player_size = self.player.width * self.player.height
+        # Method
+        if enemy_size / 2 > player_size:
+            return
+
         # Center X
         enemy.center_x = 1200
         # Center Y
@@ -204,6 +212,7 @@ class Game(arcade.Window):
         # Method
         if enemy_size / 2 > player_size:
             return
+
         # Center X
         enemy.center_x = 0
         # Center Y
