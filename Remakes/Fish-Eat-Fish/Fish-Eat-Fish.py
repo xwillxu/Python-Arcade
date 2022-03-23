@@ -138,11 +138,13 @@ class Game(arcade.Window):
         enemy_id = random.randint(0, 18)
 
         # Enemy Name
-        animal_name = enemy_name_list[enemy_id]
+        enemy_name = enemy_name_list[enemy_id]
+
+        self.enemy_name = enemy_id
 
         # The Enemy
         enemy = arcade.Sprite(
-            f"images/Fish Eat Fish/{enemy_id}_{animal_name}.webp", 0.3, flipped_diagonally=True, flipped_horizontally=True)
+            f"images/Fish Eat Fish/{enemy_id}_{enemy_name}.webp", 0.3, flipped_diagonally=True, flipped_horizontally=True)
 
         # Center X
         enemy.center_x = 0
@@ -217,10 +219,13 @@ class Game(arcade.Window):
         for enemy in self.enemy_list:
             if self.player.collides_with_sprite(enemy):
                 # For Every Animal Number Check If You Can Eat It Or Not
-                enemy.remove_from_sprite_lists()
+                if self.score <= 400 and self.enemy_name == 0 - 4:
+                    self.score += 1
+
                 # Scaling
-                self.player.scale += 0.005
+                self.player.scale += 0.0005
                 self.score += 1
+                enemy.remove_from_sprite_lists()
 
         # Keep The Player From Going Off The Screen
         if self.player.top > self.height:
