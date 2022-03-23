@@ -11,6 +11,17 @@ SCREEN_TITLE = "Fish Eat Fish"
 TEXTURE_LEFT = 0
 TEXTURE_RIGHT = 1
 
+enemy_list_new = [
+    {
+        'name': "Piranha",
+        'scale': 0.2,
+    },
+    {
+        "name": "Ray",
+        "scale": 0.2,
+    },
+]
+
 enemy_name_list = [
     "Piranha",
     "Ray",
@@ -115,7 +126,7 @@ class Game(arcade.Window):
         enemy_id = random.randint(0, 18)
 
         # Enemy Name
-        enemy_name = enemy_name_list[enemy_id]
+        enemy_object = enemy_list_new[enemy_id]
 
         # The Enemy
         enemy = arcade.Sprite(
