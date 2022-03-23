@@ -223,7 +223,7 @@ class Game(arcade.Window):
                     self.score += 1
 
                 # Scaling
-                self.player.scale += 0.0005
+                self.player.scale += 0.001
                 self.score += 1
                 enemy.remove_from_sprite_lists()
 
