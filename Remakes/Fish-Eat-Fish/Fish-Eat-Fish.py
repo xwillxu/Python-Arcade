@@ -96,7 +96,10 @@ class Game(arcade.Window):
         self.player.change_y = 0
 
         # Score
-        self.score = 0
+        self.score = 300
+
+        # Frame Count
+        self.frame_count = 0
 
         # Schedule The Enemys:
         # Coming From The Right Side
@@ -202,13 +205,20 @@ class Game(arcade.Window):
         self.player.update()
         self.enemy_list.update()
 
-        # If The PLayer Collides With The Enemy
+        # Change The Frame Count
+        self.frame_count += 1
+
+        # When The Game Starts For The First Five Seconds The Score Will Go Up To One Hundred
+        if not self.score >= 400:
+            if self.frame_count % 5 == 0:
+                self.score += 1
+
+        # If The Player Collides With The Enemy
         for enemy in self.enemy_list:
             if self.player.collides_with_sprite(enemy):
+                # For Every Animal Number Check If You Can Eat It Or Not
                 enemy.remove_from_sprite_lists()
                 # Scaling
-                # self.scale_plus_count += 1
-                # if self.scale_plus_count % 10 == 0:
                 self.player.scale += 0.005
                 self.score += 1
 
