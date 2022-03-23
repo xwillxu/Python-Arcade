@@ -13,13 +13,16 @@ TEXTURE_RIGHT = 1
 
 enemy_list_new = [
     {
-        'name': "Piranha",
-        'scale': 0.2,
+        'Piranha': {
+            "scale": 0.2,
+        }
     },
+
     {
-        "name": "Ray",
-        "scale": 0.2,
-    },
+        'Piranha': {
+            "scale": 0.2,
+        }
+    }
 ]
 
 enemy_name_list = [
@@ -130,7 +133,7 @@ class Game(arcade.Window):
 
         # The Enemy
         enemy = arcade.Sprite(
-            f"images/Fish Eat Fish/{enemy_id}_{enemy_name}.webp", 0.3, flipped_diagonally=True)
+            f"images/Fish Eat Fish/{enemy_id}_{enemy_object["name"]}.webp", enemy_object["scale"], flipped_diagonally=True)
 
         # Center X
         enemy.center_x = 1200
