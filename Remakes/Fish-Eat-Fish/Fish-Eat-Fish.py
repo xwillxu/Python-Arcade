@@ -20,6 +20,19 @@ enemy_list_new = [
         "name": "Ray",
         "scale": 0.2,
     },
+    {
+        "name": "Bobbit_Worm",
+        "scale": 0.2,
+    },
+    {
+        "name": "Clownfish",
+        "scale": 0.2,
+    },
+    {
+        "name": "Jellyfish",
+        "scale": 0.3,
+    },
+
 ]
 
 enemy_name_list = [
@@ -53,7 +66,7 @@ class Player(arcade.Sprite):
     def __init__(self):
         super().__init__()
 
-        self.scale = 0.15
+        self.scale = 0.0475
         self.textures = []
 
         # Load a left facing texture and a right facing texture.
@@ -122,7 +135,7 @@ class Game(arcade.Window):
         """Enemys"""
 
         # Enemy Id
-        enemy_id = random.randint(0, 1)
+        enemy_id = random.randint(0, 4)
 
         # Enemy Name
         enemy_object = enemy_list_new[enemy_id]
@@ -145,7 +158,7 @@ class Game(arcade.Window):
         """Enemys"""
 
         # Enemy Id
-        enemy_id = random.randint(0, 1)
+        enemy_id = random.randint(0, 4)
 
         # Enemy Name
         enemy_object = enemy_list_new[enemy_id]
@@ -224,22 +237,24 @@ class Game(arcade.Window):
         if not self.score >= 400:
             if self.frame_count % 5 == 0:
                 self.score += 1
+                self.player.scale += 0.0005
 
         # If The Player Collides With The Enemy
         for enemy in self.enemy_list:
             if self.player.collides_with_sprite(enemy):
                 # For Every Animal Check If You Can Eat It Or Not
-                player_size = self.player.width * self.player.height
-                enemy_size = enemy.width * enemy.height
-                if player_size > enemy_size:
-                    print("You can eat the enemy")
-                else:
-                    print("You got eaten")
 
-                # Scaling
-                self.player.scale += 0.001
-                self.score += 1
-                enemy.remove_from_sprite_lists()
+                # Player Size
+                player_size = self.player.width * self.player.height
+                # Enemy Size
+                enemy_size = enemy.width * enemy.height
+                # What Happens If
+                if player_size > enemy_size:
+                    self.score += 5
+                    self.player.scale += 0.0025
+                    enemy.remove_from_sprite_lists()
+                else:
+                    arcade.close_window()
 
         # Keep The Player From Going Off The Screen
         if self.player.top > self.height:
