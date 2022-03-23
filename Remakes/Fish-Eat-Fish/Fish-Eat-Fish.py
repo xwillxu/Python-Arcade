@@ -81,12 +81,10 @@ enemy_name_list = [
     "Shark",
     "Giant_Pacific_Octopus",
 ]
-enemys = {
-
-}
 
 
 class Player(arcade.Sprite):
+    """Player"""
 
     def __init__(self):
         super().__init__()
