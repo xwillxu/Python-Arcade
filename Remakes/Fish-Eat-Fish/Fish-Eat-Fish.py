@@ -35,11 +35,11 @@ enemy_list_new = [
     },
     {
         "name": "Sunfish",
-        "scale": 0.4,
+        "scale": 0.35,
     },
     {
         "name": "Anglerfish",
-        "scale": 0.4,
+        "scale": 0.35,
     },
     {
         "name": "Atlantic_Torpedo",
@@ -47,7 +47,7 @@ enemy_list_new = [
     },
     {
         "name": "Penguin",
-        "scale": 0.4,
+        "scale": 0.45,
     },
     {
         "name": "Giant_Squid",
@@ -55,7 +55,7 @@ enemy_list_new = [
     },
     {
         "name": "Moray_Eel",
-        "scale": 0.6,
+        "scale": 1,
     },
 
 ]
