@@ -1,4 +1,5 @@
 # Import Librarys And Modules
+from tkinter import E
 import arcade
 import random
 
@@ -42,7 +43,19 @@ enemy_list_new = [
     },
     {
         "name": "Atlantic_Torpedo",
+        "scale": 0.45,
+    },
+    {
+        "name": "Penguin",
+        "scale": 0.3,
+    },
+    {
+        "name": "Giant_Squid",
         "scale": 0.4,
+    },
+    {
+        "name": "Moray_Eel",
+        "scale": 0.55,
     },
 
 ]
@@ -78,7 +91,7 @@ class Player(arcade.Sprite):
     def __init__(self):
         super().__init__()
 
-        self.scale = 0.0475
+        self.scale = 0.2
         self.textures = []
 
         # Load a left facing texture and a right facing texture.
@@ -147,7 +160,7 @@ class Game(arcade.Window):
         """Enemys"""
 
         # Enemy Id
-        enemy_id = random.randint(0, 6)
+        enemy_id = random.randint(0, 10)
 
         # Enemy Name
         enemy_object = enemy_list_new[enemy_id]
@@ -170,7 +183,7 @@ class Game(arcade.Window):
         """Enemys"""
 
         # Enemy Id
-        enemy_id = random.randint(0, 6)
+        enemy_id = random.randint(0, 10)
 
         # Enemy Name
         enemy_object = enemy_list_new[enemy_id]
@@ -181,6 +194,13 @@ class Game(arcade.Window):
         enemy = arcade.Sprite(
             f"images/Fish Eat Fish/{enemy_id}_{enemy_object['name']}.webp", enemy_object['scale'], flipped_diagonally=True, flipped_horizontally=True)
 
+        # Enemy Size
+        enemy_size = enemy.width * enemy.height
+        # Player Size
+        player_size = self.player.width * self.player.height
+        # Method
+        if enemy_size / 2 > player_size:
+            return
         # Center X
         enemy.center_x = 0
         # Center Y
@@ -246,24 +266,23 @@ class Game(arcade.Window):
         self.frame_count += 1
 
         # When The Game Starts For The First Five Seconds The Score Will Go Up To One Hundred
-        if not self.score >= 400:
-            if self.frame_count % 5 == 0:
-                self.score += 1
-                self.player.scale += 0.0005
+        # if not self.score >= 400:
+        #     if self.frame_count % 5 == 0:
+        #         self.score += 1
+        #         self.player.scale += 0.0005
 
         # If The Player Collides With The Enemy
         for enemy in self.enemy_list:
             if self.player.collides_with_sprite(enemy):
                 # For Every Animal Check If You Can Eat It Or Not
-
                 # Player Size
                 player_size = self.player.width * self.player.height
                 # Enemy Size
                 enemy_size = enemy.width * enemy.height
                 # What Happens If
                 if player_size > enemy_size:
-                    self.score += 10
-                    self.player.scale += 0.005
+                    self.score += 5
+                    self.player.scale += 0.0025
                     enemy.remove_from_sprite_lists()
                 else:
                     arcade.close_window()
