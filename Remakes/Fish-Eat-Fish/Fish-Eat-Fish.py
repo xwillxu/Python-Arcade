@@ -32,6 +32,18 @@ enemy_list_new = [
         "name": "Jellyfish",
         "scale": 0.3,
     },
+    {
+        "name": "Sunfish",
+        "scale": 0.4,
+    },
+    {
+        "name": "Anglerfish",
+        "scale": 0.45,
+    },
+    {
+        "name": "Atlantic_Torpedo",
+        "scale": 0.4,
+    },
 
 ]
 
