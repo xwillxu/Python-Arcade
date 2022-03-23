@@ -87,8 +87,10 @@ class Player(arcade.Sprite):
     """Player"""
 
     def __init__(self):
+        """Init"""
         super().__init__()
 
+        # Scale And Texture
         self.scale = 0.0475
         self.textures = []
 
@@ -104,6 +106,9 @@ class Player(arcade.Sprite):
         self.texture = texture
 
     def update(self):
+        """Update"""
+
+        # Update Stuff
         self.center_x += self.change_x
         self.center_y += self.change_y
 
