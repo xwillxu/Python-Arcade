@@ -55,7 +55,7 @@ enemy_list_new = [
     },
     {
         "name": "Moray_Eel",
-        "scale": 0.55,
+        "scale": 0.6,
     },
 
 ]
