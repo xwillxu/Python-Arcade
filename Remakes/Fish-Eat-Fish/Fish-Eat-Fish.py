@@ -55,7 +55,12 @@ enemy_list_new = [
     },
     {
         "name": "Moray_Eel",
-        "scale": 1,
+        "scale": 1.1,
+    },
+
+    {
+        "name": "Cuddlefish",
+        "scale": 1.2,
     },
 
 ]
@@ -163,7 +168,7 @@ class Game(arcade.Window):
         """Enemys"""
 
         # Enemy Id
-        enemy_id = random.randint(0, 10)
+        enemy_id = random.randint(0, 11)
 
         # Enemy Name
         enemy_object = enemy_list_new[enemy_id]
@@ -194,7 +199,7 @@ class Game(arcade.Window):
         """Enemys"""
 
         # Enemy Id
-        enemy_id = random.randint(0, 10)
+        enemy_id = random.randint(0, 11)
 
         # Enemy Name
         enemy_object = enemy_list_new[enemy_id]
@@ -210,7 +215,7 @@ class Game(arcade.Window):
         # Player Size
         player_size = self.player.width * self.player.height
         # Method
-        if enemy_size / 2 > player_size:
+        if enemy_size / 2 > player_size and enemy_size * 2 > player_size:
             return
 
         # Center X
@@ -277,7 +282,7 @@ class Game(arcade.Window):
         # Change The Frame Count
         self.frame_count += 1
 
-        # When The Game Starts For The First Five Seconds The Score Will Go Up To One Hundred
+        # When The Game Starts For The First Five Seconds The Score Will Go Up By One Hundred Points
         if not self.score >= 400:
             if self.frame_count % 5 == 0:
                 self.score += 1
@@ -293,8 +298,8 @@ class Game(arcade.Window):
                 enemy_size = enemy.width * enemy.height
                 # What Happens If
                 if player_size > enemy_size:
-                    self.score += 5
-                    self.player.scale += 0.0025
+                    self.score += 100
+                    self.player.scale += 0.05
                     enemy.remove_from_sprite_lists()
                 else:
                     arcade.close_window()
