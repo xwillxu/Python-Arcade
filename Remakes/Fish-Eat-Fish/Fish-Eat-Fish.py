@@ -1,5 +1,4 @@
 # Import Librarys And Modules
-from tkinter import E
 import arcade
 import random
 
@@ -62,6 +61,22 @@ enemy_list_new = [
         "name": "Cuddlefish",
         "scale": 1.2,
     },
+
+    {
+        "name": "Marlin",
+        "scale": 0.9,
+    },
+
+    {
+        "name": "Walrus",
+        "scale": 0.9,
+    },
+
+    {
+        "name": "Orca",
+        "scale": 1.7,
+    },
+
 
 ]
 
@@ -168,7 +183,7 @@ class Game(arcade.Window):
         """Enemys"""
 
         # Enemy Id
-        enemy_id = random.randint(0, 11)
+        enemy_id = random.randint(0, 14)
 
         # Enemy Name
         enemy_object = enemy_list_new[enemy_id]
@@ -199,7 +214,7 @@ class Game(arcade.Window):
         """Enemys"""
 
         # Enemy Id
-        enemy_id = random.randint(0, 11)
+        enemy_id = random.randint(0, 14)
 
         # Enemy Name
         enemy_object = enemy_list_new[enemy_id]
