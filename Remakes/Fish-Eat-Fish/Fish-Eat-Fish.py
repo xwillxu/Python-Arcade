@@ -77,6 +77,12 @@ enemy_list_new = [
         "scale": 1.7,
     },
 
+    {
+        "name": "Crocodile",
+        "scale": 1.6,
+    },
+
+
 
 ]
 
