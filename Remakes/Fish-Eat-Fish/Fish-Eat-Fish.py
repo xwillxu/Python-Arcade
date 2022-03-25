@@ -203,7 +203,7 @@ class Game(arcade.Window):
         # Player Size
         player_size = self.player.width * self.player.height
         # Method
-        if enemy_size / 2 > player_size:
+        if enemy_size / 2 > player_size and enemy_size * 2 < player_size:
             return
 
         # Center X
@@ -236,7 +236,7 @@ class Game(arcade.Window):
         # Player Size
         player_size = self.player.width * self.player.height
         # Method
-        if enemy_size / 2 > player_size and enemy_size * 2 > player_size:
+        if enemy_size / 2 > player_size and enemy_size * 2 < player_size:
             return
 
         # Center X
