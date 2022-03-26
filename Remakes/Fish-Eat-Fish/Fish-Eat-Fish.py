@@ -82,6 +82,20 @@ enemy_list_new = [
         "scale": 1.6,
     },
 
+    {
+        "name": "Sawfish",
+        "scale": 1.7,
+    },
+
+    {
+        "name": "Shark",
+        "scale": 1.8,
+    },
+    {
+        "name": "Giant_Pacific_Octopus",
+        "scale": 5,
+    },
+
 
 
 ]
@@ -189,7 +203,7 @@ class Game(arcade.Window):
         """Enemys"""
 
         # Enemy Id
-        enemy_id = random.randint(0, 15)
+        enemy_id = random.randint(0, 18)
 
         # Enemy Name
         enemy_object = enemy_list_new[enemy_id]
@@ -220,7 +234,7 @@ class Game(arcade.Window):
         """Enemys"""
 
         # Enemy Id
-        enemy_id = random.randint(0, 15)
+        enemy_id = random.randint(0, 18)
 
         # Enemy Name
         enemy_object = enemy_list_new[enemy_id]
@@ -319,8 +333,8 @@ class Game(arcade.Window):
                 enemy_size = enemy.width * enemy.height
                 # What Happens If
                 if player_size > enemy_size:
-                    self.score += 5
-                    self.player.scale += 0.0025
+                    self.score += 100
+                    self.player.scale += 0.05
                     enemy.remove_from_sprite_lists()
                 else:
                     arcade.close_window()
