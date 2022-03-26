@@ -331,11 +331,12 @@ class Game(arcade.Window):
                 player_size = self.player.width * self.player.height
                 # Enemy Size
                 enemy_size = enemy.width * enemy.height
-                # What Happens If
+                # What Happens If You Can Eat The Enemy
                 if player_size > enemy_size:
                     self.score += 100
                     self.player.scale += 0.05
                     enemy.remove_from_sprite_lists()
+                # If Not
                 else:
                     arcade.close_window()
 
