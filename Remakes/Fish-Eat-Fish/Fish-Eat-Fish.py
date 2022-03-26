@@ -180,16 +180,16 @@ class Game(arcade.Window):
 
         # Schedule The Enemys:
         # Coming From The Right Side
-        arcade.schedule(self.Enemys_Right, random.randint(5, 25) / 10)
+        arcade.schedule(self.Enemys_Right, random.randint(5, 15) / 10)
 
         # Coming From The Left Side
-        arcade.schedule(self.Enemys_Left, random.randint(5, 25) / 10)
+        arcade.schedule(self.Enemys_Left, random.randint(5, 15) / 10)
 
     def Enemys_Right(self, delta_time):
         """Enemys"""
 
         # Enemy Id
-        enemy_id = random.randint(0, 14)
+        enemy_id = random.randint(0, 15)
 
         # Enemy Name
         enemy_object = enemy_list_new[enemy_id]
@@ -203,7 +203,7 @@ class Game(arcade.Window):
         # Player Size
         player_size = self.player.width * self.player.height
         # Method
-        if enemy_size / 2 > player_size and enemy_size * 2 < player_size:
+        if enemy_size / 2 > player_size or enemy_size * 3 < player_size:
             return
 
         # Center X
@@ -220,7 +220,7 @@ class Game(arcade.Window):
         """Enemys"""
 
         # Enemy Id
-        enemy_id = random.randint(0, 14)
+        enemy_id = random.randint(0, 15)
 
         # Enemy Name
         enemy_object = enemy_list_new[enemy_id]
@@ -236,7 +236,7 @@ class Game(arcade.Window):
         # Player Size
         player_size = self.player.width * self.player.height
         # Method
-        if enemy_size / 2 > player_size and enemy_size * 2 < player_size:
+        if enemy_size / 2 > player_size or enemy_size * 4 < player_size:
             return
 
         # Center X
@@ -319,8 +319,8 @@ class Game(arcade.Window):
                 enemy_size = enemy.width * enemy.height
                 # What Happens If
                 if player_size > enemy_size:
-                    self.score += 100
-                    self.player.scale += 0.05
+                    self.score += 5
+                    self.player.scale += 0.0025
                     enemy.remove_from_sprite_lists()
                 else:
                     arcade.close_window()
