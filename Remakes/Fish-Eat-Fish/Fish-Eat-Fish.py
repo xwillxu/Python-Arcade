@@ -93,7 +93,7 @@ enemy_list_new = [
     },
     {
         "name": "Giant_Pacific_Octopus",
-        "scale": 5,
+        "scale": 4.5,
     },
 
 
