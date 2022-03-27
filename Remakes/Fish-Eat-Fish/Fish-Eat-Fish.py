@@ -84,7 +84,7 @@ enemy_list_new = [
 
     {
         "name": "Sawfish",
-        "scale": 1.5,
+        "scale": 1.4,
     },
 
     {
