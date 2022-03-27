@@ -84,12 +84,12 @@ enemy_list_new = [
 
     {
         "name": "Sawfish",
-        "scale": 1.7,
+        "scale": 1.5,
     },
 
     {
         "name": "Shark",
-        "scale": 1.8,
+        "scale": 1.7,
     },
     {
         "name": "Giant_Pacific_Octopus",
