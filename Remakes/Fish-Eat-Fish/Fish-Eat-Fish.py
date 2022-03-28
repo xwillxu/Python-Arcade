@@ -69,7 +69,7 @@ enemy_list_new = [
 
     {
         "name": "Walrus",
-        "scale": 0.9,
+        "scale": 1,
     },
 
     {
@@ -121,6 +121,8 @@ enemy_name_list = [
     "Shark",
     "Giant_Pacific_Octopus",
 ]
+
+# Player Class
 
 
 class Player(arcade.Sprite):
@@ -198,6 +200,11 @@ class Game(arcade.Window):
 
         # Coming From The Left Side
         arcade.schedule(self.Enemys_Left, random.randint(5, 15) / 10)
+
+    def Music(self):
+        """Music"""
+
+        pass
 
     def Enemys_Right(self, delta_time):
         """Enemys"""
