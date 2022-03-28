@@ -227,6 +227,12 @@ class Game(arcade.Window):
         # Change X
         enemy.change_x = -random.randint(7, 25) / 10
 
+        # Score
+        enemy.score = 5 + enemy_id
+
+        # Scale Added If Eaten
+        enemy.scale_plus = 0.0005 * enemy.score
+
         # Add To List
         self.enemy_list.append(enemy)
 
@@ -259,6 +265,12 @@ class Game(arcade.Window):
         enemy.center_y = random.randint(100, 1000)
         # Change X
         enemy.change_x = random.randint(7, 25) / 10
+
+        # Score
+        enemy.score = 5 + enemy_id
+
+        # Scale Added If Eaten
+        enemy.scale_plus = 0.0005 * enemy.score
 
         # Add To List
         self.enemy_list.append(enemy)
@@ -333,8 +345,8 @@ class Game(arcade.Window):
                 enemy_size = enemy.width * enemy.height
                 # What Happens If You Can Eat The Enemy
                 if player_size > enemy_size:
-                    self.score += 100
-                    self.player.scale += 0.05
+                    self.score += enemy.score
+                    self.player.scale += enemy.scale_plus
                     enemy.remove_from_sprite_lists()
                 # If Not
                 else:
