@@ -201,10 +201,25 @@ class Game(arcade.Window):
         # Coming From The Left Side
         arcade.schedule(self.Enemys_Left, random.randint(5, 15) / 10)
 
-    def Music(self):
+        # Sounds:
+        # Collision Sound
+        self.collision_sound = arcade.load_sound(
+            "RealPython/materials/arcade-a-primer/sounds/Collision.wav")
+
+        # Background Music
+        self.music = arcade.load_sound(
+            "RealPython/materials/arcade-a-primer/sounds/Apoxode_-_Electric_1.wav")
+
+        # Create The Music:
+        self.Music(0)
+
+        # Then Loop It:
+        arcade.schedule(self.Music, 16)
+
+    def Music(self, delta):
         """Music"""
 
-        pass
+        arcade.play_sound(self.music, volume=0.2)
 
     def Enemys_Right(self, delta_time):
         """Enemys"""
@@ -354,6 +369,7 @@ class Game(arcade.Window):
                 if player_size > enemy_size:
                     self.score += enemy.score
                     self.player.scale += enemy.scale_plus
+                    arcade.play_sound(self.collision_sound, volume=0.2)
                     enemy.remove_from_sprite_lists()
                 # If Not
                 else:
