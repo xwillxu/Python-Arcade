@@ -380,57 +380,6 @@ class Game(arcade.Window):
                     enemy.remove_from_sprite_lists()
                 # If Not
                 else:
-                    arcade.play_sound(self.collision_sound, volume=0.2)
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
-                    #
                     arcade.close_window()
 
         # Keep The Player From Going Off The Screen
