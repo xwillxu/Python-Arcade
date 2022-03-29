@@ -367,12 +367,70 @@ class Game(arcade.Window):
                 enemy_size = enemy.width * enemy.height
                 # What Happens If You Can Eat The Enemy
                 if player_size > enemy_size:
+                    # Add Score
                     self.score += enemy.score
+
+                    # Add Scale
                     self.player.scale += enemy.scale_plus
+
+                    # Play The Collision Sound
                     arcade.play_sound(self.collision_sound, volume=0.2)
+
+                    # Get Rid Of THe Enemy
                     enemy.remove_from_sprite_lists()
                 # If Not
                 else:
+                    arcade.play_sound(self.collision_sound, volume=0.2)
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
+                    #
                     arcade.close_window()
 
         # Keep The Player From Going Off The Screen
