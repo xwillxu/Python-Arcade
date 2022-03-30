@@ -5,6 +5,7 @@ Movement: WASD/Arrow Keys
 Building: Mouse Click(On Top Of A Block / In The Air)
 Attacking: Mouse Click(Touching A Mob)
 Mining: Mouse Click(Touching A Block)
+Some Blocks Need Certian Tools To Collect That Block.
 """
 
 # Import Librarys And Modules
