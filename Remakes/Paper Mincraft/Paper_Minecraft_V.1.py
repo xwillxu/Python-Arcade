@@ -515,26 +515,14 @@ class MyGame(arcade.Window):
         # Move the player with the physics engine
         self.physics_engine.update()
 
+        # Update Everything Else
         self.bullet_list.update()
 
+        # Update Engine
+        for engine in self.engine_list:
+            engine.update()
+
         self.frame_count += 1
-
-        # Loop through each enemy that we have
-        for enemy in self.enemy_list:
-            if 'Boss' in enemy.properties and enemy.properties['Boss'] == True:
-                if self.frame_count % 20 == 0:
-                    self.Boss_bullet(enemy)
-
-        for enemy in self.enemy_list:
-            if 'Boss' in enemy.properties and enemy.properties['Boss'] == True:
-                # add a shield
-                self.shield(enemy)
-                self.damage = 0.25
-
-                # update existing shields to boss
-                for shield in self.shield_list:
-                    shield.center_x = enemy.center_x
-                    shield.center_y = enemy.center_y + 30
 
         for engine in self.engine_list:
             engine.update()
@@ -549,21 +537,6 @@ class MyGame(arcade.Window):
 
         self.enemy_list.update()
 
-        for sprite in self.enemy_list:
-            if self.player_sprite.collides_with_sprite(sprite):
-                sprite.remove_from_sprite_lists()
-                arcade.close_window()
-
-        for sprite in self.enemy_list:
-            for bullet in self.bullet_list:
-                if bullet.collides_with_sprite(sprite):
-                    bullet.remove_from_sprite_lists()
-                    self.damage = 2
-                    sprite.cur_health -= self.damage
-                    if sprite.cur_health <= 0:
-                        self.score += 10
-                        sprite.remove_from_sprite_lists()
-
         # Check each enemy
         for enemy in self.enemy_list:
             # checking x boundary
@@ -573,7 +546,6 @@ class MyGame(arcade.Window):
             # If the enemy hit the right boundary, reverse
             elif enemy.boundary_right is not None and enemy.right > enemy.boundary_right:
                 enemy.change_x *= -1
-
             # checking y boundary
             if enemy.boundary_top is not None and enemy.top > enemy.boundary_top:
                 enemy.change_y *= -1
@@ -581,36 +553,19 @@ class MyGame(arcade.Window):
             elif enemy.boundary_bottom is not None and enemy.bottom < enemy.boundary_bottom:
                 enemy.change_y *= -1
 
-        # See if we hit any coins
-        coin_hit_list = arcade.check_for_collision_with_list(
-            self.player_sprite, self.scene.get_sprite_list("Coins")
-        )
-
+        # See If You Touch Anything Dangerous
         danger_hit_list = arcade.check_for_collision_with_list(
             self.player_sprite, self.scene.get_sprite_list("Dangers"))
 
-        # Loop through each coin we hit (if any) and remove it
-        for coin in coin_hit_list:
-            # Remove the coin
-            coin.remove_from_sprite_lists()
-            # Play a sound
-            arcade.play_sound(self.collect_coin_sound)
-            # Add one to the score
-            self.score += 1
-
+        # Make Sure That You Add All The Dangers
         for danger in danger_hit_list:
             arcade.play_sound(self.game_over)
             self.hit = True
 
-        # print(self.end_of_map)
-        # print(self.player_sprite.center_x)
-        if self.player_sprite.center_x >= self.end_of_map:
-            self.level += 1
-            self.setup(self.level)
-
         # Position the camera
         self.center_camera_to_player()
 
+        # Make Sure The Bullet Dose Not Go Off The Screen
         for bullet in self.bullet_list:
             if bullet.center_x < 0:
                 bullet.remove_from_sprite_lists()
