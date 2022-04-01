@@ -275,8 +275,8 @@ class MyGame(arcade.Window):
             )
             self.engine_list.append(engine)
 
-    def manualEnemy(self):
-        """Enemies"""
+    def mobs(self):
+        """Mobs"""
         for i in range(self.enemy_count):
             slime = Health_Sprite(
                 "images/enemies/slimeBlue.png", 0.5, 10)
@@ -332,109 +332,8 @@ class MyGame(arcade.Window):
 
             self.enemy_list.append(bee)
 
-    def Boss_bullet(self, boss):
-        """Boss's bullets"""
-
-        Bossbullet = Health_Sprite("images/BossBullet.png", 0.07, 1)
-
-        Bossbullet.center_x = boss.center_x
-        Bossbullet.center_y = boss.center_y
-
-        # First, calculate the angle to the player. We could do this
-        # only when the bullet fires, but in this case we will rotate
-        # the enemy to face the player each frame, so we'll do this
-        # each frame.
-
-        # Position the start at the enemy's current location
-        start_x = Bossbullet.center_x
-        start_y = Bossbullet.center_y
-
-        # Get the destination location for the bullet
-        dest_x = self.player_sprite.center_x
-        dest_y = self.player_sprite.center_y
-
-        # Do math to calculate how to get the bullet to the destination.
-        # Calculation the angle in radians between the start points
-        # and end points. This is the angle the bullet will travel.
-        x_diff = dest_x - start_x
-        y_diff = dest_y - start_y
-        angle = math.atan2(y_diff, x_diff)
-        # Set the enemy to face the player.
-        Bossbullet.angle = math.degrees(angle)-90
-
-        Bossbullet.change_x = math.cos(angle) * BOSS_BULLET_SPEED
-        Bossbullet.change_y = math.sin(angle) * BOSS_BULLET_SPEED
-
-        self.enemy_list.append(Bossbullet)
-
-    def bullet(self, x, y):
-        """Bullet"""
-
-        # Create a bullet
-        bullet = arcade.Sprite(
-            "RealPython/materials/arcade-a-primer/images/missile.png", 2, 0, 0, 0, 0, 0, 0, 1, 1, True)
-
-        # Position the bullet at the player's current location
-        start_x = self.player_sprite.center_x
-        start_y = self.player_sprite.center_y
-        bullet.center_x = start_x
-        bullet.center_y = start_y
-
-        # Get from the mouse the destination location for the bullet
-        # IMPORTANT! If you have a scrolling screen, you will also need
-        # to add in self.view_bottom and self.view_left.
-        dest_x = x + self.camera.position.x
-        dest_y = y + self.camera.position.y
-
-        # Do math to calculate how to get the bullet to the destination.
-        # Calculation the angle in radians between the start points
-        # and end points. This is the angle the bullet will travel.
-        x_diff = dest_x - start_x
-        y_diff = dest_y - start_y
-        angle = math.atan2(y_diff, x_diff)
-
-        # Angle the bullet sprite so it doesn't look like it is flying
-        # sideways.
-        bullet.angle = math.degrees(angle)
-        # print(x_diff, 'xdiff', x, self.player_sprite.center_x)
-        # print(y_diff, 'ydiff')
-        # print(f"Bullet angle: {bullet.angle:.2f}")
-
-        # print(self.camera.position, 'camera position')
-
-        # Taking into account the angle, calculate our change_x
-        # and change_y. Velocity is how fast the bullet travels.
-        bullet.change_x = math.cos(angle) * BULLET_SPEED
-        bullet.change_y = math.sin(angle) * BULLET_SPEED
-        # print(f"Bullet change x: {bullet.change_x:.2f}")
-        # print(f"Bullet change y: {bullet.change_y:.2f}")
-
-        # Add the bullet to the appropriate lists
-        self.bullet_list.append(bullet)
-
-    def shield(self, boss):
-        """Shield that defends boss. Remove it and the boss is dead"""
-
-        self.hasShield = False
-        duration = 200
-        # when frame count = 50, the current duration will be 150
-        currentDuration = self.frame_count % duration
-
-        print(currentDuration)
-        if currentDuration < 100:
-            if not self.hasShield:
-                print('add one shield')
-                shield = arcade.Sprite("images/Shieldpng.png", 0.1)
-
-                shield.center_x = boss.center_x
-                shield.center_y = boss.center_y + 50
-
-                self.shield_list.append(shield)
-
-        else:
-            for shield in self.shield_list:
-                print('remove shield')
-                self.shield_list.remove(shield)
+    def mine(self, x, y):
+        """Mining Command"""
 
     def on_draw(self):
         """Render the screen."""
@@ -494,19 +393,26 @@ class MyGame(arcade.Window):
         self.bullet(x, y)
 
     def center_camera_to_player(self):
+        """Center The Camera To The Player"""
+        # Center The Screen X
         screen_center_x = self.player_sprite.center_x - (
             self.camera.viewport_width / 2
         )
 
+        # Center The Screen Y
         screen_center_y = self.player_sprite.center_y - (
             self.camera.viewport_height / 2
         )
+        # Make Sure The Screen Dose Not Lose The Player
         if screen_center_x < 0:
             screen_center_x = 0
         if screen_center_y < 0:
             screen_center_y = 0
+
+        # Make Sure That The Screen And Player Are In Sync
         player_centered = screen_center_x, screen_center_y
 
+        # Send The Camera To The Player
         self.camera.move_to(player_centered)
 
     def on_update(self, delta_time: float):
@@ -517,18 +423,16 @@ class MyGame(arcade.Window):
 
         # Update Everything Else
         self.bullet_list.update()
+        self.enemy_list.update()
 
         # Update Engine
         for engine in self.engine_list:
             engine.update()
 
+        # Add Frames To Frame Count
         self.frame_count += 1
 
-        for engine in self.engine_list:
-            engine.update()
-
-        self.enemy_list.update()
-
+        # If Lost All Hp Die
         if self.hit:
             self.hit_timer += delta_time
             if self.hit_timer > 2.0:
