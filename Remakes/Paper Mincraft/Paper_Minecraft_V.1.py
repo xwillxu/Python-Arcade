@@ -142,20 +142,6 @@ class MyGame(arcade.Window):
         self.hit_timer = 0.0
         self.hit = False
 
-        # Enemy Setup
-
-        self.enemy_count = 11
-        self.enemy_offset = 600
-
-        self.frame_count = 1
-
-        # Shield setup
-        self.damage = 0
-        self.shield_count = 0
-
-        # Create the Player Sprite lists
-        player_list = arcade.SpriteList()
-
         # Set up the player, specifically placing it at these coordinates.
         image_source = ":resources:images/animated_characters/female_adventurer/femaleAdventurer_idle.png"
         self.player_sprite = arcade.Sprite(image_source, CHARACTER_SCALING)
@@ -177,60 +163,6 @@ class MyGame(arcade.Window):
 
     def mobs(self):
         """Mobs"""
-        for i in range(self.enemy_count):
-            slime = Health_Sprite(
-                "images/enemies/slimeBlue.png", 0.5, 10)
-
-            slime.bottom = SPRITE_SIZE * 4
-            slime.left = SPRITE_SIZE * 4
-
-            initial_x = self.enemy_offset + i * 1000
-            crawl_range = 400
-            slime.center_x = initial_x
-            slime.center_y = 1200
-
-            print(slime.center_x)
-
-            # Set boundaries on the left/right the enemy can't cross
-            slime.boundary_right = initial_x + crawl_range
-            slime.boundary_left = initial_x - crawl_range
-            slime.change_x = 5
-
-            # print("center x", slime.center_x, "boundary right",
-            # slime.boundary_right, "boundary left", slime.boundary_left)
-
-            self.enemy_list.append(slime)
-
-            # Create the 'physics engine for enemy'
-            engine = arcade.PhysicsEnginePlatformer(
-                slime, self.scene.get_sprite_list(
-                    "Platforms", ), GRAVITY
-            )
-            self.engine_list.append(engine)
-
-        for i in range(self.enemy_count):
-            bee = Health_Sprite(
-                "images/enemies/bee.png", 0.5, 10)
-
-            bee.bottom = SPRITE_SIZE * 4
-            bee.left = SPRITE_SIZE * 4
-
-            initial_x = self.enemy_offset + i * 1000
-            initial_y = 620
-            fly_range_x = 400
-            fly_range_y = 50
-            bee.center_x = initial_x
-            bee.center_y = initial_y
-
-            # Set boundaries on the left/right the enemy can't cross
-            bee.boundary_right = initial_x + fly_range_x
-            bee.boundary_left = initial_x - fly_range_x
-            bee.boundary_bottom = initial_y - fly_range_y
-            bee.boundary_top = initial_y + fly_range_y
-            bee.change_x = 3
-            bee.change_y = 3
-
-            self.enemy_list.append(bee)
 
     def mine(self, x, y):
         """Mining Command"""
