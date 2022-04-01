@@ -167,6 +167,13 @@ class MyGame(arcade.Window):
     def mine(self, x, y):
         """Mining Command"""
 
+    def jump(self):
+        """Jump Command"""
+
+        if self.physics_engine.can_jump():
+            self.player_sprite.change_y = PLAYER_JUMP_SPEED
+            arcade.play_sound(self.jump_sound)
+
     def on_draw(self):
         """Render the screen."""
 
@@ -189,40 +196,33 @@ class MyGame(arcade.Window):
         # Activate the GUI camera before drawing GUI elements
         self.gui_camera.use()
 
-        # Draw our score on the screen, scrolling it with the viewport
-        score_text = f"Score: {self.score}"
-        arcade.draw_text(
-            score_text,
-            10,
-            10,
-            arcade.csscolor.WHITE,
-            18,
-        )
-
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed."""
 
+        # Up
         if key == arcade.key.UP or key == arcade.key.W:
-            if self.physics_engine.can_jump():
-                self.player_sprite.change_y = PLAYER_JUMP_SPEED
-                arcade.play_sound(self.jump_sound)
+            self.jump()
+        # Left
         elif key == arcade.key.LEFT or key == arcade.key.A:
             self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
+        # Right
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key."""
 
+        # Left
         if key == arcade.key.LEFT or key == arcade.key.A:
             self.player_sprite.change_x = 0
+        # Right
         elif key == arcade.key.RIGHT or key == arcade.key.D:
             self.player_sprite.change_x = 0
 
     def on_mouse_press(self, x, y, button, modifiers):
         """ Called whenever the mouse button is clicked. """
 
-        self.bullet(x, y)
+        self.mine(x, y)
 
     def center_camera_to_player(self):
         """Center The Camera To The Player"""
