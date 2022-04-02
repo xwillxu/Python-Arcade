@@ -52,6 +52,16 @@
         {
          "firstgid":157,
          "source":"Deeeep.io-Tileset.json"
+        }, 
+        {
+         "columns":0,
+         "firstgid":159,
+         "margin":0,
+         "name":"Minecraft-Tileset",
+         "spacing":0,
+         "tilecount":0,
+         "tileheight":1,
+         "tilewidth":1
         }],
  "tilewidth":128,
  "type":"map",
