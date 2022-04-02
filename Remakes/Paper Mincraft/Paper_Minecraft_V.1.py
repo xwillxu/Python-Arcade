@@ -92,21 +92,12 @@ class MyGame(arcade.Window):
         # Keep track of the score
         self.score = 0
 
-        self.level = 3
-
         self.end_of_map = 0
 
         self.enemy_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
         self.engine_list = []
         self.shield_list = arcade.SpriteList()
-
-        # Load sounds
-        self.collect_coin_sound = arcade.load_sound(
-            ":resources:sounds/coin1.wav")
-        self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
-
-        self.game_over = arcade.load_sound("sounds/gameover1.wav")
 
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
