@@ -130,6 +130,7 @@ class MyGame(arcade.Window):
         self.tile_map = arcade.load_tilemap(
             map_name, TILE_SCALING, layer_options)
 
+        # Where Is The End Of The Map
         self.end_of_map = self.tile_map.width * GRID_PIXEL_SIZE
 
         # Initialize Scene with our TileMap, this will automatically add all layers
@@ -162,6 +163,9 @@ class MyGame(arcade.Window):
             self.player_sprite, self.scene.get_sprite_list(
                 "Platforms", ), GRAVITY
         )
+
+    def Start_Page(self):
+        """Shows When Starting The Game"""
 
     def mobs(self):
         """Mobs"""
