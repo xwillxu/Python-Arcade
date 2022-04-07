@@ -1,0 +1,17 @@
+{ "columns":0,
+ "grid":
+    {
+     "height":1,
+     "orientation":"orthogonal",
+     "width":1
+    },
+ "margin":0,
+ "name":"Minecraft-Tilset",
+ "spacing":0,
+ "tilecount":0,
+ "tiledversion":"1.7.2",
+ "tileheight":0,
+ "tilewidth":0,
+ "type":"tileset",
+ "version":"1.6"
+}
