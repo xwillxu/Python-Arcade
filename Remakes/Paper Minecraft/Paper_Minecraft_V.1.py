@@ -92,16 +92,22 @@ class MyGame(arcade.Window):
         # Keep track of the score
         self.score = 0
 
+        # Create End Of Map Varible
         self.end_of_map = 0
 
+        # Create The Lists:
+        # Enemy
         self.enemy_list = arcade.SpriteList()
-        self.bullet_list = arcade.SpriteList()
+
+        # Mining
+        self.mine_list = arcade.SpriteList()
+
+        # Engine
         self.engine_list = []
-        self.shield_list = arcade.SpriteList()
 
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
-    def setup(self, level):
+    def setup(self):
         """Set up the game here. Call this function to restart the game."""
 
         # Setup the Cameras
@@ -109,7 +115,7 @@ class MyGame(arcade.Window):
         self.gui_camera = arcade.Camera(self.width, self.height)
 
         # Name of map file to load
-        map_name = f"maps/Xwill's_json_map{level}.json"
+        map_name = f"maps/Minecraft_Map_1.json"
 
         # Layer specific options are defined based on Layer names in a dictionary
         # Doing this will make the SpriteList for the platforms layer
@@ -130,14 +136,19 @@ class MyGame(arcade.Window):
         # from the map as SpriteLists in the scene in the proper order.
         self.scene = arcade.Scene.from_tilemap(self.tile_map)
 
+        # Hit Setup
         self.hit_timer = 0.0
         self.hit = False
 
         # Set up the player, specifically placing it at these coordinates.
         image_source = ":resources:images/animated_characters/female_adventurer/femaleAdventurer_idle.png"
         self.player_sprite = arcade.Sprite(image_source, CHARACTER_SCALING)
+
+        # Center X
         self.player_sprite.center_x = 72
+        # Center Y
         self.player_sprite.center_y = 500
+        # Add To Scene
         self.scene.add_sprite("Player", self.player_sprite)
 
         # --- Other stuff
@@ -163,7 +174,6 @@ class MyGame(arcade.Window):
 
         if self.physics_engine.can_jump():
             self.player_sprite.change_y = PLAYER_JUMP_SPEED
-            arcade.play_sound(self.jump_sound)
 
     def on_draw(self):
         """Render the screen."""
@@ -262,8 +272,6 @@ class MyGame(arcade.Window):
                 arcade.close_window()
             return
 
-        self.enemy_list.update()
-
         # Check each enemy
         for enemy in self.enemy_list:
             # checking x boundary
@@ -292,23 +300,11 @@ class MyGame(arcade.Window):
         # Position the camera
         self.center_camera_to_player()
 
-        # Make Sure The Bullet Dose Not Go Off The Screen
-        for bullet in self.bullet_list:
-            if bullet.center_x < 0:
-                bullet.remove_from_sprite_lists()
-
-            if bullet.center_x - self.camera.position.x > 1200:
-                bullet.remove_from_sprite_lists()
-            if bullet.center_y < 0:
-                bullet.remove_from_sprite_lists()
-            if bullet.center_y - self.camera.position.y > 800:
-                bullet.remove_from_sprite_lists()
-
 
 def main():
     """Main method"""
     window = MyGame()
-    window.setup(window.level)
+    window.setup()
     arcade.run()
 
 
