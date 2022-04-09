@@ -3,3 +3,8 @@
 *.md linguist-detectable=true
 *.md linguist-language=Markdown
 *.md linguist-documentation=false
+
+*.json linguist-detectable=true
+*.json linguist-language=Json
+*.json linguist-documentation=false
+
