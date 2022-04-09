@@ -201,12 +201,12 @@ class Game(arcade.Window):
         # Draw our Scene
         self.scene.draw()
 
+        # Draw Enemy Health Bar
         for sprite in self.enemy_list:
             sprite.draw_health_bar()
 
+        # Draw Enemy
         self.enemy_list.draw()
-        self.bullet_list.draw()
-        self.shield_list.draw()
 
         # Activate the GUI camera before drawing GUI elements
         self.gui_camera.use()
@@ -269,7 +269,6 @@ class Game(arcade.Window):
         self.physics_engine.update()
 
         # Update Everything Else
-        self.bullet_list.update()
         self.enemy_list.update()
 
         # Update Engine
@@ -315,12 +314,8 @@ class Game(arcade.Window):
         self.center_camera_to_player()
 
 
-def main():
+if __name__ == "__main__":
     """Main method"""
     window = Game()
     window.setup()
     arcade.run()
-
-
-if __name__ == "__main__":
-    main()
