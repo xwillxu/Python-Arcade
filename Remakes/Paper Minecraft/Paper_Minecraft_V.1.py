@@ -38,10 +38,14 @@ class Health_Sprite(arcade.Sprite):
     def __init__(self, image, scale, max_health):
         super().__init__(image, scale)
 
+        # Max Health And Current Health
         self.max_health = max_health
         self.cur_health = max_health
 
     def draw_health_bar(self):
+        """Draw Health Bar"""
+
+        # Draw Health That You Lost
         if self.cur_health < self.max_health:
             arcade.draw_rectangle_filled(center_x=self.center_x,
                                          center_y=self.center_y + HEALTHBAR_OFFSET_Y,
@@ -49,8 +53,10 @@ class Health_Sprite(arcade.Sprite):
                                          height=HEALTHBAR_HEIGHT,
                                          color=arcade.color.RED)
 
+        # The Width Of The Healthbar
         health_width = HEALTHBAR_WIDTH * (self.cur_health / self.max_health)
 
+        # Draw All The Health You Have
         arcade.draw_rectangle_filled(center_x=self.center_x - 0.5 * (HEALTHBAR_WIDTH - health_width),
                                      center_y=self.center_y + HEALTHBAR_OFFSET_Y,
                                      width=health_width,
@@ -58,16 +64,16 @@ class Health_Sprite(arcade.Sprite):
                                      color=arcade.color.GREEN)
 
 
-class MyGame(arcade.Window):
-    """
-    Main application class.
-    """
+class Game(arcade.Window):
+    """ Main application class."""
 
     def __init__(self):
+        """Init"""
 
         # Call the parent class and set up the window
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
 
+        # Start Up Os
         file_path = os.path.dirname(os.path.abspath(__file__))
         os.chdir(file_path)
 
@@ -92,6 +98,9 @@ class MyGame(arcade.Window):
         # Keep track of the score
         self.score = 0
 
+        # Create A Varible For Frame Count
+        self.frame_count = 0
+
         # Create End Of Map Varible
         self.end_of_map = 0
 
@@ -105,6 +114,7 @@ class MyGame(arcade.Window):
         # Engine
         self.engine_list = []
 
+        # Setup Background Color
         arcade.set_background_color(arcade.csscolor.CORNFLOWER_BLUE)
 
     def setup(self):
@@ -153,7 +163,7 @@ class MyGame(arcade.Window):
         self.scene.add_sprite("Player", self.player_sprite)
 
         # --- Other stuff
-        # Set the background color
+        # Set the background color of tilemap to the color you set.
         if self.tile_map.tiled_map.background_color:
             arcade.set_background_color(
                 self.tile_map.tiled_map.background_color)
@@ -307,7 +317,7 @@ class MyGame(arcade.Window):
 
 def main():
     """Main method"""
-    window = MyGame()
+    window = Game()
     window.setup()
     arcade.run()
 
