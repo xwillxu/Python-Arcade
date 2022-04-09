@@ -8,3 +8,13 @@
 *.json linguist-language=Python
 *.json linguist-documentation=false
 
+*.xml linguist-detectable=true
+*.xml linguist-language=Markdown
+*.xml linguist-documentation=false
+
+*.svg linguist-detectable=true
+*.svg linguist-language=Markdown
+*.svg linguist-documentation=false
+
+
+
