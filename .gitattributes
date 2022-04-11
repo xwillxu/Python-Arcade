@@ -5,7 +5,7 @@
 *.md linguist-documentation=false
 
 *.json linguist-detectable=true
-*.json linguist-language=Python
+*.json linguist-language=Javascript
 *.json linguist-documentation=false
 
 *.xml linguist-detectable=true
