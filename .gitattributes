@@ -4,9 +4,9 @@
 *.md linguist-language=Markdown
 *.md linguist-documentation=false
 
-*.json linguist-detectable=true
-*.json linguist-language=Python
-*.json linguist-documentation=false
+# *.json linguist-detectable=true
+# *.json linguist-language=Python
+# *.json linguist-documentation=false
 
 *.xml linguist-detectable=true
 *.xml linguist-language=Markdown
