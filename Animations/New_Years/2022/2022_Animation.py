@@ -25,7 +25,7 @@ class Animation(arcade.Window):
 
         self.frame_count = 1
 
-        backround = arcade.Sprite("images/2022_Backround.jpg")
+        backround = arcade.Sprite("images/2023-Image.jpg")
 
         backround.center_x = 600
         backround.center_y = 400
