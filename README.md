@@ -1,8 +1,8 @@
 # Python-Arcade
-Python games created using arcade made by a 9 year old. 
+Python games created using arcade made by a young kid.
 Also this my first repository
 
-## What I Created In The Last 12 Months
+## What I Created In The Last 2 Years
 
 
 ### Shooting Games(5 Games)
